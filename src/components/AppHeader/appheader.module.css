@@ -1,0 +1,19 @@
+.header {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  max-width: 1920px;
+}
+
+.menu{
+  display: flex;
+}
+
+.menu__item {
+  display: flex;
+  list-style: none;
+}
+
+.account {
+  display: flex;
+}

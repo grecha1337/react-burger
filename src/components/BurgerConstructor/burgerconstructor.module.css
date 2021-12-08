@@ -1,0 +1,26 @@
+.burgerconstructor {
+  max-width: 592px;
+}
+
+.burgerconstructorList {
+  list-style: none;
+  padding-left: 0;
+}
+
+.burgerconstructorList__item {
+  padding-bottom: 16px;
+}
+
+.burgerconstructorList__item:last-child {
+  padding-bottom: 40px;
+}
+
+.burgerconstructorList__item:last-child {
+  padding-bottom: 40px;
+}
+
+.burgerconstructor__total {
+  align-items: center;
+  justify-content: end;
+  display: flex;
+}

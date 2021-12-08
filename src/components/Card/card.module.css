@@ -1,0 +1,19 @@
+.card__list {
+  padding: 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.card__listItem {
+  display: flex;
+  flex-direction: column;
+  width: 272px;
+  height: 208px;
+  align-items: center;
+  position: relative;
+  padding: 0;
+}
+
+.card__prics {
+  display: flex;
+}
