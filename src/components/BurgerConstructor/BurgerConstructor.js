@@ -5,9 +5,14 @@ import {
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import burgerConstructorStyle from "./burgerconstructor.module.css";
-import PropsTypes from 'prop-types';
+import { ingredientPropTypes } from "../../utils/types";
+import PropTypes from "prop-types";
 
-function BurgerConstructor(props) {
+function BurgerConstructor({ data }) {
+  const filterItems = data.filter((item) => {
+    return item.type !== "bun";
+  });
+
   return (
     <section className={`{burgerConstructorStyle.burgerconstructor} pl-4 pr-4`}>
       <ul className={`pt-25 ${burgerConstructorStyle.burgerconstructorList}`}>
@@ -20,77 +25,22 @@ function BurgerConstructor(props) {
             thumbnail="https://code.s3.yandex.net/react/code/bun-02.png"
           />
         </li>
+
         <ul className={burgerConstructorStyle.burgerconstructorList__inner}>
-          <li
-            className={burgerConstructorStyle.burgerconstructorList__innerItem}
-          >
-            <DragIcon type="primary" />
-            <ConstructorElement
-              text="Краторная булка N-200i (верх)"
-              price={50}
-              thumbnail="https://code.s3.yandex.net/react/code/meat-04.png"
-            />
-          </li>
-          <li
-            className={burgerConstructorStyle.burgerconstructorList__innerItem}
-          >
-            <DragIcon type="primary" />
-            <ConstructorElement
-              text="Краторная булка N-200i (верх)"
-              price={50}
-              thumbnail="https://code.s3.yandex.net/react/code/meat-04.png"
-            />
-          </li>
-          <li
-            className={burgerConstructorStyle.burgerconstructorList__innerItem}
-          >
-            <DragIcon type="primary" />
-            <ConstructorElement
-              text="Краторная булка N-200i (верх)"
-              price={50}
-              thumbnail="https://code.s3.yandex.net/react/code/meat-04.png"
-            />
-          </li>
-          <li
-            className={burgerConstructorStyle.burgerconstructorList__innerItem}
-          >
-            <DragIcon type="primary" />
-            <ConstructorElement
-              text="Краторная булка N-200i (верх)"
-              price={50}
-              thumbnail="https://code.s3.yandex.net/react/code/meat-04.png"
-            />
-          </li>
-          <li
-            className={burgerConstructorStyle.burgerconstructorList__innerItem}
-          >
-            <DragIcon type="primary" />
-            <ConstructorElement
-              text="Краторная булка N-200i (верх)"
-              price={50}
-              thumbnail="https://code.s3.yandex.net/react/code/meat-04.png"
-            />
-          </li>
-          <li
-            className={burgerConstructorStyle.burgerconstructorList__innerItem}
-          >
-            <DragIcon type="primary" />
-            <ConstructorElement
-              text="Краторная булка N-200i (верх)"
-              price={50}
-              thumbnail="https://code.s3.yandex.net/react/code/meat-04.png"
-            />
-          </li>
-          <li
-            className={burgerConstructorStyle.burgerconstructorList__innerItem}
-          >
-            <DragIcon type="primary" />
-            <ConstructorElement
-              text="Краторная булка N-200i (верх)"
-              price={50}
-              thumbnail="https://code.s3.yandex.net/react/code/meat-04.png"
-            />
-          </li>
+          {filterItems.map((item) => (
+            <li key={item._id}
+              className={
+                burgerConstructorStyle.burgerconstructorList__innerItem
+              }
+            >
+              <DragIcon type="primary" />
+              <ConstructorElement
+                text={item.name}
+                price={item.price}
+                thumbnail={item.image}
+              />
+            </li>
+          ))}
         </ul>
         <li className={burgerConstructorStyle.burgerconstructorList__item}>
           <ConstructorElement
@@ -116,8 +66,6 @@ function BurgerConstructor(props) {
 }
 
 BurgerConstructor.propsTypes = {
-  props: PropsTypes.arrayOf(PropsTypes.shape({
-    
-  }))
-}
+  data: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired,
+};
 export default BurgerConstructor;

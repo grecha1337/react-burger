@@ -1,11 +1,11 @@
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useState, useRef } from "react";
-import Card from "../Card/Card";
+import Card from "../IngredientList/IngredientList";
 import burgerIngredientstStyle from "./burgeringredients.module.css";
+import {ingredientPropTypes} from '../../utils/types'
 import PropTypes from "prop-types";
 
-function BurgerIngredients(props) {
-  console.log(props);
+function BurgerIngredients({data}) {
   const [current, setCurrent] = useState("bun");
   const refBunDiv = useRef(null);
   const refSauceDiv = useRef(null);
@@ -49,15 +49,15 @@ function BurgerIngredients(props) {
         </Tab>
       </div>
       <div className={`${burgerIngredientstStyle.burgerIngredients} mt-10`}>
-        <Card list={props.data} typeCard="bun" title="Булки" ref={refBunDiv} />
+        <Card list={data} typeCard="bun" title="Булки" ref={refBunDiv} />
         <Card
-          list={props.data}
+          list={data}
           typeCard="sauce"
           title="Соусы"
           ref={refSauceDiv}
         />
         <Card
-          list={props.data}
+          list={data}
           typeCard="main"
           title="Начинки"
           ref={refMainDiv}
@@ -68,13 +68,6 @@ function BurgerIngredients(props) {
 }
 
 BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(
-    PropTypes.shape({
-      _id: PropTypes.string.isRequired,
-      image: PropTypes.string.isRequired,
-      price: PropTypes.number.isRequired,
-      name: PropTypes.string.isRequired,
-    })
-  ).isRequired,
+  data: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired,
 };
 export default BurgerIngredients;
