@@ -1,11 +1,11 @@
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useState, useRef } from "react";
-import Card from "../IngredientList/IngredientList";
+import IngredientList from "../IngredientList/IngredientList";
 import burgerIngredientstStyle from "./burgeringredients.module.css";
-import {ingredientPropTypes} from '../../utils/types'
+import { ingredientPropTypes } from "../../utils/types";
 import PropTypes from "prop-types";
 
-function BurgerIngredients({data}) {
+function BurgerIngredients({ data }) {
   const [current, setCurrent] = useState("bun");
   const refBunDiv = useRef(null);
   const refSauceDiv = useRef(null);
@@ -49,14 +49,19 @@ function BurgerIngredients({data}) {
         </Tab>
       </div>
       <div className={`${burgerIngredientstStyle.burgerIngredients} mt-10`}>
-        <Card list={data} typeCard="bun" title="Булки" ref={refBunDiv} />
-        <Card
+        <IngredientList
+          list={data}
+          typeCard="bun"
+          title="Булки"
+          ref={refBunDiv}
+        />
+        <IngredientList
           list={data}
           typeCard="sauce"
           title="Соусы"
           ref={refSauceDiv}
         />
-        <Card
+        <IngredientList
           list={data}
           typeCard="main"
           title="Начинки"
