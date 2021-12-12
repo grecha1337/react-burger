@@ -1,8 +1,8 @@
 .burgerIngredients{
   display: flex;
   flex-wrap: wrap;
-  max-width: 592px;
-  list-style: none;
-  max-height: 686px;
-  overflow-y: auto;
+  max-width: 600px;
+  height: calc(100vh - 284px);
+  overflow-y: scroll;
+  overflow-x: hidden;
 }

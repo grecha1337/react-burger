@@ -1,18 +1,16 @@
 import AppHeader from "../AppHeader/AppHeader";
 import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
-import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
+import BurgerConstructor from "../BurgerConstructor/BurgerConstructor.js";
 import appStyle from "./app.module.css";
+import burgerArray from "../../utils/data";
+
 function App() {
   return (
     <>
       <AppHeader />
       <main className={appStyle.main}>
-        <section>
-          <BurgerIngredients />
-        </section>
-        <section>
-          <BurgerConstructor />
-        </section>
+        <BurgerIngredients data={burgerArray}/>
+        <BurgerConstructor data={burgerArray}/>
       </main>
     </>
   );
