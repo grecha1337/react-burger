@@ -8,13 +8,12 @@ import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 const modalRoot = document.getElementById("modal");
 
 function Modal({ title, onClose, children }) {
-  const closeOnEscape = (e) => {
-    if ((e.charCode || e.keyCode) === 27) {
-      onClose();
-    }
-  };
-
   useEffect(() => {
+    const closeOnEscape = (e) => {
+      if (e.key === "Escape") {
+        onClose();
+      }
+    }
     document.addEventListener("keydown", closeOnEscape);
     return () => {
       document.removeEventListener("keydown", closeOnEscape);

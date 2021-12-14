@@ -3,31 +3,28 @@ import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor.js";
 import appStyle from "./app.module.css";
 import { useEffect, useState } from "react";
-
-const URL = "https://norma.nomoreparties.space/api/ingredients"
+import { BASE_URL, checkResponse } from "../../utils/api";
 
 function App() {
-  const [error, setError] = useState(null);
   const [isLoaded, setIsLoaded] = useState(false);
   const [data, setData] = useState([]);
+  const [error, setError] = useState(null);
 
   useEffect(() => {
-    fetch(URL)
-      .then((data) => data.json())
-      .then(
-        (result) => {
-          setIsLoaded(true);
-          setData(result.data);
-        },
-        (error) => {
-          setIsLoaded(true);
-          setError(error);
-        }
-      );
+    fetch(`${BASE_URL}/api/ingredients`)
+      .then(checkResponse)
+      .then((res) => {
+        setIsLoaded(true);
+        setData(res.data);
+      })
+      .catch((error) => {
+        setIsLoaded(true);
+        setError(error);
+      });
   }, []);
 
   if (error) {
-    return <div>Ошибка: {error.message}</div>;
+    return <div>{error}</div>;
   } else if (!isLoaded) {
     return <div>Загрузка...</div>;
   } else {
