@@ -1,9 +1,9 @@
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useState, useRef } from "react";
 import IngredientList from "../IngredientList/IngredientList";
-import burgerIngredientstStyle from "./burgeringredients.module.css";
+import style from "./burgeringredients.module.css";
 import { ingredientPropTypes } from "../../utils/types";
-import ModalOverlay from "../ModalOverlay/ModalOverlay";
+import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import PropTypes from "prop-types";
 
@@ -28,9 +28,15 @@ function BurgerIngredients({ data }) {
   return (
     <section>
       {show && (
-        <ModalOverlay show={show} onClose={() => setShow(false)}>
+        <Modal
+          show={show}
+          onClose={() => {
+            setShow(false);
+          }}
+          title="Детали ингредиента"
+        >
           <IngredientDetails ingredientInfo={ingredientDataModal} />
-        </ModalOverlay>
+        </Modal>
       )}
       <h1 className="text text_type_main-large pt-10 pb-5">Соберите бургер</h1>
       <div style={{ display: "flex" }}>
@@ -62,7 +68,7 @@ function BurgerIngredients({ data }) {
           Начинки
         </Tab>
       </div>
-      <div className={`${burgerIngredientstStyle.burgerIngredients} mt-10`}>
+      <div className={`${style.burgerIngredients} mt-10`}>
         <IngredientList
           list={data}
           typeCard="bun"

@@ -1,16 +1,9 @@
 import style from "./ingredientDetails.module.css";
 import { ingredientPropTypes } from "../../utils/types";
-import PropTypes from "prop-types";
-
 function IngredientDetails({ ingredientInfo }) {
   console.log(ingredientInfo);
   return (
     <div className={style.ingredientDetails}>
-      <h2
-        className={`${style.ingredientDetails__title} text text_type_main-large pl-10 pr-10`}
-      >
-        Детали ингредиента
-      </h2>
       <img
         className="pb-6"
         src={ingredientInfo.image_large}

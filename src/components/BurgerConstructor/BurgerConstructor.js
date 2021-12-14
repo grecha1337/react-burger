@@ -4,10 +4,10 @@ import {
   DragIcon,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import burgerConstructorStyle from "./burgerconstructor.module.css";
+import style from "./burgerconstructor.module.css";
 import { ingredientPropTypes } from "../../utils/types";
 import OrderDetails from "../OrderDetails/OrderDetails";
-import ModalOverlay from "../ModalOverlay/ModalOverlay";
+import Modal from "../Modal/Modal";
 import { useState } from "react";
 
 import PropTypes from "prop-types";
@@ -19,9 +19,9 @@ function BurgerConstructor({ data }) {
   });
 
   return (
-    <section className={`{burgerConstructorStyle.burgerconstructor} pl-4 pr-4`}>
-      <ul className={`pt-25 ${burgerConstructorStyle.burgerconstructorList}`}>
-        <li className={burgerConstructorStyle.burgerconstructorList__item}>
+    <section className={`{style.burgerconstructor} pl-4 pr-4`}>
+      <ul className={`pt-25 ${style.burgerconstructorList}`}>
+        <li className={style.burgerconstructorList__item}>
           <ConstructorElement
             type="top"
             isLocked={true}
@@ -31,12 +31,12 @@ function BurgerConstructor({ data }) {
           />
         </li>
 
-        <ul className={burgerConstructorStyle.burgerconstructorList__inner}>
+        <ul className={style.burgerconstructorList__inner}>
           {filterItems.map((item) => (
             <li
               key={item._id}
               className={
-                burgerConstructorStyle.burgerconstructorList__innerItem
+                style.burgerconstructorList__innerItem
               }
             >
               <DragIcon type="primary" />
@@ -48,7 +48,7 @@ function BurgerConstructor({ data }) {
             </li>
           ))}
         </ul>
-        <li className={burgerConstructorStyle.burgerconstructorList__item}>
+        <li className={style.burgerconstructorList__item}>
           <ConstructorElement
             type="bottom"
             isLocked={true}
@@ -58,7 +58,7 @@ function BurgerConstructor({ data }) {
           />
         </li>
       </ul>
-      <div className={burgerConstructorStyle.burgerconstructor__total}>
+      <div className={style.burgerconstructor__total}>
         <p className="text text_type_digits-medium pr-2">610</p>
         <CurrencyIcon type="primary" style={{ height: 53, width: 36 }} />
         <div className="pl-10">
@@ -74,14 +74,14 @@ function BurgerConstructor({ data }) {
         </div>
       </div>
       {show && (
-        <ModalOverlay
+        <Modal
           show={show}
           onClose={() => {
             setShow(false);
           }}
         >
           <OrderDetails order={"034536"} />
-        </ModalOverlay>
+        </Modal>
       )}
     </section>
   );
