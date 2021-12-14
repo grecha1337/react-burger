@@ -3,10 +3,14 @@ import { useState, useRef } from "react";
 import IngredientList from "../IngredientList/IngredientList";
 import burgerIngredientstStyle from "./burgeringredients.module.css";
 import { ingredientPropTypes } from "../../utils/types";
+import ModalOverlay from "../ModalOverlay/ModalOverlay";
+import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import PropTypes from "prop-types";
 
 function BurgerIngredients({ data }) {
   const [current, setCurrent] = useState("bun");
+  const [ingredientDataModal, setIngredientDataModal] = useState({});
+  const [show, setShow] = useState(false);
   const refBunDiv = useRef(null);
   const refSauceDiv = useRef(null);
   const refMainDiv = useRef(null);
@@ -16,8 +20,18 @@ function BurgerIngredients({ data }) {
     element.current.scrollIntoView({ behavior: "smooth" });
   };
 
+  const openModal = (data) => {
+    setIngredientDataModal(data);
+    setShow(true);
+  };
+
   return (
     <section>
+      {show && (
+        <ModalOverlay show={show} onClose={() => setShow(false)}>
+          <IngredientDetails ingredientInfo={ingredientDataModal} />
+        </ModalOverlay>
+      )}
       <h1 className="text text_type_main-large pt-10 pb-5">Соберите бургер</h1>
       <div style={{ display: "flex" }}>
         <Tab
@@ -54,18 +68,22 @@ function BurgerIngredients({ data }) {
           typeCard="bun"
           title="Булки"
           ref={refBunDiv}
+          ingredientDataModal={ingredientDataModal}
+          handleModal={openModal}
         />
         <IngredientList
           list={data}
           typeCard="sauce"
           title="Соусы"
           ref={refSauceDiv}
+          handleModal={openModal}
         />
         <IngredientList
           list={data}
           typeCard="main"
           title="Начинки"
           ref={refMainDiv}
+          handleModal={openModal}
         />
       </div>
     </section>

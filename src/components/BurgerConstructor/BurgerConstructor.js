@@ -6,9 +6,14 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import burgerConstructorStyle from "./burgerconstructor.module.css";
 import { ingredientPropTypes } from "../../utils/types";
+import OrderDetails from "../OrderDetails/OrderDetails";
+import ModalOverlay from "../ModalOverlay/ModalOverlay";
+import { useState } from "react";
+
 import PropTypes from "prop-types";
 
 function BurgerConstructor({ data }) {
+  const [show, setShow] = useState(false);
   const filterItems = data.filter((item) => {
     return item.type !== "bun";
   });
@@ -28,7 +33,8 @@ function BurgerConstructor({ data }) {
 
         <ul className={burgerConstructorStyle.burgerconstructorList__inner}>
           {filterItems.map((item) => (
-            <li key={item._id}
+            <li
+              key={item._id}
               className={
                 burgerConstructorStyle.burgerconstructorList__innerItem
               }
@@ -56,11 +62,27 @@ function BurgerConstructor({ data }) {
         <p className="text text_type_digits-medium pr-2">610</p>
         <CurrencyIcon type="primary" style={{ height: 53, width: 36 }} />
         <div className="pl-10">
-          <Button type="primary" size="large">
+          <Button
+            onClick={() => {
+              setShow(true);
+            }}
+            type="primary"
+            size="large"
+          >
             Оформить заказ
           </Button>
         </div>
       </div>
+      {show && (
+        <ModalOverlay
+          show={show}
+          onClose={() => {
+            setShow(false);
+          }}
+        >
+          <OrderDetails order={"034536"} />
+        </ModalOverlay>
+      )}
     </section>
   );
 }
