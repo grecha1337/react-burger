@@ -1,0 +1,7 @@
+.burgerconstructorList__innerItem {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 0px 10px;
+  padding-bottom: 16px;
+}

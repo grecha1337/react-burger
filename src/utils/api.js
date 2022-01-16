@@ -7,4 +7,9 @@ function checkResponse(res) {
   return Promise.reject(`Ошибка ${res.status}`);
 }
 
-export {BASE_URL, checkResponse};
+export { BASE_URL, checkResponse };
+
+export const getIngredienItemsRequst = () => {
+  return fetch(`${BASE_URL}/api/ingredients`)
+  .then(checkResponse)
+};
