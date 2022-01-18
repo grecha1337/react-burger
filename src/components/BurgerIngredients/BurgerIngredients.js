@@ -6,10 +6,10 @@ import { ingredientPropTypes } from "../../utils/types";
 import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import PropTypes from "prop-types";
+import { useDispatch, useSelector } from "react-redux";
 
 function BurgerIngredients({ data }) {
   const [current, setCurrent] = useState("bun");
-  const [ingredientDataModal, setIngredientDataModal] = useState({});
   const [show, setShow] = useState(false);
   const refBunDiv = useRef(null);
   const refSauceDiv = useRef(null);
@@ -19,9 +19,12 @@ function BurgerIngredients({ data }) {
     setCurrent(value);
     element.current.scrollIntoView({ behavior: "smooth" });
   };
-
+  const dispatch = useDispatch();
+  const ingredientDataModal = useSelector(
+    (state) => state.ingredientDetails
+  );
   const openModal = (data) => {
-    setIngredientDataModal(data);
+    dispatch({ type: "SET_INGREDIENT_DETAIL", payload: data });
     setShow(true);
   };
 
@@ -74,7 +77,6 @@ function BurgerIngredients({ data }) {
           typeCard="bun"
           title="Булки"
           ref={refBunDiv}
-          ingredientDataModal={ingredientDataModal}
           handleModal={openModal}
         />
         <IngredientList

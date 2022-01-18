@@ -66,7 +66,7 @@ function ConstructorList({ data }) {
     },
     [data]
   );
-
+    
   return (
     <ul className={`pt-25 ${style.burgerconstructorList}`} ref={dropRef}>
       {itemBun && (
