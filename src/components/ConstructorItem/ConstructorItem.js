@@ -23,14 +23,11 @@ function ConstructorItem({ children, moveItem, index, id }) {
       item.index = hoverIndex;
     },
   });
-  const [{ isDragging }, drag] = useDrag({
+  const [, drag] = useDrag({
     type: "constructorItem",
     item: () => {
       return { id, index };
     },
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging(),
-    }),
   });
   const styleHover = isHover
     ? {

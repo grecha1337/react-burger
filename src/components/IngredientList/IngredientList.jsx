@@ -2,7 +2,6 @@ import cardStyle from "./ingredientList.module.css";
 import { forwardRef } from "react";
 import { ingredientPropTypes } from "../../utils/types";
 import PropTypes from "prop-types";
-import { useDrag } from "react-dnd";
 import Ingredient from "../Ingredient/Ingredient";
 
 const IngredientList = forwardRef(

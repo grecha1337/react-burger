@@ -1,7 +1,6 @@
 import style from "./ingredientDetails.module.css";
 import { ingredientPropTypes } from "../../utils/types";
 function IngredientDetails({ ingredientInfo }) {
-  console.log(ingredientInfo);
   return (
     <div className={style.ingredientDetails}>
       <img

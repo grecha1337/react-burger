@@ -7,7 +7,7 @@ import { useDrag } from "react-dnd";
 import styles from "./Ingredient.module.css";
 
 function Ingredient({ data }) {
-  const { image, name, price, _id, qty} = data;
+  const { image, name, price, qty} = data;
 
   const [, dragRef] = useDrag({
     type: "ingredient",

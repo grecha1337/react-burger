@@ -1,4 +1,3 @@
-import { stat } from "fs";
 import {
   ADD_INGREDIENT,
   DELETE_ITEM,
@@ -15,7 +14,6 @@ export const burgerConstucrtorReducer = (
   state = constuctorInitialState,
   action
 ) => {
-  console.log(state);
   switch (action.type) {
     case ADD_INGREDIENT: {
       return {
