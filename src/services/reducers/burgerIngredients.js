@@ -1,10 +1,11 @@
 import {
-  GET_BURGER_INGREDIENTS_FAILED,
-  GET_BURGER_INGREDIENTS_SUCCESS,
-  GET_BURGER_INGREDIENTS_REQUEST,
+  BURGER_INGREDIENTS_FAILED,
+  BURGER_INGREDIENTS_SUCCESS,
+  BURGER_INGREDIENTS_REQUEST,
   INCREMENT_INGREDIENTS,
   INCREMENT_BUN,
   DECREMENT_INGREDIENTS,
+  RESET_QTY_INGREDIENTS,
 } from "../action/burgerIngredients";
 
 const ingredientsInitialState = {
@@ -18,17 +19,17 @@ export const burgerIngredientsReducer = (
   action
 ) => {
   switch (action.type) {
-    case GET_BURGER_INGREDIENTS_REQUEST: {
+    case BURGER_INGREDIENTS_REQUEST: {
       return { ...state, ingredientsInitialState: true };
     }
-    case GET_BURGER_INGREDIENTS_SUCCESS: {
+    case BURGER_INGREDIENTS_SUCCESS: {
       return {
         burgerIngredients: action.burgerIngredients,
         burgerIngredientsRequest: false,
         burgerIngredientsFailed: false,
       };
     }
-    case GET_BURGER_INGREDIENTS_FAILED: {
+    case BURGER_INGREDIENTS_FAILED: {
       return {
         ...state,
         burgerIngredientsRequest: false,
@@ -69,6 +70,15 @@ export const burgerIngredientsReducer = (
             ? { ...element, qty: null }
             : element
         ),
+      };
+    }
+
+    case RESET_QTY_INGREDIENTS: {
+      return {
+        ...state,
+        burgerIngredients: [...state.burgerIngredients].map((element) => {
+          return { ...element, qty: null };
+        }),
       };
     }
     default: {

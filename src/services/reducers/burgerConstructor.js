@@ -4,20 +4,19 @@ import {
   DELETE_ITEM,
   ADD_BUN,
   REORDER_INGREDIENTS,
+  SET_DEFAULT_VALUE_INGREDIENTS,
 } from "../action/burgerConstructor";
 
 const constuctorInitialState = {
   ingridients: [],
-  total: 0,
 };
 
 export const burgerConstucrtorReducer = (
   state = constuctorInitialState,
   action
 ) => {
-  console.log(state)
+  console.log(state);
   switch (action.type) {
- 
     case ADD_INGREDIENT: {
       return {
         ...state,
@@ -52,13 +51,15 @@ export const burgerConstucrtorReducer = (
         }),
       };
     }
-
     case REORDER_INGREDIENTS: {
-
       return {
         ...state,
-        ingridients: [...action.payload]
-
+        ingridients: [...action.payload],
+      };
+    }
+    case SET_DEFAULT_VALUE_INGREDIENTS: {
+      return {
+        ...constuctorInitialState,
       };
     }
     default: {
@@ -66,4 +67,3 @@ export const burgerConstucrtorReducer = (
     }
   }
 };
-

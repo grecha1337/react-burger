@@ -1,10 +1,15 @@
 .burgerconstructor {
   max-width: 592px;
+  width: 100%;
+  position: relative;
 }
 .burgerconstructor__total {
   align-items: center;
   justify-content: flex-end;
   display: flex;
+  position: absolute;
+  bottom: 20px;
+  right: 0;
 }
 
 .burgerconstructor__total svg {

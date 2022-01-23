@@ -10,6 +10,15 @@ function checkResponse(res) {
 export { BASE_URL, checkResponse };
 
 export const getIngredienItemsRequst = () => {
-  return fetch(`${BASE_URL}/api/ingredients`)
-  .then(checkResponse)
+  return fetch(`${BASE_URL}/api/ingredients`).then(checkResponse);
+};
+
+export const sendOrderRequst = (idList) => {
+  return fetch(`${BASE_URL}/api/orders`, {
+    method: "post",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      ingredients : idList
+    })
+  }).then(checkResponse);
 };

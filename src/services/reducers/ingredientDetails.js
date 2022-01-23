@@ -1,6 +1,6 @@
 import {
   SET_INGREDIENT_DETAIL,
-  DELETE_INGREDIENT_DETAIL,
+  INIT_INGREDIENT_DETAIL,
 } from "../action/ingredientDetails";
 
 const ingredientDetailState = {
@@ -28,7 +28,11 @@ export const ingredientDetailsReducer = (
         ...action.payload,
       };
     }
-
+    case INIT_INGREDIENT_DETAIL : {
+      return {
+        ...ingredientDetailState
+      }
+    }
     default: {
       return state;
     }

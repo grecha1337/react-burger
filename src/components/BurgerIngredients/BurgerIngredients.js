@@ -7,7 +7,10 @@ import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
 import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
-
+import {
+  INIT_INGREDIENT_DETAIL,
+  SET_INGREDIENT_DETAIL,
+} from "../../services/action/ingredientDetails";
 function BurgerIngredients({ data }) {
   const [current, setCurrent] = useState("bun");
   const [show, setShow] = useState(false);
@@ -19,15 +22,27 @@ function BurgerIngredients({ data }) {
     setCurrent(value);
     element.current.scrollIntoView({ behavior: "smooth" });
   };
+
   const dispatch = useDispatch();
-  const ingredientDataModal = useSelector(
-    (state) => state.ingredientDetails
-  );
+  const ingredientDataModal = useSelector((state) => state.ingredientDetails);
+
   const openModal = (data) => {
-    dispatch({ type: "SET_INGREDIENT_DETAIL", payload: data });
+    dispatch({ type: SET_INGREDIENT_DETAIL, payload: data });
     setShow(true);
   };
 
+  const handlerScroll = (e) => {
+    const { scrollTop } = e.target;
+    const posOfSectionBun = refBunDiv.current.offsetTop;
+    const posOfSauceBun = refSauceDiv.current.offsetTop;
+    if (scrollTop + 40 <= posOfSectionBun) {
+      setCurrent("bun");
+    } else if (scrollTop - 170 <= posOfSauceBun) {
+      setCurrent("sauce");
+    } else {
+      setCurrent("main");
+    }
+  };
   return (
     <section>
       {show && (
@@ -35,6 +50,7 @@ function BurgerIngredients({ data }) {
           show={show}
           onClose={() => {
             setShow(false);
+            dispatch({ type: INIT_INGREDIENT_DETAIL });
           }}
           title="Детали ингредиента"
         >
@@ -71,7 +87,10 @@ function BurgerIngredients({ data }) {
           Начинки
         </Tab>
       </div>
-      <div className={`${style.burgerIngredients} mt-10`}>
+      <div
+        className={`${style.burgerIngredients} mt-10`}
+        onScroll={handlerScroll}
+      >
         <IngredientList
           list={data}
           typeCard="bun"

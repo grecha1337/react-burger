@@ -6,6 +6,8 @@
   border-radius: 40px;
   box-sizing: border-box;
   position: relative;
+  width: 100%;
+  max-width: 720px;
 }
 
 .popup__close {
