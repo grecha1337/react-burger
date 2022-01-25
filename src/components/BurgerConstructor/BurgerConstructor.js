@@ -3,24 +3,27 @@ import {
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import style from "./burgerconstructor.module.css";
-import { ingredientPropTypes } from "../../utils/types";
 import OrderDetails from "../OrderDetails/OrderDetails";
 import Modal from "../Modal/Modal";
 import { useState, useMemo, useRef, useEffect } from "react";
-import PropTypes from "prop-types";
 import ConstructorList from "../ConstructorList/ConstructorList";
 import { useDispatch, useSelector } from "react-redux";
 import { sendOrder } from "../../services/action/orderDetails";
-import { SET_DEFAULT_VALUE_INGREDIENTS } from "../../services/action/burgerConstructor";
-import { RESET_QTY_INGREDIENTS } from "../../services/action/burgerIngredients";
-function BurgerConstructor({ data }) {
-  const [show, setShow] = useState(false);
+import { setDefaultValueIngredients } from "../../services/action/burgerConstructor";
+import { resetQtyIngredients } from "../../services/action/burgerIngredients";
+import ErrorText from "../ErrorText/ErrorText";
 
+function BurgerConstructor() {
+  const { ingridients } = useSelector((state) => state.burgerConstructor);
+
+  const [show, setShow] = useState(false);
   const total = useMemo(() => {
-    return data.reduce((accumulator, element) => {
-      return (accumulator += element.price);
+    return ingridients.reduce((accumulator, element) => {
+      return element.type !== "bun"
+        ? (accumulator += element.price)
+        : (accumulator += element.price * 2);
     }, 0);
-  }, [data]);
+  }, [ingridients]);
 
   const dispatch = useDispatch();
 
@@ -29,12 +32,24 @@ function BurgerConstructor({ data }) {
     const idList = listIngredients.map((item) => {
       return item._id;
     });
+
+    // Булки считаем за две
+    // const idList = listIngredients.reduce((r, e) => {
+    //   if (e.type === "bun") {
+    //     r.push(e._id, e._id);
+    //   } else {
+    //     r.push(e._id);
+    //   }
+    //   return r;
+    // }, []);
     return idList;
   });
 
   const orderNumber = useSelector((state) =>
     state.orderInfo.order?.number.toString()
   );
+
+  const orderFailed = useSelector((state) => state.orderInfo.orderFailed);
 
   // Сохраняем предыдущее значение, что бы отображать модалку только с новым заказом
   const prevOrderNumber = useRef();
@@ -44,7 +59,8 @@ function BurgerConstructor({ data }) {
 
   return (
     <section className={`${style.burgerconstructor} pl-4 pr-4`}>
-      <ConstructorList data={data} />
+      <ConstructorList data={ingridients} />
+      {orderFailed ? <ErrorText text={"Ошибка при оформлении заказа"} /> : null}
       <div className={style.burgerconstructor__total}>
         <p className="text text_type_digits-medium pr-2">{total}</p>
         <CurrencyIcon type="primary" style={{ height: 53, width: 36 }} />
@@ -67,8 +83,8 @@ function BurgerConstructor({ data }) {
           show={show}
           onClose={() => {
             setShow(false);
-            dispatch({ type: SET_DEFAULT_VALUE_INGREDIENTS });
-            dispatch({ type: RESET_QTY_INGREDIENTS });
+            dispatch(setDefaultValueIngredients());
+            dispatch(resetQtyIngredients());
           }}
         >
           <OrderDetails order={orderNumber} />
@@ -78,7 +94,4 @@ function BurgerConstructor({ data }) {
   );
 }
 
-BurgerConstructor.propsTypes = {
-  data: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired,
-};
 export default BurgerConstructor;

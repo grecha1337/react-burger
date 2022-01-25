@@ -3,11 +3,11 @@ import {
   Counter,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDrag } from "react-dnd";
-
 import styles from "./Ingredient.module.css";
+import PropTypes from "prop-types";
 
 function Ingredient({ data }) {
-  const { image, name, price, qty} = data;
+  const { image, name, price, qty } = data;
 
   const [, dragRef] = useDrag({
     type: "ingredient",
@@ -25,5 +25,14 @@ function Ingredient({ data }) {
     </div>
   );
 }
+
+Ingredient.propTypes = {
+  data: PropTypes.shape({
+    image: PropTypes.string.isRequired,
+    name: PropTypes.string.isRequired,
+    price: PropTypes.number.isRequired,
+    qty: PropTypes.number,
+  }),
+};
 
 export default Ingredient;

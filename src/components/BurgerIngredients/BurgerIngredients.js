@@ -2,21 +2,22 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useState, useRef } from "react";
 import IngredientList from "../IngredientList/IngredientList";
 import style from "./burgeringredients.module.css";
-import { ingredientPropTypes } from "../../utils/types";
 import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
-import PropTypes from "prop-types";
 import { useDispatch, useSelector } from "react-redux";
 import {
-  INIT_INGREDIENT_DETAIL,
-  SET_INGREDIENT_DETAIL,
+  setDefaultValuesIngredientDetail,
+  setDetailInfoIngredient,
 } from "../../services/action/ingredientDetails";
-function BurgerIngredients({ data }) {
+
+function BurgerIngredients() {
   const [current, setCurrent] = useState("bun");
   const [show, setShow] = useState(false);
   const refBunDiv = useRef(null);
   const refSauceDiv = useRef(null);
   const refMainDiv = useRef(null);
+
+  const { burgerIngredients } = useSelector((state) => state.burgerIngredients);
 
   const handleTab = (value, element) => {
     setCurrent(value);
@@ -27,7 +28,7 @@ function BurgerIngredients({ data }) {
   const ingredientDataModal = useSelector((state) => state.ingredientDetails);
 
   const openModal = (data) => {
-    dispatch({ type: SET_INGREDIENT_DETAIL, payload: data });
+    dispatch(setDetailInfoIngredient(data));
     setShow(true);
   };
 
@@ -50,7 +51,7 @@ function BurgerIngredients({ data }) {
           show={show}
           onClose={() => {
             setShow(false);
-            dispatch({ type: INIT_INGREDIENT_DETAIL });
+            dispatch(setDefaultValuesIngredientDetail());
           }}
           title="Детали ингредиента"
         >
@@ -92,21 +93,21 @@ function BurgerIngredients({ data }) {
         onScroll={handlerScroll}
       >
         <IngredientList
-          list={data}
+          list={burgerIngredients}
           typeCard="bun"
           title="Булки"
           ref={refBunDiv}
           handleModal={openModal}
         />
         <IngredientList
-          list={data}
+          list={burgerIngredients}
           typeCard="sauce"
           title="Соусы"
           ref={refSauceDiv}
           handleModal={openModal}
         />
         <IngredientList
-          list={data}
+          list={burgerIngredients}
           typeCard="main"
           title="Начинки"
           ref={refMainDiv}
@@ -117,7 +118,4 @@ function BurgerIngredients({ data }) {
   );
 }
 
-BurgerIngredients.propTypes = {
-  data: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired,
-};
 export default BurgerIngredients;

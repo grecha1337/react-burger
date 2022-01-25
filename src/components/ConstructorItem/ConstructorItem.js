@@ -2,6 +2,7 @@ import { DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import style from "./ConstructorItem.module.css";
+import PropTypes from "prop-types";
 
 function ConstructorItem({ children, moveItem, index, id }) {
   const ref = useRef(null);
@@ -46,4 +47,10 @@ function ConstructorItem({ children, moveItem, index, id }) {
   );
 }
 
+ConstructorItem.propTypes = {
+  moveItem: PropTypes.func.isRequired,
+  children: PropTypes.element.isRequired,
+  index: PropTypes.number.isRequired,
+  id: PropTypes.string.isRequired,
+};
 export default ConstructorItem;

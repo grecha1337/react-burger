@@ -6,17 +6,22 @@ import style from "./ConstructorList.module.css";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import ConstructorItem from "../ConstructorItem/ConstructorItem";
 import {
-  ADD_BUN,
-  ADD_INGREDIENT,
-  DELETE_ITEM,
-  REORDER_INGREDIENTS,
+  addIngredintToСonstructor,
+  addBunToСonstructor,
+  deleteItemById,
+  reorderIngredients,
 } from "../../services/action/burgerConstructor";
 import {
-  DECREMENT_INGREDIENTS,
-  INCREMENT_BUN,
-  INCREMENT_INGREDIENTS,
+  decerementQtyIngredients,
+  incrementQtyBun,
+  incrementQtyIngredient,
 } from "../../services/action/burgerIngredients";
 import TemplateConstructorElement from "../TemplateConstuctorElement/TemplateConstuctorElement";
+import PropTypes from "prop-types";
+import { ingredientPropTypes } from "../../utils/types";
+
+const POSTIX_NAME_BUN_TOP = "(верх)";
+const POSTIX_NAME_BUN_BUTTOM = "(низ)";
 
 function ConstructorList({ data }) {
   const itemsWithoutBun = data.filter((item) => {
@@ -32,21 +37,18 @@ function ConstructorList({ data }) {
     accept: "ingredient",
     drop(item) {
       if (item.type === "bun") {
-        dispatch({ type: ADD_BUN, payload: { ...item, uuid: uuidv4() } });
-        dispatch({ type: INCREMENT_BUN, payload: item });
+        dispatch(addBunToСonstructor({ ...item, uuid: uuidv4() }));
+        dispatch(incrementQtyBun(item));
       } else {
-        dispatch({
-          type: ADD_INGREDIENT,
-          payload: { ...item, uuid: uuidv4() },
-        });
-        dispatch({ type: INCREMENT_INGREDIENTS, payload: item });
+        dispatch(addIngredintToСonstructor({ ...item, uuid: uuidv4() }));
+        dispatch(incrementQtyIngredient(item));
       }
     },
   });
 
   const removeItem = (item) => {
-    dispatch({ type: DELETE_ITEM, uniqId: item.uuid });
-    dispatch({ type: DECREMENT_INGREDIENTS, payload: item });
+    dispatch(deleteItemById(item.uuid));
+    dispatch(decerementQtyIngredients(item));
   };
 
   const moveItem = useCallback(
@@ -65,10 +67,7 @@ function ConstructorList({ data }) {
       const dragElement = data[dragIndex];
       elements.splice(dragIndex, 1);
       elements.splice(hoverIndex, 0, dragElement);
-      dispatch({
-        type: REORDER_INGREDIENTS,
-        payload: elements,
-      });
+      dispatch(reorderIngredients(elements));
     },
     [data]
   );
@@ -79,7 +78,7 @@ function ConstructorList({ data }) {
           <ConstructorElement
             type="top"
             isLocked={true}
-            text={itemBun.name}
+            text={`${itemBun.name} ${POSTIX_NAME_BUN_TOP}`}
             price={itemBun.price}
             thumbnail={itemBun.image}
           />
@@ -112,7 +111,7 @@ function ConstructorList({ data }) {
           <ConstructorElement
             type="bottom"
             isLocked={true}
-            text={itemBun.name}
+            text={`${itemBun.name} ${POSTIX_NAME_BUN_BUTTOM}`}
             price={itemBun.price}
             thumbnail={itemBun.image}
           />
@@ -121,5 +120,9 @@ function ConstructorList({ data }) {
     </ul>
   );
 }
+
+ConstructorList.propTypes = {
+  data: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired,
+};
 
 export default ConstructorList;

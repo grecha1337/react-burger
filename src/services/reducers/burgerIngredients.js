@@ -24,7 +24,7 @@ export const burgerIngredientsReducer = (
     }
     case BURGER_INGREDIENTS_SUCCESS: {
       return {
-        burgerIngredients: action.burgerIngredients,
+        burgerIngredients: action.payload,
         burgerIngredientsRequest: false,
         burgerIngredientsFailed: false,
       };
@@ -40,7 +40,7 @@ export const burgerIngredientsReducer = (
       return {
         ...state,
         burgerIngredients: [...state.burgerIngredients].map((element) =>
-          element._id === action.payload._id
+         element._id === action.payload._id  
             ? { ...element, qty: element.qty + 1 || 1 }
             : element
         ),
@@ -57,7 +57,7 @@ export const burgerIngredientsReducer = (
       };
     }
     // Булка может быть одна
-    // Если мы перетащили булку, то добавляем ей qty = 1
+    // Если мы перетащили булку, то добавляем ей qty = 2(так как их две)
     // Остальным булкам убираем qty = null
     // Если это не булка, ничего не делаем
     case INCREMENT_BUN: {
@@ -65,7 +65,7 @@ export const burgerIngredientsReducer = (
         ...state,
         burgerIngredients: [...state.burgerIngredients].map((element) =>
           element._id === action.payload._id && element.type === "bun"
-            ? { ...element, qty: 1 }
+            ? { ...element, qty: 2 }
             : element.type === "bun"
             ? { ...element, qty: null }
             : element

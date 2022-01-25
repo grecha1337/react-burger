@@ -45,7 +45,7 @@ export const burgerConstucrtorReducer = (
       return {
         ...state,
         ingridients: [...state.ingridients].filter((element) => {
-          return element.uuid !== action.uniqId;
+          return element.uuid !== action.id;
         }),
       };
     }

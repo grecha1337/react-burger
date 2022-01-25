@@ -7,11 +7,13 @@ import { useDispatch, useSelector } from "react-redux";
 import { getIngredienItems } from "../../services/action/burgerIngredients";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
+import ErrorText from "../ErrorText/ErrorText";
 
 function App() {
   const dispatch = useDispatch();
-  const { burgerIngredients } = useSelector((state) => state.burgerIngredients);
-  const constructorData = useSelector((state) => state.burgerConstructor);
+  const { burgerIngredientsFailed } = useSelector(
+    (state) => state.burgerIngredients
+  );
 
   useEffect(() => {
     dispatch(getIngredienItems());
@@ -22,8 +24,14 @@ function App() {
       <AppHeader />
       <main className={appStyle.main}>
         <DndProvider backend={HTML5Backend}>
-          <BurgerIngredients data={burgerIngredients} />
-          <BurgerConstructor data={constructorData.ingridients} />
+          {burgerIngredientsFailed !== true ? (
+            <>
+              <BurgerIngredients />
+              <BurgerConstructor />
+            </>
+          ) : (
+            <ErrorText text={"Что-то пошло не так"} />
+          )}
         </DndProvider>
       </main>
     </>
