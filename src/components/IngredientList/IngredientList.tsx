@@ -1,10 +1,10 @@
 import cardStyle from "./ingredientList.module.css";
-import { forwardRef } from "react";
-import { ingredientPropTypes } from "../../utils/types";
-import PropTypes from "prop-types";
-import Ingredient from "../Ingredient/Ingredient";
+import { forwardRef, FC } from "react";
 
-const IngredientList = forwardRef(
+import Ingredient from "../Ingredient/Ingredient";
+import { TIngredientList } from "../../services/types/data";
+
+const IngredientList = forwardRef<HTMLDivElement, TIngredientList>(
   ({ list, typeCard, title, handleModal }, ref) => {
     const filteredItems = list.filter((element) => {
       return element.type === typeCard;
@@ -31,9 +31,4 @@ const IngredientList = forwardRef(
   }
 );
 
-IngredientList.propTypes = {
-  list: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired,
-  typeCard: PropTypes.string.isRequired,
-  title: PropTypes.string.isRequired,
-};
 export default IngredientList;

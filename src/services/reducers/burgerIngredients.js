@@ -23,6 +23,7 @@ export const burgerIngredientsReducer = (
       return { ...state, ingredientsInitialState: true };
     }
     case BURGER_INGREDIENTS_SUCCESS: {
+      console.log(action.payload);
       return {
         burgerIngredients: action.payload,
         burgerIngredientsRequest: false,
@@ -40,7 +41,7 @@ export const burgerIngredientsReducer = (
       return {
         ...state,
         burgerIngredients: [...state.burgerIngredients].map((element) =>
-         element._id === action.payload._id  
+          element._id === action.payload._id
             ? { ...element, qty: element.qty + 1 || 1 }
             : element
         ),

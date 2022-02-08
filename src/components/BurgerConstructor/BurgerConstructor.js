@@ -80,7 +80,6 @@ function BurgerConstructor() {
       </div>
       {show && orderNumber && orderNumber !== prevOrderNumber.current && (
         <Modal
-          show={show}
           onClose={() => {
             setShow(false);
             dispatch(setDefaultValueIngredients());

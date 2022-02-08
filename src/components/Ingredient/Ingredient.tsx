@@ -4,9 +4,10 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDrag } from "react-dnd";
 import styles from "./Ingredient.module.css";
-import PropTypes from "prop-types";
+import { FC } from "react";
+import { TIngredient } from "../../services/types/data";
 
-function Ingredient({ data }) {
+const Ingredient: FC<{ data: TIngredient }> = ({ data }) => {
   const { image, name, price, qty } = data;
 
   const [, dragRef] = useDrag({
@@ -24,15 +25,6 @@ function Ingredient({ data }) {
       <p className="pt-2 text text_type_main-default">{name}</p>
     </div>
   );
-}
-
-Ingredient.propTypes = {
-  data: PropTypes.shape({
-    image: PropTypes.string.isRequired,
-    name: PropTypes.string.isRequired,
-    price: PropTypes.number.isRequired,
-    qty: PropTypes.number,
-  }),
 };
 
 export default Ingredient;

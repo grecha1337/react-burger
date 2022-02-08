@@ -6,12 +6,12 @@ import {
   SET_DEFAULT_VALUE_INGREDIENTS,
 } from "../action/burgerConstructor";
 
-const constuctorInitialState = {
+const constructorInitialState = {
   ingridients: [],
 };
 
 export const burgerConstucrtorReducer = (
-  state = constuctorInitialState,
+  state = constructorInitialState,
   action
 ) => {
   switch (action.type) {
@@ -57,7 +57,7 @@ export const burgerConstucrtorReducer = (
     }
     case SET_DEFAULT_VALUE_INGREDIENTS: {
       return {
-        ...constuctorInitialState,
+        ...constructorInitialState,
       };
     }
     default: {

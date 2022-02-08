@@ -13,9 +13,9 @@ import {
 function BurgerIngredients() {
   const [current, setCurrent] = useState("bun");
   const [show, setShow] = useState(false);
-  const refBunDiv = useRef(null);
-  const refSauceDiv = useRef(null);
-  const refMainDiv = useRef(null);
+  const refBunDiv = useRef<HTMLDivElement>(null)!;
+  const refSauceDiv = useRef<HTMLDivElement>(null)!;
+  const refMainDiv = useRef<HTMLDivElement>(null)!;
 
   const { burgerIngredients } = useSelector((state) => state.burgerIngredients);
 
@@ -48,7 +48,6 @@ function BurgerIngredients() {
     <section>
       {show && (
         <Modal
-          show={show}
           onClose={() => {
             setShow(false);
             dispatch(setDefaultValuesIngredientDetail());
