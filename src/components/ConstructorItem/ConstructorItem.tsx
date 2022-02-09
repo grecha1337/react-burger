@@ -1,17 +1,17 @@
 import { DragIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useRef } from "react";
+import { FC, useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import style from "./ConstructorItem.module.css";
 import PropTypes from "prop-types";
-
-function ConstructorItem({ children, moveItem, index, id }) {
+import CSS from 'csstype'; 
+const ConstructorItem:FC<any> =({ children, moveItem, index, id })  =>{
   const ref = useRef(null);
   const [{ isHover }, drop] = useDrop({
     accept: "constructorItem",
     collect: (monitor) => ({
       isHover: monitor.isOver(),
     }),
-    drop(item) {
+    drop(item :any) {
       if (!ref.current) {
         return;
       }
@@ -30,12 +30,15 @@ function ConstructorItem({ children, moveItem, index, id }) {
       return { id, index };
     },
   });
-  const styleHover = isHover
+  const styleHover: CSS.Properties | null = isHover
     ? {
         outline: "3px solid #8b00ff",
         outlineOffset: "-3px",
       }
-    : null;
+    : {
+      outline: "none",
+      outlineOffset: 0,
+    }
   drag(drop(ref));
   return (
     <li ref={ref} className={style.burgerconstructorList__innerItem}>

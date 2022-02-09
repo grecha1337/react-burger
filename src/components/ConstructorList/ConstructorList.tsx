@@ -1,7 +1,7 @@
 import { useDrop } from "react-dnd";
 import { useDispatch } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
-import { useCallback } from "react";
+import { FC, useCallback } from "react";
 import style from "./ConstructorList.module.css";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import ConstructorItem from "../ConstructorItem/ConstructorItem";
@@ -17,13 +17,13 @@ import {
   incrementQtyIngredient,
 } from "../../services/action/burgerIngredients";
 import TemplateConstructorElement from "../TemplateConstuctorElement/TemplateConstuctorElement";
-import PropTypes from "prop-types";
-import { ingredientPropTypes } from "../../utils/types";
+import { TIngredient } from "../../services/types/data";
 
 const POSTIX_NAME_BUN_TOP = "(верх)";
 const POSTIX_NAME_BUN_BUTTOM = "(низ)";
+//TODO поменять data на listIngreadient
 
-function ConstructorList({ data }) {
+const ConstructorList:FC<{data : Array<TIngredient>}>=({ data }) => {
   const itemsWithoutBun = data.filter((item) => {
     return item.type !== "bun";
   });
@@ -35,7 +35,7 @@ function ConstructorList({ data }) {
   const dispatch = useDispatch();
   const [, dropRef] = useDrop({
     accept: "ingredient",
-    drop(item) {
+    drop(item : TIngredient) {
       if (item.type === "bun") {
         dispatch(addBunToСonstructor({ ...item, uuid: uuidv4() }));
         dispatch(incrementQtyBun(item));
@@ -46,7 +46,7 @@ function ConstructorList({ data }) {
     },
   });
 
-  const removeItem = (item) => {
+  const removeItem = (item: TIngredient) => {
     dispatch(deleteItemById(item.uuid));
     dispatch(decerementQtyIngredients(item));
   };
@@ -120,9 +120,5 @@ function ConstructorList({ data }) {
     </ul>
   );
 }
-
-ConstructorList.propTypes = {
-  data: PropTypes.arrayOf(ingredientPropTypes.isRequired).isRequired,
-};
 
 export default ConstructorList;
