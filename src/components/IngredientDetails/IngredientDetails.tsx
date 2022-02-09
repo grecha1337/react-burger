@@ -1,6 +1,11 @@
 import style from "./ingredientDetails.module.css";
-import { ingredientPropTypes } from "../../utils/types";
-function IngredientDetails({ ingredientInfo }) {
+import { FC } from "react";
+import { TIngredient } from "../../services/types/data";
+
+const IngredientDetails: FC<{ ingredientInfo: TIngredient }> = ({
+  ingredientInfo,
+}) => {
+  console.log(ingredientInfo);
   return (
     <div className={style.ingredientDetails}>
       <img
@@ -61,10 +66,6 @@ function IngredientDetails({ ingredientInfo }) {
       </ul>
     </div>
   );
-}
-
-IngredientDetails.propTypes = {
-  ingredientInfo: ingredientPropTypes.isRequired,
 };
 
 export default IngredientDetails;

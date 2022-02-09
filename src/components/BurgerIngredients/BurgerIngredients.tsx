@@ -1,5 +1,5 @@
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState, useRef } from "react";
+import { useState, useRef, FC } from "react";
 import IngredientList from "../IngredientList/IngredientList";
 import style from "./burgeringredients.module.css";
 import Modal from "../Modal/Modal";
@@ -10,29 +10,34 @@ import {
   setDetailInfoIngredient,
 } from "../../services/action/ingredientDetails";
 
-function BurgerIngredients() {
+const BurgerIngredients: FC<any> = () => {
   const [current, setCurrent] = useState("bun");
   const [show, setShow] = useState(false);
-  const refBunDiv = useRef<HTMLDivElement>(null)!;
-  const refSauceDiv = useRef<HTMLDivElement>(null)!;
-  const refMainDiv = useRef<HTMLDivElement>(null)!;
+  const refBunDiv = useRef<HTMLDivElement>(null);
+  const refSauceDiv = useRef<HTMLDivElement>(null);
+  const refMainDiv = useRef<HTMLDivElement>(null);
 
-  const { burgerIngredients } = useSelector((state) => state.burgerIngredients);
+  const { burgerIngredients } = useSelector(
+    (state: any) => state.burgerIngredients
+  );
 
-  const handleTab = (value, element) => {
+  const handleTab = (value: any, element: any) => {
     setCurrent(value);
     element.current.scrollIntoView({ behavior: "smooth" });
   };
 
   const dispatch = useDispatch();
-  const ingredientDataModal = useSelector((state) => state.ingredientDetails);
+  const ingredientDataModal = useSelector(
+    (state: any) => state.ingredientDetails
+  );
 
-  const openModal = (data) => {
+  const openModal = (data: any) => {
     dispatch(setDetailInfoIngredient(data));
     setShow(true);
   };
 
-  const handlerScroll = (e) => {
+  const handlerScroll = (e: any) => {
+    if (refBunDiv.current === null || refSauceDiv.current === null) return;
     const { scrollTop } = e.target;
     const posOfSectionBun = refBunDiv.current.offsetTop;
     const posOfSauceBun = refSauceDiv.current.offsetTop;
@@ -115,6 +120,6 @@ function BurgerIngredients() {
       </div>
     </section>
   );
-}
+};
 
 export default BurgerIngredients;

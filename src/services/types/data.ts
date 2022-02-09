@@ -31,6 +31,11 @@ export type TIngredient = {
   readonly __v: number;
   readonly _id: string;
   readonly qty?: number | undefined | null;
+  index?: number;
+};
+
+export type TIngredientWithUniqKey = TIngredient & {
+  readonly uuid: string;
 };
 
 export type TIngredientList = {
@@ -38,6 +43,12 @@ export type TIngredientList = {
   readonly typeCard: TIngredientType;
   readonly title: string;
   readonly handleModal: (param: TIngredient) => void;
+};
+
+export type TOrderSuccess = {
+  name: string;
+  order: { number: number };
+  success: boolean;
 };
 
 type TIngredientType = "main" | "sauce" | "bun";

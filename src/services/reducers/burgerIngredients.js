@@ -23,7 +23,6 @@ export const burgerIngredientsReducer = (
       return { ...state, ingredientsInitialState: true };
     }
     case BURGER_INGREDIENTS_SUCCESS: {
-      console.log(action.payload);
       return {
         burgerIngredients: action.payload,
         burgerIngredientsRequest: false,

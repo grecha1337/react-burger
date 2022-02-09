@@ -1,8 +1,9 @@
 import style from "./TemplateConstuctorElement.module.css";
 import styleLi from "../ConstructorItem/ConstructorItem.module.css";
-function TemplateConstructorElement() {
+import { FC } from "react";
+const TemplateConstructorElement: FC = () => {
   return (
-    <li  className={styleLi.burgerconstructorList__innerItem}>
+    <li className={styleLi.burgerconstructorList__innerItem}>
       <p
         className={`${style.templateConstructorElement} text text_type_digits-medium pr-2`}
       >
@@ -10,6 +11,6 @@ function TemplateConstructorElement() {
       </p>
     </li>
   );
-}
+};
 
 export default TemplateConstructorElement;

@@ -6,70 +6,71 @@ import style from "./ConstructorList.module.css";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import ConstructorItem from "../ConstructorItem/ConstructorItem";
 import {
-  addIngredintToСonstructor,
-  addBunToСonstructor,
+  addIngredientToConstructor,
+  addBunToConstructor,
   deleteItemById,
   reorderIngredients,
 } from "../../services/action/burgerConstructor";
 import {
-  decerementQtyIngredients,
+  decrementQtyIngredients,
   incrementQtyBun,
   incrementQtyIngredient,
 } from "../../services/action/burgerIngredients";
 import TemplateConstructorElement from "../TemplateConstuctorElement/TemplateConstuctorElement";
-import { TIngredient } from "../../services/types/data";
+import { TIngredientWithUniqKey } from "../../services/types/data";
 
 const POSTIX_NAME_BUN_TOP = "(верх)";
 const POSTIX_NAME_BUN_BUTTOM = "(низ)";
-//TODO поменять data на listIngreadient
 
-const ConstructorList:FC<{data : Array<TIngredient>}>=({ data }) => {
-  const itemsWithoutBun = data.filter((item) => {
+const ConstructorList: FC<{
+  ingredientList: Array<TIngredientWithUniqKey>;
+}> = ({ ingredientList }) => {
+  const itemsWithoutBun = ingredientList.filter((item) => {
     return item.type !== "bun";
   });
 
-  const [itemBun] = data.filter((item) => {
+  const [itemBun] = ingredientList.filter((item) => {
     return item.type === "bun";
   });
 
   const dispatch = useDispatch();
   const [, dropRef] = useDrop({
     accept: "ingredient",
-    drop(item : TIngredient) {
+    drop(item: TIngredientWithUniqKey) {
       if (item.type === "bun") {
-        dispatch(addBunToСonstructor({ ...item, uuid: uuidv4() }));
+        dispatch(addBunToConstructor({ ...item, uuid: uuidv4() }));
         dispatch(incrementQtyBun(item));
       } else {
-        dispatch(addIngredintToСonstructor({ ...item, uuid: uuidv4() }));
+        dispatch(addIngredientToConstructor({ ...item, uuid: uuidv4() }));
         dispatch(incrementQtyIngredient(item));
       }
     },
   });
 
-  const removeItem = (item: TIngredient) => {
+  const removeItem = (item: TIngredientWithUniqKey) => {
     dispatch(deleteItemById(item.uuid));
-    dispatch(decerementQtyIngredients(item));
+    dispatch(decrementQtyIngredients(item));
   };
 
   const moveItem = useCallback(
     (dragIndex, hoverIndex) => {
-      let elements = data;
+      let elements = ingredientList;
       // В стейсте у нас всегда первый элемент массива булка
       // Если  булка добавлена, то мы должны сделать инкремент индексов
       // Т.к. у нас единый массив хранения индегриентов,
       // И если в массиве будет bun, и мы будем перетаскивать индегриенд
       // То в стейте будет меняться булка и первый индегриент, вместо того, что бы поменять два индегриента между собой
       // Либо использовать такой костыль, или хранить булки отдельно
-      if (data[0].type === "bun") {
+      if (ingredientList[0].type === "bun") {
         dragIndex += 1;
         hoverIndex += 1;
       }
-      const dragElement = data[dragIndex];
+      const dragElement = ingredientList[dragIndex];
       elements.splice(dragIndex, 1);
       elements.splice(hoverIndex, 0, dragElement);
       dispatch(reorderIngredients(elements));
     },
-    [data]
+    [ingredientList]
   );
   return (
     <ul className={`pt-25 ${style.burgerconstructorList}`} ref={dropRef}>
@@ -94,7 +95,6 @@ const ConstructorList:FC<{data : Array<TIngredient>}>=({ data }) => {
             id={item.uuid}
           >
             <ConstructorElement
-              index={index}
               text={item.name}
               price={item.price}
               thumbnail={item.image}
@@ -104,7 +104,7 @@ const ConstructorList:FC<{data : Array<TIngredient>}>=({ data }) => {
             />
           </ConstructorItem>
         ))}
-        {data.length === 0 ? <TemplateConstructorElement /> : null}
+        {ingredientList.length === 0 ? <TemplateConstructorElement /> : null}
       </ul>
       {itemBun && (
         <li className={style.burgerconstructorList__item}>
@@ -119,6 +119,6 @@ const ConstructorList:FC<{data : Array<TIngredient>}>=({ data }) => {
       )}
     </ul>
   );
-}
+};
 
 export default ConstructorList;

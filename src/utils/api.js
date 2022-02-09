@@ -9,7 +9,7 @@ function checkResponse(res) {
 
 export { BASE_URL, checkResponse };
 
-export const getIngredienItemsRequst = () => {
+export const getIngredientItemsRequest = () => {
   return fetch(`${BASE_URL}/api/ingredients`).then(checkResponse);
 };
 

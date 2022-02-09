@@ -25,13 +25,13 @@ export const ingredientDetailsReducer = (
   switch (action.type) {
     case SET_INGREDIENT_DETAIL: {
       return {
-        ...action.payload,
+        ...action.payload
       };
     }
-    case INIT_INGREDIENT_DETAIL : {
+    case INIT_INGREDIENT_DETAIL: {
       return {
-        ...ingredientDetailState
-      }
+        ...ingredientDetailState,
+      };
     }
     default: {
       return state;
