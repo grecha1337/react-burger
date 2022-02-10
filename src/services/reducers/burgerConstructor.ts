@@ -4,15 +4,21 @@ import {
   ADD_BUN,
   REORDER_INGREDIENTS,
   SET_DEFAULT_VALUE_INGREDIENTS,
+  TBurgerConstructorActions,
 } from "../action/burgerConstructor";
+import { TIngredientWithUniqKey } from "../types/data";
 
-const constructorInitialState = {
+type TConstructorlState = {
+  ingridients: Array<TIngredientWithUniqKey>;
+};
+
+const constructorInitialState: TConstructorlState = {
   ingridients: [],
 };
 
 export const burgerConstucrtorReducer = (
   state = constructorInitialState,
-  action
+  action: TBurgerConstructorActions
 ) => {
   switch (action.type) {
     case ADD_INGREDIENT: {

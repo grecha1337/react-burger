@@ -1,9 +1,14 @@
 import {
   SET_INGREDIENT_DETAIL,
   INIT_INGREDIENT_DETAIL,
+  TIngredientDetailsActions,
 } from "../action/ingredientDetails";
+import { TIngredient } from "../types/data";
 
-const ingredientDetailState = {
+//Не знаю на сколько это правильное решение?вы
+type TIngredientWithNull<T> = { [k in keyof T]: T[k] | null };
+
+const ingredientDetailState: TIngredientWithNull<TIngredient> = {
   calories: null,
   carbohydrates: null,
   fat: null,
@@ -20,12 +25,12 @@ const ingredientDetailState = {
 
 export const ingredientDetailsReducer = (
   state = ingredientDetailState,
-  action
+  action: TIngredientDetailsActions
 ) => {
   switch (action.type) {
     case SET_INGREDIENT_DETAIL: {
       return {
-        ...action.payload
+        ...action.payload,
       };
     }
     case INIT_INGREDIENT_DETAIL: {

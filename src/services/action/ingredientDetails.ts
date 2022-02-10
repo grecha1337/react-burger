@@ -26,4 +26,6 @@ export const setDefaultValuesIngredientDetail =
     type: INIT_INGREDIENT_DETAIL,
   });
 
-  export type TIngredientDetailsActions  = TSetDetailInfoIngredient | TSetDefaultValuesIngredientDetail
+export type TIngredientDetailsActions =
+  | TSetDetailInfoIngredient
+  | TSetDefaultValuesIngredientDetail;

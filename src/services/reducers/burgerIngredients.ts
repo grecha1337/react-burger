@@ -6,9 +6,17 @@ import {
   INCREMENT_BUN,
   DECREMENT_INGREDIENTS,
   RESET_QTY_INGREDIENTS,
+  TBurgerIngredientsActions,
 } from "../action/burgerIngredients";
+import { TIngredient } from "../types/data";
 
-const ingredientsInitialState = {
+type TIngredientsState = {
+  burgerIngredients: Array<TIngredient>;
+  burgerIngredientsRequest: boolean;
+  burgerIngredientsFailed: boolean;
+};
+
+const ingredientsInitialState: TIngredientsState = {
   burgerIngredients: [],
   burgerIngredientsRequest: false,
   burgerIngredientsFailed: false,
@@ -16,7 +24,7 @@ const ingredientsInitialState = {
 
 export const burgerIngredientsReducer = (
   state = ingredientsInitialState,
-  action
+  action: TBurgerIngredientsActions
 ) => {
   switch (action.type) {
     case BURGER_INGREDIENTS_REQUEST: {
@@ -41,7 +49,7 @@ export const burgerIngredientsReducer = (
         ...state,
         burgerIngredients: [...state.burgerIngredients].map((element) =>
           element._id === action.payload._id
-            ? { ...element, qty: element.qty + 1 || 1 }
+            ? { ...element, qty: element.qty! + 1 || 1 }
             : element
         ),
       };
@@ -51,7 +59,7 @@ export const burgerIngredientsReducer = (
         ...state,
         burgerIngredients: [...state.burgerIngredients].map((element) =>
           element._id === action.payload._id
-            ? { ...element, qty: element.qty - 1 || null }
+            ? { ...element, qty: element.qty! - 1 || null }
             : element
         ),
       };
