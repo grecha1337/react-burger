@@ -13,14 +13,3 @@ const enhancer = composeEnhancers(applyMiddleware(thunk));
 const store = createStore(rootReducer, enhancer);
 
 export default store;
-
-
-export type Fruit = "Orange" | "Apple" | "Banana";
-let myString: Fruit = "Banana";
-
-
-function a (t: string) {
-
-}
-
-a(myString)
