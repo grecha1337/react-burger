@@ -7,29 +7,29 @@ import OrderDetails from "../OrderDetails/OrderDetails";
 import Modal from "../Modal/Modal";
 import { useState, useMemo, useRef, useEffect, FC } from "react";
 import ConstructorList from "../ConstructorList/ConstructorList";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../services/hooks";
 import { sendOrder } from "../../services/action/orderDetails";
 import { setDefaultValueIngredients } from "../../services/action/burgerConstructor";
 import { resetQtyIngredients } from "../../services/action/burgerIngredients";
 import ErrorText from "../ErrorText/ErrorText";
 
 const BurgerConstructor: FC = () => {
-  const { ingridients } = useSelector((state: any) => state.burgerConstructor);
+  const { ingredients } = useSelector((state) => state.burgerConstructor);
 
   const [show, setShow] = useState(false);
   const total = useMemo(() => {
-    return ingridients.reduce((accumulator: any, element: any) => {
+    return ingredients.reduce((accumulator, element) => {
       return element.type !== "bun"
         ? (accumulator += element.price)
         : (accumulator += element.price * 2);
     }, 0);
-  }, [ingridients]);
+  }, [ingredients]);
 
   const dispatch = useDispatch();
 
-  const idIngredientList = useSelector((state: any) => {
-    const listIngredients = state.burgerConstructor.ingridients;
-    const idList = listIngredients.map((item: any) => {
+  const idIngredientList = useSelector((state) => {
+    const listIngredients = state.burgerConstructor.ingredients;
+    const idList = listIngredients.map((item) => {
       return item._id;
     });
 
@@ -45,21 +45,19 @@ const BurgerConstructor: FC = () => {
     return idList;
   });
 
-  const orderNumber = useSelector((state: any) =>
-    state.orderInfo.order?.number.toString()
-  );
+  const orderNumber = useSelector((state) => state.orderInfo.order.number);
 
-  const orderFailed = useSelector((state: any) => state.orderInfo.orderFailed);
+  const orderFailed = useSelector((state) => state.orderInfo.orderFailed);
 
   // Сохраняем предыдущее значение, что бы отображать модалку только с новым заказом
-  const prevOrderNumber = useRef();
+  const prevOrderNumber = useRef<number | null>();
   useEffect(() => {
     prevOrderNumber.current = orderNumber;
   });
 
   return (
     <section className={`${style.burgerconstructor} pl-4 pr-4`}>
-      <ConstructorList ingredientList={ingridients} />
+      <ConstructorList ingredientList={ingredients} />
       {orderFailed ? <ErrorText text={"Ошибка при оформлении заказа"} /> : null}
       <div className={style.burgerconstructor__total}>
         <p className="text text_type_digits-medium pr-2">{total}</p>

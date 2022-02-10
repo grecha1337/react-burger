@@ -1,6 +1,6 @@
-import { sendOrderRequst } from "../../utils/api";
-import { AppDispatch, AppThunk } from "../store";
-import { TIngredientWithUniqKey, TOrderSuccess } from "../types/data";
+import { sendOrderRequest } from "../../utils/api";
+import { AppDispatch, AppThunk } from "../types";
+import { TOrderSuccess } from "../types/data";
 
 export const ORDER_REQUEST: "ORDER_REQUEST" = "ORDER_REQUEST";
 export const ORDER_SUCCESS: "ORDER_SUCCESS" = "ORDER_SUCCESS";
@@ -35,7 +35,7 @@ export const setReqOrderFailed = (): ISetReqOrderFailed => ({
 export const sendOrder: AppThunk = (idList: ReadonlyArray<string>) => {
   return function (dispatch: AppDispatch) {
     dispatch(reqOrder());
-    sendOrderRequst(idList)
+    sendOrderRequest(idList)
       .then((res) => {
         dispatch(setInfoOrder(res));
       })
@@ -44,6 +44,9 @@ export const sendOrder: AppThunk = (idList: ReadonlyArray<string>) => {
         dispatch(setReqOrderFailed());
       });
   };
-}
+};
 
-export type TOrderDetailsActions = IReqOrder | ISetInfoOrder |ISetReqOrderFailed
+export type TOrderDetailsActions =
+  | IReqOrder
+  | ISetInfoOrder
+  | ISetReqOrderFailed;

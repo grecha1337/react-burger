@@ -3,9 +3,14 @@ import { FC, useRef } from "react";
 import { useDrag, useDrop } from "react-dnd";
 import style from "./ConstructorItem.module.css";
 import CSS from "csstype";
-import { TIngredient } from "../../services/types/data";
+import { TIngredient, TConstructorItem } from "../../services/types/data";
 
-const ConstructorItem: FC<any> = ({ children, moveItem, index, id }) => {
+const ConstructorItem: FC<TConstructorItem> = ({
+  children,
+  moveItem,
+  index,
+  id,
+}) => {
   const ref = useRef(null);
   const [{ isHover }, drop] = useDrop({
     accept: "constructorItem",
@@ -16,7 +21,7 @@ const ConstructorItem: FC<any> = ({ children, moveItem, index, id }) => {
       if (!ref.current) {
         return;
       }
-      const dragIndex = item.index;
+      const dragIndex = item.index!;
       const hoverIndex = index;
       if (dragIndex === hoverIndex) {
         return;
@@ -36,7 +41,7 @@ const ConstructorItem: FC<any> = ({ children, moveItem, index, id }) => {
         outline: "3px solid #8b00ff",
         outlineOffset: "-3px",
       }
-    : {}
+    : {};
   drag(drop(ref));
   return (
     <li ref={ref} className={style.burgerconstructorList__innerItem}>

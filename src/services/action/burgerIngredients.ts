@@ -1,6 +1,5 @@
-import { type } from "os";
 import { getIngredientItemsRequest } from "../../utils/api";
-import { AppDispatch, AppThunk } from "../store";
+import { AppDispatch, AppThunk } from "../types";
 import { TIngredient } from "../types/data";
 
 export const BURGER_INGREDIENTS_REQUEST: "BURGER_INGREDIENTS_REQUEST" =

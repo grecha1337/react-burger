@@ -3,7 +3,7 @@ import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
 import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
 import appStyle from "./app.module.css";
 import { useEffect } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../services/hooks";
 import { getIngredientItems } from "../../services/action/burgerIngredients";
 import { DndProvider } from "react-dnd";
 import { HTML5Backend } from "react-dnd-html5-backend";
@@ -16,7 +16,6 @@ function App() {
   );
 
   useEffect(() => {
-
     dispatch(getIngredientItems());
   }, []);
 

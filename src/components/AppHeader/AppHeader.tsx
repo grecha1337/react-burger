@@ -4,10 +4,11 @@ import {
   ListIcon,
   ProfileIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { FC } from "react";
 
 import headerStyle from "./appheader.module.css";
 
-const AppHeader = () => {
+const AppHeader: FC = () => {
   return (
     <header className={`pt-4 pb-4 ${headerStyle.header}`}>
       <div className={headerStyle.headerContent}>

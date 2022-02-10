@@ -8,15 +8,15 @@ import {
 } from "../action/burgerConstructor";
 import { TIngredientWithUniqKey } from "../types/data";
 
-type TConstructorlState = {
-  ingridients: Array<TIngredientWithUniqKey>;
+type TConstructorState = {
+  ingredients: Array<TIngredientWithUniqKey>;
 };
 
-const constructorInitialState: TConstructorlState = {
-  ingridients: [],
+const constructorInitialState: TConstructorState = {
+  ingredients: [],
 };
 
-export const burgerConstucrtorReducer = (
+export const burgerConstructorReducer = (
   state = constructorInitialState,
   action: TBurgerConstructorActions
 ) => {
@@ -24,33 +24,33 @@ export const burgerConstucrtorReducer = (
     case ADD_INGREDIENT: {
       return {
         ...state,
-        ingridients: [...state.ingridients, action.payload],
+        ingredients: [...state.ingredients, action.payload],
       };
     }
     case ADD_BUN: {
-      const indexElement = [...state.ingridients].findIndex((element) => {
+      const indexElement = [...state.ingredients].findIndex((element) => {
         return element.type === "bun";
       });
       // Если булки нет в массиве, то добавляем
       // Если есть, то ищем индекс и меняем
       const res =
         indexElement === -1
-          ? [action.payload, ...state.ingridients]
+          ? [action.payload, ...state.ingredients]
           : [
-              ...state.ingridients.slice(0, indexElement),
+              ...state.ingredients.slice(0, indexElement),
               action.payload,
-              ...state.ingridients.slice(indexElement + 1),
+              ...state.ingredients.slice(indexElement + 1),
             ];
 
       return {
         ...state,
-        ingridients: res,
+        ingredients: res,
       };
     }
     case DELETE_ITEM: {
       return {
         ...state,
-        ingridients: [...state.ingridients].filter((element) => {
+        ingredients: [...state.ingredients].filter((element) => {
           return element.uuid !== action.id;
         }),
       };
@@ -58,7 +58,7 @@ export const burgerConstucrtorReducer = (
     case REORDER_INGREDIENTS: {
       return {
         ...state,
-        ingridients: [...action.payload],
+        ingredients: [...action.payload],
       };
     }
     case SET_DEFAULT_VALUE_INGREDIENTS: {

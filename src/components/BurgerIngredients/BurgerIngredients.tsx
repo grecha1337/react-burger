@@ -1,52 +1,61 @@
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useState, useRef, FC } from "react";
+import React, { useState, useRef, FC } from "react";
 import IngredientList from "../IngredientList/IngredientList";
 import style from "./burgeringredients.module.css";
 import Modal from "../Modal/Modal";
 import IngredientDetails from "../IngredientDetails/IngredientDetails";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch, useSelector } from "../../services/hooks";
 import {
   setDefaultValuesIngredientDetail,
   setDetailInfoIngredient,
 } from "../../services/action/ingredientDetails";
+import { TIngredient, TIngredientType } from "../../services/types/data";
+import { RefObject } from "react-dom/node_modules/@types/react";
 
-const BurgerIngredients: FC<any> = () => {
-  const [current, setCurrent] = useState("bun");
+const BurgerIngredients: FC = () => {
+  const [current, setCurrent] = useState<TIngredientType>("bun");
   const [show, setShow] = useState(false);
   const refBunDiv = useRef<HTMLDivElement>(null);
   const refSauceDiv = useRef<HTMLDivElement>(null);
   const refMainDiv = useRef<HTMLDivElement>(null);
 
-  const { burgerIngredients } = useSelector(
-    (state: any) => state.burgerIngredients
-  );
+  const BUN: TIngredientType = "bun";
+  const SAUCE: TIngredientType = "sauce";
+  const MAIN: TIngredientType = "main";
 
-  const handleTab = (value: any, element: any) => {
+  const { burgerIngredients } = useSelector((state) => state.burgerIngredients);
+
+  const handleTab = (
+    value: TIngredientType,
+    element: RefObject<HTMLElement>
+  ) => {
     setCurrent(value);
-    element.current.scrollIntoView({ behavior: "smooth" });
+    element?.current?.scrollIntoView({ behavior: "smooth" });
   };
 
   const dispatch = useDispatch();
   const ingredientDataModal = useSelector(
-    (state: any) => state.ingredientDetails
+    (state) => state.ingredientDetails as TIngredient
   );
 
-  const openModal = (data: any) => {
+  const openModal = (data: TIngredient) => {
     dispatch(setDetailInfoIngredient(data));
     setShow(true);
   };
 
-  const handlerScroll = (e: any) => {
+  const handlerScroll: React.EventHandler<React.UIEvent<HTMLDivElement>> = (
+    e: React.UIEvent<HTMLElement>
+  ) => {
     if (refBunDiv.current === null || refSauceDiv.current === null) return;
-    const { scrollTop } = e.target;
+    const scrollTop = (e.target as HTMLElement).scrollTop;
     const posOfSectionBun = refBunDiv.current.offsetTop;
     const posOfSauceBun = refSauceDiv.current.offsetTop;
     if (scrollTop + 40 <= posOfSectionBun) {
-      setCurrent("bun");
+      setCurrent(BUN);
     } else if (scrollTop - 170 <= posOfSauceBun) {
-      setCurrent("sauce");
+      setCurrent(SAUCE);
     } else {
-      setCurrent("main");
+      setCurrent(MAIN);
     }
   };
   return (
@@ -65,28 +74,28 @@ const BurgerIngredients: FC<any> = () => {
       <h1 className="text text_type_main-large pt-10 pb-5">Соберите бургер</h1>
       <div style={{ display: "flex" }}>
         <Tab
-          value="bun"
-          active={current === "bun"}
-          onClick={(value) => {
-            handleTab(value, refBunDiv);
+          value={BUN}
+          active={current === BUN}
+          onClick={() => {
+            handleTab(BUN, refBunDiv);
           }}
         >
           Булки
         </Tab>
         <Tab
-          value="sauce"
-          active={current === "sauce"}
-          onClick={(value) => {
-            handleTab(value, refSauceDiv);
+          value={SAUCE}
+          active={current === SAUCE}
+          onClick={() => {
+            handleTab(SAUCE, refSauceDiv);
           }}
         >
           Соусы
         </Tab>
         <Tab
-          value="main"
-          active={current === "main"}
-          onClick={(value) => {
-            handleTab(value, refMainDiv);
+          value={MAIN}
+          active={current === MAIN}
+          onClick={() => {
+            handleTab(MAIN, refMainDiv);
           }}
         >
           Начинки

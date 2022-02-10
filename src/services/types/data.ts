@@ -51,4 +51,10 @@ export type TOrderSuccess = {
   success: boolean;
 };
 
-type TIngredientType = "main" | "sauce" | "bun";
+export type TIngredientType = "main" | "sauce" | "bun";
+
+export type TConstructorItem = {
+  moveItem: (dragIndex: number, hoverIndex: number) => void;
+  index: number;
+  id: string;
+};
