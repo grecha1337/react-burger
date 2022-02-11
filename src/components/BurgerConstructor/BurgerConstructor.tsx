@@ -2,7 +2,7 @@ import {
   Button,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import style from "./burgerconstructor.module.css";
+import style from "./burgerConstructor.module.css";
 import OrderDetails from "../OrderDetails/OrderDetails";
 import Modal from "../Modal/Modal";
 import { useState, useMemo, useRef, useEffect, FC } from "react";
@@ -45,7 +45,7 @@ const BurgerConstructor: FC = () => {
     return idList;
   });
 
-  let orderNumber = useSelector((state) => state.orderInfo.order.number);
+  const orderNumber = useSelector((state) => state.orderInfo.order.number);
   const orderFailed = useSelector((state) => state.orderInfo.orderFailed);
 
   // Сохраняем предыдущее значение, что бы отображать модалку только с новым заказом
@@ -55,10 +55,10 @@ const BurgerConstructor: FC = () => {
   });
 
   return (
-    <section className={`${style.burgerconstructor} pl-4 pr-4`}>
+    <section className={`${style.burgerConstructor} pl-4 pr-4`}>
       <ConstructorList ingredientList={ingredients} />
       {orderFailed ? <ErrorText text={"Ошибка при оформлении заказа"} /> : null}
-      <div className={style.burgerconstructor__total}>
+      <div className={style.burgerConstructor__total}>
         <p className="text text_type_digits-medium pr-2">{total}</p>
         <CurrencyIcon type="primary" />
         <div className="pl-10">

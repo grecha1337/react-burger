@@ -1,4 +1,4 @@
-.burgerconstructorList__innerItem {
+.burgerConstructorList__innerItem {
   display: flex;
   flex-direction: row;
   align-items: center;
@@ -6,7 +6,7 @@
   padding-bottom: 16px;
 }
 
-.wrapperConstucrotElement {
+.wrapperConstructorElement {
   width: 100%;
   display: inherit;
   height: 100%;

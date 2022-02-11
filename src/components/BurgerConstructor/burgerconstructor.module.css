@@ -1,9 +1,9 @@
-.burgerconstructor {
+.burgerConstructor {
   max-width: 592px;
   width: 100%;
   position: relative;
 }
-.burgerconstructor__total {
+.burgerConstructor__total {
   align-items: center;
   justify-content: flex-end;
   display: flex;
@@ -12,7 +12,7 @@
   right: 0;
 }
 
-.burgerconstructor__total svg {
+.burgerConstructor__total svg {
   height: 33px;
   width: 33px;
 }

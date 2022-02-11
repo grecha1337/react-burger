@@ -44,9 +44,9 @@ const ConstructorItem: FC<TConstructorItem> = ({
     : {};
   drag(drop(ref));
   return (
-    <li ref={ref} className={style.burgerconstructorList__innerItem}>
+    <li ref={ref} className={style.burgerConstructorList__innerItem}>
       <DragIcon type="primary" />
-      <div className={style.wrapperConstucrotElement} style={styleHover}>
+      <div className={style.wrapperConstructorElement} style={styleHover}>
         {children}
       </div>
     </li>
