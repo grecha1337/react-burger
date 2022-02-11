@@ -45,8 +45,7 @@ const BurgerConstructor: FC = () => {
     return idList;
   });
 
-  const orderNumber = useSelector((state) => state.orderInfo.order.number);
-
+  let orderNumber = useSelector((state) => state.orderInfo.order.number);
   const orderFailed = useSelector((state) => state.orderInfo.orderFailed);
 
   // Сохраняем предыдущее значение, что бы отображать модалку только с новым заказом
@@ -76,7 +75,7 @@ const BurgerConstructor: FC = () => {
           </Button>
         </div>
       </div>
-      {show && orderNumber && orderNumber !== prevOrderNumber.current && (
+      {show && orderNumber !== prevOrderNumber.current && (
         <Modal
           onClose={() => {
             setShow(false);

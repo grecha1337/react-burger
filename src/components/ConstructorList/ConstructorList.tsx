@@ -86,7 +86,13 @@ const ConstructorList: FC<{
         </li>
       )}
 
-      <ul className={style.burgerconstructorList__inner}>
+      <ul
+        className={`${style.burgerconstructorList__inner} ${
+          ingredientList.length === 0
+            ? style.burgerconstructorListOverflowHidden__inner
+            : ""
+        }`}
+      >
         {itemsWithoutBun.map((item, index) => (
           <ConstructorItem
             key={item.uuid}

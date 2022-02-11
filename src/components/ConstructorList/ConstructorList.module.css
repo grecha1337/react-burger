@@ -10,6 +10,10 @@
   flex-direction: column;
 }
 
+.burgerconstructorListOverflowHidden__inner {
+  overflow-y: hidden;
+}
+
 .burgerconstructorList__item:first-child {
   padding-left: 32px;
   padding-right: 18px;
