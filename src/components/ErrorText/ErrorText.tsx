@@ -1,5 +1,4 @@
 import styles from "./ErrorText.module.css";
-import PropTypes from "prop-types";
 import {FC} from 'react'
 import { TErrorText } from "../../services/types/data";
 
@@ -10,9 +9,5 @@ const ErrorText:FC<TErrorText> =  ({ text }) =>{
     </div>
   );
 }
-
-ErrorText.propTypes = {
-  text: PropTypes.string.isRequired,
-};
 
 export default ErrorText;

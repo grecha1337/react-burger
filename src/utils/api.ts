@@ -2,7 +2,7 @@ import { TIngredient, TOrderSuccess } from "../services/types/data";
 
 const BASE_URL = "https://norma.nomoreparties.space";
 
-const checkResponse = (res: any): Promise<any> => {
+const checkResponse = (res: Response): Promise<any> => {
   if (res.ok) {
     return res.json();
   }

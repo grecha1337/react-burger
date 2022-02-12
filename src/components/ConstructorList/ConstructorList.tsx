@@ -1,5 +1,4 @@
 import { useDrop } from "react-dnd";
-import { useDispatch } from "react-redux";
 import { v4 as uuidv4 } from "uuid";
 import { FC, useCallback } from "react";
 import style from "./ConstructorList.module.css";
@@ -18,6 +17,7 @@ import {
 } from "../../services/action/burgerIngredients";
 import TemplateConstructorElement from "../TemplateConstuctorElement/TemplateConstuctorElement";
 import { TIngredientWithUniqKey } from "../../services/types/data";
+import { useDispatch } from "../../services/hooks";
 
 const POSTIX_NAME_BUN_TOP = "(верх)";
 const POSTIX_NAME_BUN_BUTTOM = "(низ)";
