@@ -3,22 +3,25 @@ import {
   BrowserRouter as Router,
   Switch,
   Route,
-  BrowserRouter,
 } from "react-router-dom";
 import { FC } from "react";
 import HomePage from "../pages/home";
 import LoginPage from "../pages/login";
+import RegisterPage from "../pages/register";
+import ForgotPasswordPage from "../pages/forgot-password";
 
 const App: FC = () => {
   return (
     <>
       <AppHeader />
-      <BrowserRouter>
+      <Router>
         <Switch>
           <Route path="/" exact={true} component={HomePage}></Route>
           <Route path="/login" component={LoginPage}></Route>
+          <Route path="/register" component={RegisterPage}></Route>
+          <Route path="/forgot-password" component={ForgotPasswordPage}></Route>
         </Switch>
-      </BrowserRouter>
+      </Router>
     </>
   );
 };

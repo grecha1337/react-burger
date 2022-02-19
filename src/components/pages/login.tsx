@@ -8,12 +8,12 @@ import { Link } from "react-router-dom";
 import styles from "./home.module.css";
 
 const LoginPage: FC = () => {
-  const [emailValue, setEmailValue] = useState("bob@example.com");
+  const [emailValue, setEmailValue] = useState("");
   const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmailValue(e.target.value);
   };
 
-  const [passwordValue, setPassword] = useState("password");
+  const [passwordValue, setPassword] = useState("");
   const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPassword(e.target.value);
   };
@@ -44,7 +44,7 @@ const LoginPage: FC = () => {
           <p className="text text_type_main-default">
             Вы — новый пользователь?
           </p>
-          <Link className={styles.link} to="/string">
+          <Link className={styles.link} to="/register">
             Зарегистрироваться
           </Link>
         </li>
