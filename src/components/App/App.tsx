@@ -9,6 +9,7 @@ import HomePage from "../pages/home";
 import LoginPage from "../pages/login";
 import RegisterPage from "../pages/register";
 import ForgotPasswordPage from "../pages/forgot-password";
+import ResetPasswordPage from "../pages/reset-password";
 
 const App: FC = () => {
   return (
@@ -20,6 +21,7 @@ const App: FC = () => {
           <Route path="/login" component={LoginPage}></Route>
           <Route path="/register" component={RegisterPage}></Route>
           <Route path="/forgot-password" component={ForgotPasswordPage}></Route>
+          <Route path="/reset-password" component={ResetPasswordPage}></Route>
         </Switch>
       </Router>
     </>
