@@ -1,41 +1,25 @@
-import AppHeader from "../AppHeader/AppHeader";
-import BurgerIngredients from "../BurgerIngredients/BurgerIngredients";
-import BurgerConstructor from "../BurgerConstructor/BurgerConstructor";
-import appStyle from "./app.module.css";
-import { useEffect } from "react";
-import { useDispatch, useSelector } from "../../services/hooks";
-import { getIngredientItems } from "../../services/action/burgerIngredients";
-import { DndProvider } from "react-dnd";
-import { HTML5Backend } from "react-dnd-html5-backend";
-import ErrorText from "../ErrorText/ErrorText";
+import AppHeader from "../app-header/app-header";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  BrowserRouter,
+} from "react-router-dom";
+import { FC } from "react";
+import HomePage from "../pages/home";
 
-function App() {
-  const dispatch = useDispatch();
-  const { burgerIngredientsFailed } = useSelector(
-    (state) => state.burgerIngredients
-  );
-
-  useEffect(() => {
-    dispatch(getIngredientItems());
-  }, []);
-
+const App: FC = () => {
   return (
     <>
       <AppHeader />
-      <main className={appStyle.main}>
-        <DndProvider backend={HTML5Backend}>
-          {burgerIngredientsFailed !== true ? (
-            <>
-              <BurgerIngredients />
-              <BurgerConstructor />
-            </>
-          ) : (
-            <ErrorText text={"Что-то пошло не так"} />
-          )}
-        </DndProvider>
-      </main>
+      <BrowserRouter>
+        <Switch>
+          <Route path="/" exact={true} component={HomePage}></Route>
+          <Route path="/qwe" component={HomePage}></Route>
+        </Switch>
+      </BrowserRouter>
     </>
   );
-}
+};
 
 export default App;

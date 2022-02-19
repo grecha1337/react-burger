@@ -1,7 +1,7 @@
 import cardStyle from "./ingredientList.module.css";
 import { forwardRef, FC } from "react";
 
-import Ingredient from "../Ingredient/Ingredient";
+import Ingredient from "../ingredient/ingredient";
 import { TIngredientList } from "../../services/types/data";
 
 const IngredientList = forwardRef<HTMLDivElement, TIngredientList>(

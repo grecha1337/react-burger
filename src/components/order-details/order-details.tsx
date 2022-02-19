@@ -1,4 +1,4 @@
-import style from "./orderDetails.module.css";
+import style from "./order-details.module.css";
 import orderDone from "../../images/orderDone.svg";
 import { FC } from "react";
 import { TOrderDetails } from "../../services/types/data";

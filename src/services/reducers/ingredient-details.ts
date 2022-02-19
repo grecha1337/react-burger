@@ -2,7 +2,7 @@ import {
   SET_INGREDIENT_DETAIL,
   INIT_INGREDIENT_DETAIL,
   TIngredientDetailsActions,
-} from "../action/ingredientDetails";
+} from "../action/ingredient-details";
 import { TIngredient } from "../types/data";
 
 //Не знаю на сколько это правильное решение?вы

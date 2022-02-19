@@ -5,7 +5,7 @@ import {
   REORDER_INGREDIENTS,
   SET_DEFAULT_VALUE_INGREDIENTS,
   TBurgerConstructorActions,
-} from "../action/burgerConstructor";
+} from "../action/burger-constructor";
 import { TIngredientWithUniqKey } from "../types/data";
 
 type TConstructorState = {

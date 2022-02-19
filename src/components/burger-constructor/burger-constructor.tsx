@@ -2,16 +2,16 @@ import {
   Button,
   CurrencyIcon,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import style from "./burgerConstructor.module.css";
-import OrderDetails from "../OrderDetails/OrderDetails";
-import Modal from "../Modal/Modal";
+import style from "./burger-constructor.module.css";
+import OrderDetails from "../order-details/order-details";
+import Modal from "../modal/modal";
 import { useState, useMemo, useRef, useEffect, FC } from "react";
-import ConstructorList from "../ConstructorList/ConstructorList";
+import ConstructorList from "../constructor-list/constructor-list";
 import { useDispatch, useSelector } from "../../services/hooks";
-import { sendOrder } from "../../services/action/orderDetails";
-import { setDefaultValueIngredients } from "../../services/action/burgerConstructor";
-import { resetQtyIngredients } from "../../services/action/burgerIngredients";
-import ErrorText from "../ErrorText/ErrorText";
+import { sendOrder } from "../../services/action/order-details";
+import { setDefaultValueIngredients } from "../../services/action/burger-constructor";
+import { resetQtyIngredients } from "../../services/action/burger-ingredients";
+import ErrorText from "../error-text/error-text";
 
 const BurgerConstructor: FC = () => {
   const { ingredients } = useSelector((state) => state.burgerConstructor);
@@ -33,15 +33,6 @@ const BurgerConstructor: FC = () => {
       return item._id;
     });
 
-    // Булки считаем за две
-    // const idList = listIngredients.reduce((r, e) => {
-    //   if (e.type === "bun") {
-    //     r.push(e._id, e._id);
-    //   } else {
-    //     r.push(e._id);
-    //   }
-    //   return r;
-    // }, []);
     return idList;
   });
 

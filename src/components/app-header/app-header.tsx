@@ -6,7 +6,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { FC } from "react";
 
-import headerStyle from "./appheader.module.css";
+import headerStyle from "./app-header.module.css";
 
 const AppHeader: FC = () => {
   return (

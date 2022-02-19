@@ -1,21 +1,21 @@
 import { useDrop } from "react-dnd";
 import { v4 as uuidv4 } from "uuid";
 import { FC, useCallback } from "react";
-import style from "./ConstructorList.module.css";
+import style from "./constructor-list.module.css";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
-import ConstructorItem from "../ConstructorItem/ConstructorItem";
+import ConstructorItem from "../constructor-item/constructor-item";
 import {
   addIngredientToConstructor,
   addBunToConstructor,
   deleteItemById,
   reorderIngredients,
-} from "../../services/action/burgerConstructor";
+} from "../../services/action/burger-constructor";
 import {
   decrementQtyIngredients,
   incrementQtyBun,
   incrementQtyIngredient,
-} from "../../services/action/burgerIngredients";
-import TemplateConstructorElement from "../TemplateConstuctorElement/TemplateConstuctorElement";
+} from "../../services/action/burger-ingredients";
+import TemplateConstructorElement from "../template-constructor-element/template-constructor-element";
 import { TIngredientWithUniqKey } from "../../services/types/data";
 import { useDispatch } from "../../services/hooks";
 

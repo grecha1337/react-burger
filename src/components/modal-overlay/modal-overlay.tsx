@@ -1,4 +1,4 @@
-import styleModal from "./modalOverlay.module.css";
+import styleModal from "./modal-overlay.module.css";
 import { FC } from "react";
 import { TModalOverlay } from "../../services/types/data";
 

@@ -1,8 +1,8 @@
 import { ThunkAction } from "redux-thunk";
-import { TBurgerConstructorActions } from "../action/burgerConstructor";
-import { TBurgerIngredientsActions } from "../action/burgerIngredients";
-import { TIngredientDetailsActions } from "../action/ingredientDetails";
-import { TOrderDetailsActions } from "../action/orderDetails";
+import { TBurgerConstructorActions } from "../action/burger-constructor";
+import { TBurgerIngredientsActions } from "../action/burger-ingredients";
+import { TIngredientDetailsActions } from "../action/ingredient-details";
+import { TOrderDetailsActions } from "../action/order-details";
 import { ActionCreator, Action } from "redux";
 import store from "../store";
 

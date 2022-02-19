@@ -7,7 +7,7 @@ import {
   DECREMENT_INGREDIENTS,
   RESET_QTY_INGREDIENTS,
   TBurgerIngredientsActions,
-} from "../action/burgerIngredients";
+} from "../action/burger-ingredients";
 import { TIngredient } from "../types/data";
 
 type TIngredientsState = {

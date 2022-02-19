@@ -1,4 +1,4 @@
-import styles from "./ErrorText.module.css";
+import styles from "./error-text.module.css";
 import {FC} from 'react'
 import { TErrorText } from "../../services/types/data";
 

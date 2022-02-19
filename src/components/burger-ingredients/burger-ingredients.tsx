@@ -1,14 +1,14 @@
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import React, { useState, useRef, FC } from "react";
-import IngredientList from "../IngredientList/IngredientList";
-import style from "./burgeringredients.module.css";
-import Modal from "../Modal/Modal";
-import IngredientDetails from "../IngredientDetails/IngredientDetails";
+import IngredientList from "../ingredient-list/IngredientList";
+import style from "./burger-ingredients.module.css";
+import Modal from "../modal/modal";
+import IngredientDetails from "../ingredient-details/IngredientDetails";
 import { useDispatch, useSelector } from "../../services/hooks";
 import {
   setDefaultValuesIngredientDetail,
   setDetailInfoIngredient,
-} from "../../services/action/ingredientDetails";
+} from "../../services/action/ingredient-details";
 import { TIngredient, TIngredientType } from "../../services/types/data";
 import { RefObject } from "react-dom/node_modules/@types/react";
 

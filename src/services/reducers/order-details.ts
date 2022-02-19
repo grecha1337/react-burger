@@ -3,7 +3,7 @@ import {
   ORDER_SUCCESS,
   ORDER_FAILED,
   TOrderDetailsActions,
-} from "../action/orderDetails";
+} from "../action/order-details";
 import { TOrderSuccess } from "../types/data";
 
 const orderInitState: TOrderSuccess & {
