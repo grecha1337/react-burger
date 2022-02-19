@@ -50,7 +50,7 @@ const LoginPage: FC = () => {
         </li>
         <li className={styles.registrationNav__item}>
           <p className="text text_type_main-default">Забыли пароль?</p>
-          <Link className={styles.link} to="/string">
+          <Link className={styles.link} to="/forgot-password">
             Восстановить пароль
           </Link>
         </li>

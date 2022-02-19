@@ -1,4 +1,11 @@
-import { TIngredient, TOrderSuccess } from "../services/types/data";
+import {
+  TGetCodeForResetPassRQ,
+  TIngredient,
+  TOrderSuccess,
+  TRegisterRequest,
+  TRegisterSuccess,
+  TGetCodeForResetPassSuccess,
+} from "../services/types/data";
 
 const BASE_URL = "https://norma.nomoreparties.space";
 
@@ -28,3 +35,30 @@ export const sendOrderRequest = (
     }),
   }).then(checkResponse);
 };
+
+export const registerRequest = (
+  data: Readonly<TRegisterRequest>
+): Promise<TRegisterSuccess> => {
+  return fetch(`${BASE_URL}/api/auth/register`, {
+    method: "post",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      ...data,
+    }),
+  }).then(checkResponse);
+};
+
+
+export const resetPasswordRequest = (
+  data: Readonly<TGetCodeForResetPassRQ>
+): Promise<TGetCodeForResetPassSuccess> => {
+  return fetch(`${BASE_URL}/api/password-reset`, {
+    method: "post",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      ...data,
+    }),
+  }).then(checkResponse);
+};
+
+ 

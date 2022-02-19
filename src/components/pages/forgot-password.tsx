@@ -5,11 +5,20 @@ import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useDispatch } from "../../services/hooks";
+import { resetPassword } from "../../services/action/user";
 
 const ForgotPasswordPage: FC = () => {
-  const [emailValue, setEmailValue] = useState("");
-  const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmailValue(e.target.value);
+  const dispatch = useDispatch();
+  const [state, setState] = useState({
+    email: "asd",
+  });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setState((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
   return (
@@ -19,12 +28,20 @@ const ForgotPasswordPage: FC = () => {
         <fieldset className={styles.fieldset}>
           <Input
             type="email"
-            value={emailValue}
-            onChange={onChangeEmail}
+            value={state.email}
+            name="email"
+            onChange={handleChange}
             placeholder={"Укажите e-mail"}
           />
           <div className={`${styles.button} "pb-20"`}>
-            <Button type="primary" size="medium">
+            <Button
+              type="primary"
+              size="medium"
+              onClick={(e) => {
+                e.preventDefault();
+                dispatch(resetPassword(state));
+              }}
+            >
               Восстановить
             </Button>
           </div>

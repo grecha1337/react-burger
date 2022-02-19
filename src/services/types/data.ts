@@ -58,3 +58,37 @@ export type TConstructorItem = {
   index: number;
   id: string;
 };
+
+export type TRegisterRequest = {
+  email: string;
+  password: string;
+  name: string;
+};
+
+export type TGetCodeForResetPassRQ = {
+  email: string;
+};
+
+export type TGetCodeForResetPassSuccess = {
+  success: boolean;
+  message: string;
+};
+
+export type TRegisterSuccess = {
+  success: boolean;
+  user: {
+    email: string;
+    name: string;
+  } | null;
+  accessToken: string;
+  refreshToken: string;
+};
+
+export type TUser = TRegisterSuccess & {
+  sendRequest: boolean;
+  sendRequestFailed: boolean;
+  resetPasswordInfo :  TGetCodeForResetPassSuccess & {
+    request : boolean,
+    failedRequest: boolean;
+  }
+};

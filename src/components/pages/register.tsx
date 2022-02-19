@@ -1,5 +1,5 @@
 import { FC, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import styles from "./home.module.css";
 import {
   Button,
@@ -7,22 +7,33 @@ import {
   PasswordInput,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useDispatch, useSelector } from "../../services/hooks";
+import { register } from "../../services/action/user";
 
 const RegisterPage: FC = () => {
-  const [emailValue, setEmailValue] = useState("");
-  const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmailValue(e.target.value);
+  const dispatch = useDispatch();
+  const { sendRequest } = useSelector((state) => state.userInfo);
+  const user = useSelector((state) => state.userInfo.user);
+
+  const [state, setState] = useState({ email: "", name: "", password: "" });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e.target);
+    const { name, value } = e.target;
+    setState((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
-  const [passwordValue, setPassword] = useState("");
-  const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
-  };
-
-  const [nameValue, setName] = useState("");
-  const onChangeName = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
-  };
+  if (user) {
+    return (
+      <Redirect
+        to={{
+          pathname: "/",
+        }}
+      />
+    );
+  }
 
   return (
     <main className={styles.mainColumn}>
@@ -32,23 +43,31 @@ const RegisterPage: FC = () => {
           <Input
             type={"text"}
             placeholder={"Имя"}
-            onChange={(e) => setName(e.target.value)}
-            value={nameValue}
+            onChange={handleChange}
+            value={state.name}
             name={"name"}
           />
           <EmailInput
-            onChange={onChangeEmail}
-            value={emailValue}
+            onChange={handleChange}
+            value={state.email}
             name={"email"}
           />
           <PasswordInput
-            onChange={onChangePassword}
-            value={passwordValue}
+            onChange={handleChange}
+            value={state.password}
             name={"password"}
           />
           <div className={`${styles.button} "pb-20"`}>
-            <Button type="primary" size="medium">
-              Зарегистрироваться
+            <Button
+              type="primary"
+              size="medium"
+              onClick={(e) => {
+                e.preventDefault();
+                dispatch(register(state));
+                setState({ email: "", name: "", password: "" });
+              }}
+            >
+              {!sendRequest ? "Зарегистрироваться" : "Регистрация..."}
             </Button>
           </div>
         </fieldset>
