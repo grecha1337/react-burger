@@ -18,8 +18,10 @@ import {
 import { setCookie } from "../utils";
 
 export const REGISTER_REQUEST: "REGISTER_REQUEST" = "REGISTER_REQUEST";
-export const REGISTER_SUCCESS: "REGISTER_SUCCESS" = "REGISTER_SUCCESS";
-export const REGISTER_FAILED: "REGISTER_FAILED" = "REGISTER_FAILED";
+export const REGISTER_REQUEST_SUCCESS: "REGISTER_REQUEST_SUCCESS" =
+  "REGISTER_REQUEST_SUCCESS";
+export const REGISTER_REQUEST_FAILED: "REGISTER_REQUEST_FAILED" =
+  "REGISTER_REQUEST_FAILED";
 export const GET_CODE_FOR_RESET_PASSWORD_REQUEST: "GET_CODE_FOR_RESET_PASSWORD_REQUEST" =
   "GET_CODE_FOR_RESET_PASSWORD_REQUEST";
 export const GET_CODE_FOR_RESET_PASSWORD_SUCCESS: "GET_CODE_FOR_RESET_PASSWORD_SUCCESS" =
@@ -43,59 +45,61 @@ export const REFRESH_TOKEN_REQUEST_SUCCESS: "REFRESH_TOKEN_REQUEST_SUCCESS" =
 /*
   Register 
 */
-export interface IRegisterRequest {
+export interface IRegisterAction {
   readonly type: typeof REGISTER_REQUEST;
 }
 
-export interface IRegisterFailed {
-  readonly type: typeof REGISTER_FAILED;
+export interface IRegisterFailedAction {
+  readonly type: typeof REGISTER_REQUEST_FAILED;
 }
 
-export interface IRegisterSuccess {
-  readonly type: typeof REGISTER_SUCCESS;
+export interface IRegisterSuccessAction {
+  readonly type: typeof REGISTER_REQUEST_SUCCESS;
   readonly payload: TRegisterSuccess;
 }
 
-export const sendRqRegister = (): IRegisterRequest => ({
+export const sendRqRegister = (): IRegisterAction => ({
   type: REGISTER_REQUEST,
 });
 
-export const registerFailed = (): IRegisterFailed => ({
-  type: REGISTER_FAILED,
+export const registerFailed = (): IRegisterFailedAction => ({
+  type: REGISTER_REQUEST_FAILED,
 });
 
-export const setUserInfo = (payload: TRegisterSuccess): IRegisterSuccess => ({
-  type: REGISTER_SUCCESS,
+export const setUserInfo = (
+  payload: TRegisterSuccess
+): IRegisterSuccessAction => ({
+  type: REGISTER_REQUEST_SUCCESS,
   payload,
 });
 
 /*
   GetCodeForResetPass
 */
-export interface IGetCodeForResetPassRQ {
+export interface IGetCodeResetPassAction {
   readonly type: typeof GET_CODE_FOR_RESET_PASSWORD_REQUEST;
 }
 
-export interface IGetCodeForResetPassFailed {
+export interface IGetCodeResetPassFailedAction {
   readonly type: typeof GET_CODE_FOR_RESET_PASSWORD_FAILED;
 }
 
-export interface IGetCodeForResetPassSuccess {
+export interface IGetCodeResetPassSuccessAction {
   readonly type: typeof GET_CODE_FOR_RESET_PASSWORD_SUCCESS;
   readonly payload: TGetCodeForResetPassSuccess;
 }
 
-export const sendRqGetCodeForResetPass = (): IGetCodeForResetPassRQ => ({
+export const sendRqGetCodeForResetPass = (): IGetCodeResetPassAction => ({
   type: GET_CODE_FOR_RESET_PASSWORD_REQUEST,
 });
 
-export const getCodeForResetPassFailed = (): IGetCodeForResetPassFailed => ({
+export const getCodeForResetPassFailed = (): IGetCodeResetPassFailedAction => ({
   type: GET_CODE_FOR_RESET_PASSWORD_FAILED,
 });
 
 export const setResGetCodeForResetPass = (
   payload: TGetCodeForResetPassSuccess
-): IGetCodeForResetPassSuccess => ({
+): IGetCodeResetPassSuccessAction => ({
   type: GET_CODE_FOR_RESET_PASSWORD_SUCCESS,
   payload,
 });
@@ -103,30 +107,30 @@ export const setResGetCodeForResetPass = (
 /*
   ConfirmResetPass  
 */
-export interface IConfirmResetPassRQ {
+export interface IConfirmResetAction {
   readonly type: typeof CONFIRM_RESET_PASSWORD_REQUEST;
 }
 
-export interface IConfirmResetPassFailed {
+export interface IConfirmResetPassActionFailed {
   readonly type: typeof CONFIRM_RESET_PASSWORD_FAILED;
 }
 
-export interface IConfirmResetPassSuccess {
+export interface IConfirmResetPassActionSuccess {
   readonly type: typeof CONFIRM_RESET_PASSWORD_SUCCESS;
   readonly payload: TConfirmResetPassSuccess;
 }
 
-export const confirmResetPassRq = (): IConfirmResetPassRQ => ({
+export const confirmResetPassRq = (): IConfirmResetAction => ({
   type: CONFIRM_RESET_PASSWORD_REQUEST,
 });
 
-export const confirmResetPassFailed = (): IConfirmResetPassFailed => ({
+export const confirmResetPassFailed = (): IConfirmResetPassActionFailed => ({
   type: CONFIRM_RESET_PASSWORD_FAILED,
 });
 
 export const setResConfirmResetPass = (
   payload: TConfirmResetPassSuccess
-): IConfirmResetPassSuccess => ({
+): IConfirmResetPassActionSuccess => ({
   type: CONFIRM_RESET_PASSWORD_SUCCESS,
   payload,
 });
@@ -196,12 +200,18 @@ export const resetPassword: AppThunk = (data: TGetCodeForResetPassRQ) => {
   };
 };
 
-export const refreshToken: AppThunk = (data: {token: string}) => {
+export const refreshToken: AppThunk = (data: { token: string }) => {
   return function (dispatch: AppDispatch) {
     dispatch(refreshTokenAction());
     refreshTokenRequest(data)
       .then((res) => {
         dispatch(refreshTokenSuccessAction(res));
+        if (res.accessToken) {
+          setCookie(ACCESS_TOKEN, res.accessToken.split("Bearer ")[1]);
+        }
+        if (res.refreshToken) {
+          setCookie(REFRESH_TOKEN, res.refreshToken);
+        }
       })
       .catch((e) => {
         console.log(e);
@@ -225,15 +235,15 @@ export const confirmResetPass: AppThunk = (data: TConfirmResetPassRQ) => {
 };
 
 export type TUserActions =
-  | IRegisterRequest
-  | IRegisterFailed
-  | IRegisterSuccess
-  | IGetCodeForResetPassRQ
-  | IGetCodeForResetPassSuccess
-  | IGetCodeForResetPassFailed
-  | IConfirmResetPassRQ
-  | IConfirmResetPassFailed
-  | IConfirmResetPassSuccess
+  | IRegisterAction
+  | IRegisterFailedAction
+  | IRegisterSuccessAction
+  | IGetCodeResetPassAction
+  | IGetCodeResetPassSuccessAction
+  | IGetCodeResetPassFailedAction
+  | IConfirmResetAction
+  | IConfirmResetPassActionFailed
+  | IConfirmResetPassActionSuccess
   | IRefreshAction
   | IRefreshFailedAction
   | IRefreshSuccessAction;
