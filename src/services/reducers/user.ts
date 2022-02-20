@@ -2,9 +2,9 @@ import {
   CONFIRM_RESET_PASSWORD_FAILED,
   CONFIRM_RESET_PASSWORD_REQUEST,
   CONFIRM_RESET_PASSWORD_SUCCESS,
-  GET_CODE_FOR_RESET_PASSWORD_FAILED,
-  GET_CODE_FOR_RESET_PASSWORD_REQUEST,
-  GET_CODE_FOR_RESET_PASSWORD_SUCCESS,
+  GET_CODE_RESET_PASSWORD_FAILED,
+  GET_CODE_RESET_PASSWORD_REQUEST,
+  GET_CODE_RESET_PASSWORD_SUCCESS,
   REGISTER_REQUEST_FAILED,
   REGISTER_REQUEST,
   REGISTER_REQUEST_SUCCESS,
@@ -57,7 +57,7 @@ export const userStateReducer = (state = userState, action: TUserActions) :TUser
         sendRequestFailed: true,
       };
     }
-    case GET_CODE_FOR_RESET_PASSWORD_REQUEST: {
+    case GET_CODE_RESET_PASSWORD_REQUEST: {
       return {
         ...state,
         codePasswordInfo: {
@@ -67,7 +67,7 @@ export const userStateReducer = (state = userState, action: TUserActions) :TUser
         },
       };
     }
-    case GET_CODE_FOR_RESET_PASSWORD_SUCCESS: {
+    case GET_CODE_RESET_PASSWORD_SUCCESS: {
       return {
         ...state,
         codePasswordInfo: {
@@ -78,7 +78,7 @@ export const userStateReducer = (state = userState, action: TUserActions) :TUser
         },
       };
     }
-    case GET_CODE_FOR_RESET_PASSWORD_FAILED: {
+    case GET_CODE_RESET_PASSWORD_FAILED: {
       return {
         ...state,
         codePasswordInfo: {
