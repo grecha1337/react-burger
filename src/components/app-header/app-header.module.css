@@ -37,3 +37,13 @@
   justify-content: center;
   display: flex;
 }
+
+.linkHeader {
+  text-decoration: none;
+  display: flex;
+  color: #8585ad;
+}
+
+.linkHeader__active {
+  color: #f2f2f3;
+}

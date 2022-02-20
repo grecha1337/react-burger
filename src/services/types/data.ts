@@ -65,15 +65,6 @@ export type TRegisterRequest = {
   name: string;
 };
 
-export type TGetCodeForResetPassRQ = {
-  email: string;
-};
-
-export type TGetCodeForResetPassSuccess = {
-  success: boolean;
-  message: string;
-};
-
 export type TRegisterSuccess = {
   success: boolean;
   user: {
@@ -84,11 +75,40 @@ export type TRegisterSuccess = {
   refreshToken: string;
 };
 
+export type TGetCodeForResetPassRQ = {
+  email: string;
+};
+
+export type TGetCodeForResetPassSuccess = {
+  success: boolean;
+  message: string;
+};
+
+export type TConfirmResetPassRQ = {
+  password: string;
+  token: string;
+};
+
+export type TConfirmResetPassSuccess = {
+  success: boolean;
+  message: string;
+};
+
+export type TRefreshTokenBodyResponse = {
+  success: boolean;
+  accessToken: string;
+  refreshToken: string;
+};
+
 export type TUser = TRegisterSuccess & {
   sendRequest: boolean;
   sendRequestFailed: boolean;
-  resetPasswordInfo :  TGetCodeForResetPassSuccess & {
-    request : boolean,
+  codePasswordInfo: TGetCodeForResetPassSuccess & {
+    request: boolean;
     failedRequest: boolean;
-  }
+  };
+  confirmResetPass: TConfirmResetPassSuccess & {
+    request: boolean;
+    failedRequest: boolean;
+  };
 };

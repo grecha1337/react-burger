@@ -31,6 +31,8 @@ export const orderStateReducer = (
       return {
         ...state,
         ...action.payload,
+        orderRequest: false,
+        orderFailed: false,
       };
     }
     case ORDER_FAILED: {

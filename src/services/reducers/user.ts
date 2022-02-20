@@ -1,5 +1,10 @@
 import {
+  CONFIRM_RESET_PASSWORD_FAILED,
+  CONFIRM_RESET_PASSWORD_REQUEST,
+  CONFIRM_RESET_PASSWORD_SUCCESS,
+  GET_CODE_FOR_RESET_PASSWORD_FAILED,
   GET_CODE_FOR_RESET_PASSWORD_REQUEST,
+  GET_CODE_FOR_RESET_PASSWORD_SUCCESS,
   REGISTER_FAILED,
   REGISTER_REQUEST,
   REGISTER_SUCCESS,
@@ -14,7 +19,13 @@ const userState: TUser = {
   refreshToken: "",
   sendRequest: false,
   sendRequestFailed: false,
-  resetPasswordInfo: {
+  codePasswordInfo: {
+    request: false,
+    failedRequest: false,
+    message: "",
+    success: false,
+  },
+  confirmResetPass: {
     request: false,
     failedRequest: false,
     message: "",
@@ -22,7 +33,7 @@ const userState: TUser = {
   },
 };
 
-export const userStateReducer = (state = userState, action: TUserActions) => {
+export const userStateReducer = (state = userState, action: TUserActions) :TUser => {
   switch (action.type) {
     case REGISTER_REQUEST: {
       return {
@@ -35,6 +46,8 @@ export const userStateReducer = (state = userState, action: TUserActions) => {
       return {
         ...state,
         ...action.payload,
+        sendRequest: false,
+        sendRequestFailed: false,
       };
     }
     case REGISTER_FAILED: {
@@ -47,10 +60,62 @@ export const userStateReducer = (state = userState, action: TUserActions) => {
     case GET_CODE_FOR_RESET_PASSWORD_REQUEST: {
       return {
         ...state,
-        resetPasswordInfo: {
-          ...state.resetPasswordInfo,
+        codePasswordInfo: {
+          ...state.codePasswordInfo,
           request: true,
           failedRequest: false,
+        },
+      };
+    }
+    case GET_CODE_FOR_RESET_PASSWORD_SUCCESS: {
+      return {
+        ...state,
+        codePasswordInfo: {
+          ...state.codePasswordInfo,
+          ...action.payload,
+          request: false,
+          failedRequest: false,
+        },
+      };
+    }
+    case GET_CODE_FOR_RESET_PASSWORD_FAILED: {
+      return {
+        ...state,
+        codePasswordInfo: {
+          ...state.codePasswordInfo,
+          request: false,
+          failedRequest: true,
+        },
+      };
+    }
+    case CONFIRM_RESET_PASSWORD_REQUEST: {
+      return {
+        ...state,
+        confirmResetPass: {
+          ...state.confirmResetPass,
+          request: true,
+          failedRequest: false,
+        },
+      };
+    }
+    case CONFIRM_RESET_PASSWORD_SUCCESS: {
+      return {
+        ...state,
+        confirmResetPass: {
+          ...state.confirmResetPass,
+          ...action.payload,
+          request: false,
+          failedRequest: false,
+        },
+      };
+    }
+    case CONFIRM_RESET_PASSWORD_FAILED: {
+      return {
+        ...state,
+        confirmResetPass: {
+          ...state.confirmResetPass,
+          request: false,
+          failedRequest: true,
         },
       };
     }

@@ -5,7 +5,10 @@ import {
   TRegisterRequest,
   TRegisterSuccess,
   TGetCodeForResetPassSuccess,
-} from "../services/types/data";
+  TConfirmResetPassRQ,
+  TConfirmResetPassSuccess,
+  TRefreshTokenBodyResponse,
+} from "./types/data";
 
 const BASE_URL = "https://norma.nomoreparties.space";
 
@@ -48,7 +51,6 @@ export const registerRequest = (
   }).then(checkResponse);
 };
 
-
 export const resetPasswordRequest = (
   data: Readonly<TGetCodeForResetPassRQ>
 ): Promise<TGetCodeForResetPassSuccess> => {
@@ -61,4 +63,26 @@ export const resetPasswordRequest = (
   }).then(checkResponse);
 };
 
- 
+export const confirmResetPassRequest = (
+  data: Readonly<TConfirmResetPassRQ>
+): Promise<TConfirmResetPassSuccess> => {
+  return fetch(`${BASE_URL}/api/password-reset/reset`, {
+    method: "post",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      ...data,
+    }),
+  }).then(checkResponse);
+};
+
+export const refreshTokenRequest = (token: {
+  token: string;
+}): Promise<TRefreshTokenBodyResponse> => {
+  return fetch(`${BASE_URL}/api/auth/token`, {
+    method: "post",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      token,
+    }),
+  }).then(checkResponse);
+};

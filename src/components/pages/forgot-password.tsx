@@ -1,17 +1,18 @@
 import { FC, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import styles from "./home.module.css";
 import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch } from "../../services/hooks";
+import { useDispatch, useSelector } from "../../services/hooks";
 import { resetPassword } from "../../services/action/user";
 
 const ForgotPasswordPage: FC = () => {
   const dispatch = useDispatch();
+  const { success } = useSelector((state) => state.userInfo.codePasswordInfo);
   const [state, setState] = useState({
-    email: "asd",
+    email: "",
   });
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
@@ -20,6 +21,16 @@ const ForgotPasswordPage: FC = () => {
       [name]: value,
     }));
   };
+  console.log(success)
+  if (success) {
+    return (
+      <Redirect
+        to={{
+          pathname: "/reset-password",
+        }}
+      />
+    );
+  }
 
   return (
     <main className={styles.mainColumn}>

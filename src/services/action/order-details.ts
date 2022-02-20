@@ -1,4 +1,4 @@
-import { sendOrderRequest } from "../../utils/api";
+import { sendOrderRequest } from "../api";
 import { AppDispatch, AppThunk } from "../types";
 import { TOrderSuccess } from "../types/data";
 

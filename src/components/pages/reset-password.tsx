@@ -5,18 +5,26 @@ import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
+import { useDispatch } from "react-redux";
+import { confirmResetPass } from "../../services/action/user";
 
 const ResetPasswordPage: FC = () => {
+
+  const dispatch = useDispatch()
+
   const [showPassword, setShowPassword] = useState(false);
 
-  const [newPasswordValue, setNewPassword] = useState("");
-  const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setNewPassword(e.target.value);
-  };
+  const [state, setState] = useState({
+    password: "",
+    token: "",
+  });
 
-  const [codeFromEmailValue, setCodeFromEmail] = useState("");
-  const onChangeCode = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setCodeFromEmail(e.target.value);
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setState((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
   return (
@@ -26,8 +34,9 @@ const ResetPasswordPage: FC = () => {
         <fieldset className={styles.fieldset}>
           <Input
             type={showPassword ? "text" : "password"}
-            value={newPasswordValue}
-            onChange={onChangeEmail}
+            name="password"
+            value={state.password}
+            onChange={handleChange}
             placeholder={"Введите новый пароль"}
             icon={"ShowIcon"}
             onIconClick={() => {
@@ -36,12 +45,20 @@ const ResetPasswordPage: FC = () => {
           />
           <Input
             type={"text"}
-            value={codeFromEmailValue}
-            onChange={onChangeCode}
+            name="token"
+            value={state.token}
+            onChange={handleChange}
             placeholder={"Введите код из письма"}
           />
           <div className={`${styles.button} "pb-20"`}>
-            <Button type="primary" size="medium">
+            <Button
+              type="primary"
+              size="medium"
+              onClick={(e) => {
+                e.preventDefault();
+                dispatch(confirmResetPass(state))
+              }}
+            >
               Сохранить
             </Button>
           </div>

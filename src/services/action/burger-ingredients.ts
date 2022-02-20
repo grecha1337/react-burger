@@ -1,4 +1,4 @@
-import { getIngredientItemsRequest } from "../../utils/api";
+import { getIngredientItemsRequest } from "../api";
 import { AppDispatch, AppThunk } from "../types";
 import { TIngredient } from "../types/data";
 
