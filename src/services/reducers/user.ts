@@ -5,9 +5,9 @@ import {
   GET_CODE_FOR_RESET_PASSWORD_FAILED,
   GET_CODE_FOR_RESET_PASSWORD_REQUEST,
   GET_CODE_FOR_RESET_PASSWORD_SUCCESS,
-  REGISTER_FAILED,
+  REGISTER_REQUEST_FAILED,
   REGISTER_REQUEST,
-  REGISTER_SUCCESS,
+  REGISTER_REQUEST_SUCCESS,
   TUserActions,
 } from "../action/user";
 import { TUser } from "../types/data";
@@ -42,7 +42,7 @@ export const userStateReducer = (state = userState, action: TUserActions) :TUser
         sendRequestFailed: false,
       };
     }
-    case REGISTER_SUCCESS: {
+    case REGISTER_REQUEST_SUCCESS: {
       return {
         ...state,
         ...action.payload,
@@ -50,7 +50,7 @@ export const userStateReducer = (state = userState, action: TUserActions) :TUser
         sendRequestFailed: false,
       };
     }
-    case REGISTER_FAILED: {
+    case REGISTER_REQUEST_FAILED: {
       return {
         ...state,
         sendRequest: false,
