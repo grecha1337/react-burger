@@ -1,4 +1,3 @@
-import { type } from "os";
 import { TIngredient } from "../types/data";
 
 export const SET_INGREDIENT_DETAIL: "SET_INGREDIENT_DETAIL" =

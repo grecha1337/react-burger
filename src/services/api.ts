@@ -1,17 +1,17 @@
-import { IRefreshSuccessAction, TUserActions } from "./action/user";
 import { ACCESS_TOKEN, REFRESH_TOKEN } from "./constant";
 import {
   TGetCodeForResetPassRQ,
   TIngredient,
   TOrderSuccess,
   TRegisterRequest,
-  TRegisterSuccess,
-  TGetCodeForResetPassSuccess,
+  TRegisterResponse,
+  TGetCodeForResetPassResponse,
   TConfirmResetPassRQ,
-  TConfirmResetPassSuccess,
-  TRefreshTokenBodyResponse,
-  TLoginResponseBody,
-  TGetProfileResponseBody,
+  TConfirmResetPassResponse,
+  TRefreshTokenResponse,
+  TLoginResponse,
+  TGetProfileResponse,
+  TLogoutResponse,
 } from "./types/data";
 import { getCookie, setCookie } from "./utils";
 
@@ -50,7 +50,7 @@ export const sendOrderRequest = (
 
 export const registerRequest = (
   data: Readonly<TRegisterRequest>
-): Promise<TRegisterSuccess> => {
+): Promise<TRegisterResponse> => {
   return fetch(`${BASE_URL}/api/auth/register`, {
     method: "post",
     headers: { "Content-Type": "application/json" },
@@ -62,7 +62,7 @@ export const registerRequest = (
 
 export const resetPasswordRequest = (
   data: Readonly<TGetCodeForResetPassRQ>
-): Promise<TGetCodeForResetPassSuccess> => {
+): Promise<TGetCodeForResetPassResponse> => {
   return fetch(`${BASE_URL}/api/password-reset`, {
     method: "post",
     headers: { "Content-Type": "application/json" },
@@ -74,7 +74,7 @@ export const resetPasswordRequest = (
 
 export const confirmResetPassRequest = (
   data: Readonly<TConfirmResetPassRQ>
-): Promise<TConfirmResetPassSuccess> => {
+): Promise<TConfirmResetPassResponse> => {
   return fetch(`${BASE_URL}/api/password-reset/reset`, {
     method: "post",
     headers: { "Content-Type": "application/json" },
@@ -86,12 +86,12 @@ export const confirmResetPassRequest = (
 
 export const refreshTokenRequest = (token: {
   token: string;
-}): Promise<TRefreshTokenBodyResponse> => {
+}): Promise<TRefreshTokenResponse> => {
   return fetch(`${BASE_URL}/api/auth/token`, {
     method: "post",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      ...token,
+      token,
     }),
   }).then(checkResponse);
 };
@@ -99,7 +99,7 @@ export const refreshTokenRequest = (token: {
 export const loginRequest = (data: {
   email: string;
   password: string;
-}): Promise<TLoginResponseBody> => {
+}): Promise<TLoginResponse> => {
   return fetch(`${BASE_URL}/api/auth/login`, {
     method: "post",
     headers: { "Content-Type": "application/json" },
@@ -109,7 +109,7 @@ export const loginRequest = (data: {
   }).then(checkResponse);
 };
 
-export const getProfileRequest = (): Promise<TGetProfileResponseBody> => {
+export const getProfileRequest = (): Promise<TGetProfileResponse> => {
   return fetch(`${BASE_URL}/api/auth/user`, {
     method: "get",
     headers: {
@@ -119,7 +119,19 @@ export const getProfileRequest = (): Promise<TGetProfileResponseBody> => {
   }).then(checkResponse);
 };
 
-export const refreshTokenAndFetchRetry = async (callback: any ) => {
+export const logoutRequest = (token: {
+  token: string;
+}): Promise<TLogoutResponse> => {
+  return fetch(`${BASE_URL}/api/auth/logout`, {
+    method: "post",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      token,
+    }),
+  }).then(checkResponse);
+};
+
+export const refreshTokenAndFetchRetry = async (callback: any) => {
   let token = getCookie(REFRESH_TOKEN);
   let responseJsonCallBack = null;
   if (token) {

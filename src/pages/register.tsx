@@ -7,8 +7,8 @@ import {
   PasswordInput,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch, useSelector } from "../../services/hooks";
-import { registerThunk } from "../../services/action/user";
+import { useDispatch, useSelector } from "../services/hooks";
+import { registerThunk } from "../services/action/user";
 
 const RegisterPage: FC = () => {
   const dispatch = useDispatch();

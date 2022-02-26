@@ -1,5 +1,3 @@
-import { AppThunk } from "./types";
-
 export function setCookie(
   name: string,
   value: string,

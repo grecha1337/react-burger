@@ -33,7 +33,6 @@ const AppHeader: FC = () => {
     }
   }, [pathname]);
 
-  console.log(activeIcon);
   return (
     <header className={`pt-4 pb-4 ${styles.header}`}>
       <div className={styles.headerContent}>

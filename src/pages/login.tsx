@@ -5,8 +5,8 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { FC, useState } from "react";
 import { Link, Redirect } from "react-router-dom";
-import { loginThunk } from "../../services/action/user";
-import { useDispatch, useSelector } from "../../services/hooks";
+import { loginThunk } from "../services/action/user";
+import { useDispatch, useSelector } from "../services/hooks";
 import styles from "./home.module.css";
 
 const LoginPage: FC = () => {

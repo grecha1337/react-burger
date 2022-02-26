@@ -1,5 +1,5 @@
 import cardStyle from "./ingredientList.module.css";
-import { forwardRef, FC } from "react";
+import { forwardRef } from "react";
 
 import Ingredient from "../ingredient/ingredient";
 import { TIngredientList } from "../../services/types/data";

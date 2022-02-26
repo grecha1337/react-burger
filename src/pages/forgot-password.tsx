@@ -1,25 +1,20 @@
 import { FC, useState } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link, useHistory, useLocation } from "react-router-dom";
 import styles from "./home.module.css";
 import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch } from "react-redux";
-import { confirmResetPassThunk } from "../../services/action/user";
-import { useSelector } from "../../services/hooks";
+import { useDispatch } from "../services/hooks";
+import { resetPasswordThunk } from "../services/action/user";
 
-const ResetPasswordPage: FC = () => {
+const ForgotPasswordPage: FC = () => {
   const dispatch = useDispatch();
-  const { success } = useSelector((store) => store.userInfo.confirmResetPass);
-
-  const [showPassword, setShowPassword] = useState(false);
-
+  const location = useLocation();
+  const history = useHistory();
   const [state, setState] = useState({
-    password: "",
-    token: "",
+    email: "",
   });
-
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setState((prevState) => ({
@@ -28,38 +23,17 @@ const ResetPasswordPage: FC = () => {
     }));
   };
 
-  if (success) {
-    return (
-      <Redirect
-        to={{
-          pathname: "/login",
-        }}
-      />
-    );
-  }
-
   return (
     <main className={styles.mainColumn}>
       <h2 className="text text_type_main-medium pb-6">Восстановление пароля</h2>
       <form className={styles.form}>
         <fieldset className={styles.fieldset}>
           <Input
-            type={showPassword ? "text" : "password"}
-            name="password"
-            value={state.password}
+            type="email"
+            value={state.email}
+            name="email"
             onChange={handleChange}
-            placeholder={"Введите новый пароль"}
-            icon={"ShowIcon"}
-            onIconClick={() => {
-              setShowPassword((preValue) => !preValue);
-            }}
-          />
-          <Input
-            type={"text"}
-            name="token"
-            value={state.token}
-            onChange={handleChange}
-            placeholder={"Введите код из письма"}
+            placeholder={"Укажите e-mail"}
           />
           <div className={`${styles.button} pb-20`}>
             <Button
@@ -67,10 +41,14 @@ const ResetPasswordPage: FC = () => {
               size="medium"
               onClick={(e) => {
                 e.preventDefault();
-                dispatch(confirmResetPassThunk(state));
+                dispatch(resetPasswordThunk(state));
+                history.replace({
+                  pathname: "/reset-password",
+                  state: { from: location },
+                });
               }}
             >
-              Сохранить
+              Восстановить
             </Button>
           </div>
         </fieldset>
@@ -87,4 +65,4 @@ const ResetPasswordPage: FC = () => {
   );
 };
 
-export default ResetPasswordPage;
+export default ForgotPasswordPage;

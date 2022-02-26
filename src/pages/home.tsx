@@ -1,22 +1,16 @@
-import { FC, useEffect } from "react";
+import { FC } from "react";
 import { DndProvider } from "react-dnd";
-import { getIngredientItems } from "../../services/action/burger-ingredients";
-import { useDispatch, useSelector } from "../../services/hooks";
-import BurgerConstructor from "../burger-constructor/burger-constructor";
-import BurgerIngredients from "../burger-ingredients/burger-ingredients";
-import ErrorText from "../error-text/error-text";
+import {  useSelector } from "../services/hooks";
+import BurgerConstructor from "../components/burger-constructor/burger-constructor";
+import BurgerIngredients from "../components/burger-ingredients/burger-ingredients";
+import ErrorText from "../components/error-text/error-text";
 import { HTML5Backend } from "react-dnd-html5-backend";
 import styles from "./home.module.css";
 
 const HomePage: FC = () => {
-  const dispatch = useDispatch();
   const { burgerIngredientsFailed } = useSelector(
     (state) => state.burgerIngredients
   );
-
-  useEffect(() => {
-    dispatch(getIngredientItems());
-  }, []);
 
   return (
     <main className={styles.main}>

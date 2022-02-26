@@ -1,23 +1,26 @@
-import { FC, useEffect, useRef, useState } from "react";
+import { FC, useCallback, useEffect, useRef, useState } from "react";
 import styles from "./home.module.css";
 import profileStyles from "./profile.module.css";
 import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import SidebarMenu from "../siderbar-menu/sidebar-menu";
-import { useDispatch, useSelector } from "../../services/hooks";
-import { getProfileThunk } from "../../services/action/user";
+import SidebarMenu from "../components/sidebar-menu/sidebar-menu";
+import { useDispatch, useSelector } from "../services/hooks";
+import { logoutThunk } from "../services/action/user";
+import { getCookie } from "../services/utils";
+import { REFRESH_TOKEN } from "../services/constant";
+import { useHistory } from "react-router-dom";
 
 const ProfilePage: FC = () => {
-
-
+  const dispatch = useDispatch();
   const inputEmailRef = useRef<HTMLInputElement>(null);
   const inputPassRef = useRef<HTMLInputElement>(null);
   const inputNameRef = useRef<HTMLInputElement>(null);
 
   const emailValue = useSelector((store) => store.userInfo.user?.email) || "";
   const nameValue = useSelector((store) => store.userInfo.user?.name) || "";
+  const history = useHistory();
 
   const [state, setState] = useState({
     email: {
@@ -34,8 +37,35 @@ const ProfilePage: FC = () => {
     },
   });
 
+  useEffect(() => {
+    setState({
+      email: {
+        value: emailValue,
+        disabled: true,
+      },
+      name: {
+        value: nameValue,
+        disabled: true,
+      },
+      password: {
+        value: "",
+        disabled: true,
+      },
+    });
+  }, [emailValue, nameValue]);
+
   console.log(state);
-  const handleChange = () => {};
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const value = e.target.value;
+    const name = e.target.name as keyof typeof state;
+    setState((prevState) => ({
+      ...prevState,
+      [name]: {
+        ...prevState[name],
+        value,
+      },
+    }));
+  };
 
   const handleIconClick = (nameInput: keyof typeof state) => {
     console.log(nameInput);
@@ -65,6 +95,12 @@ const ProfilePage: FC = () => {
     if (!state.password.disabled) inputPassRef.current?.focus();
   }, [state]);
 
+  const onClickLogoutLink = useCallback((e) => {
+    e.preventDefault();
+    dispatch(logoutThunk(getCookie(REFRESH_TOKEN)));
+    history.replace({ pathname: "/login" });
+  }, []);
+
   return (
     <main className={profileStyles.main}>
       <div className={profileStyles.main__container}>
@@ -74,7 +110,7 @@ const ProfilePage: FC = () => {
               links={[
                 { path: "/profile", name: "Профиль" },
                 { path: "/profile/orders", name: "История заказов" },
-                { path: "/logout", name: "Выход" },
+                { path: "/logout", name: "Выход", onClick: onClickLogoutLink },
               ]}
             />
             <p
@@ -89,7 +125,7 @@ const ProfilePage: FC = () => {
               <Input
                 type="text"
                 name="name"
-                value="lll"
+                value={state.name.value}
                 onChange={handleChange}
                 placeholder={"Имя"}
                 icon={"EditIcon"}
@@ -140,7 +176,20 @@ const ProfilePage: FC = () => {
                   size="medium"
                   onClick={(e) => {
                     e.preventDefault();
-                    console.log("cancel click");
+                    setState({
+                      email: {
+                        value: emailValue,
+                        disabled: true,
+                      },
+                      name: {
+                        value: nameValue,
+                        disabled: true,
+                      },
+                      password: {
+                        value: "",
+                        disabled: true,
+                      },
+                    });
                   }}
                 >
                   Отменить

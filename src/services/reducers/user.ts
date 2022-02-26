@@ -15,6 +15,9 @@ import {
   GET_PROFILE_REQUEST,
   GET_PROFILE_REQUEST_SUCCESS,
   GET_PROFILE_REQUEST_FAILED,
+  LOGOUT_REQUEST,
+  LOGOUT_REQUEST_FAILED,
+  LOGOUT_REQUEST_SUCCESS,
 } from "../action/user";
 import { TUser } from "../types/data";
 
@@ -46,6 +49,12 @@ const userState: TUser = {
     request: false,
     failedRequest: false,
     success: false,
+  },
+  logoutInfo: {
+    request: false,
+    failedRequest: false,
+    success: false,
+    message: "",
   },
 };
 
@@ -186,7 +195,7 @@ export const userStateReducer = (
         user: action.payload.user,
         getProfileInfo: {
           ...state.getProfileInfo,
-          success : action.payload.success,
+          success: action.payload.success,
           request: false,
           failedRequest: false,
         },
@@ -197,6 +206,40 @@ export const userStateReducer = (
         ...state,
         getProfileInfo: {
           ...state.getProfileInfo,
+          request: false,
+          failedRequest: true,
+        },
+      };
+    }
+
+    case LOGOUT_REQUEST: {
+      return {
+        ...state,
+        logoutInfo: {
+          ...state.logoutInfo,
+          request: true,
+          failedRequest: false,
+        },
+      };
+    }
+    case LOGOUT_REQUEST_SUCCESS: {
+      return {
+        ...state,
+        user: null,
+        logoutInfo: {
+          ...state.logoutInfo,
+          success: action.payload.success,
+          message: action.payload.message,
+          request: false,
+          failedRequest: false,
+        },
+      };
+    }
+    case LOGOUT_REQUEST_FAILED: {
+      return {
+        ...state,
+        logoutInfo: {
+          ...state.logoutInfo,
           request: false,
           failedRequest: true,
         },

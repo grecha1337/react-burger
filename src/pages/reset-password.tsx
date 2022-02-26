@@ -1,19 +1,26 @@
 import { FC, useState } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Link, Redirect, useLocation } from "react-router-dom";
 import styles from "./home.module.css";
 import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch, useSelector } from "../../services/hooks";
-import { resetPasswordThunk } from "../../services/action/user";
+import { useDispatch } from "react-redux";
+import { confirmResetPassThunk } from "../services/action/user";
 
-const ForgotPasswordPage: FC = () => {
+const ResetPasswordPage: FC = () => {
   const dispatch = useDispatch();
-  const { success } = useSelector((state) => state.userInfo.codePasswordInfo);
+  const location = useLocation<{
+    from: Location;
+  }>();
+
+  const [showPassword, setShowPassword] = useState(false);
+
   const [state, setState] = useState({
-    email: "",
+    password: "",
+    token: "",
   });
+
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setState((prevState) => ({
@@ -21,15 +28,9 @@ const ForgotPasswordPage: FC = () => {
       [name]: value,
     }));
   };
-  console.log(success)
-  if (success) {
-    return (
-      <Redirect
-        to={{
-          pathname: "/reset-password",
-        }}
-      />
-    );
+
+  if (!location?.state?.from) {
+    return <Redirect to="/forgot-password" />;
   }
 
   return (
@@ -38,11 +39,22 @@ const ForgotPasswordPage: FC = () => {
       <form className={styles.form}>
         <fieldset className={styles.fieldset}>
           <Input
-            type="email"
-            value={state.email}
-            name="email"
+            type={showPassword ? "text" : "password"}
+            name="password"
+            value={state.password}
             onChange={handleChange}
-            placeholder={"Укажите e-mail"}
+            placeholder={"Введите новый пароль"}
+            icon={"ShowIcon"}
+            onIconClick={() => {
+              setShowPassword((preValue) => !preValue);
+            }}
+          />
+          <Input
+            type={"text"}
+            name="token"
+            value={state.token}
+            onChange={handleChange}
+            placeholder={"Введите код из письма"}
           />
           <div className={`${styles.button} pb-20`}>
             <Button
@@ -50,10 +62,10 @@ const ForgotPasswordPage: FC = () => {
               size="medium"
               onClick={(e) => {
                 e.preventDefault();
-                dispatch(resetPasswordThunk(state));
+                dispatch(confirmResetPassThunk(state));
               }}
             >
-              Восстановить
+              Сохранить
             </Button>
           </div>
         </fieldset>
@@ -70,4 +82,4 @@ const ForgotPasswordPage: FC = () => {
   );
 };
 
-export default ForgotPasswordPage;
+export default ResetPasswordPage;
