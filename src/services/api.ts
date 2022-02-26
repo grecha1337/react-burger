@@ -1,3 +1,5 @@
+import { IRefreshSuccessAction, TUserActions } from "./action/user";
+import { ACCESS_TOKEN, REFRESH_TOKEN } from "./constant";
 import {
   TGetCodeForResetPassRQ,
   TIngredient,
@@ -8,15 +10,22 @@ import {
   TConfirmResetPassRQ,
   TConfirmResetPassSuccess,
   TRefreshTokenBodyResponse,
+  TLoginResponseBody,
+  TGetProfileResponseBody,
 } from "./types/data";
+import { getCookie, setCookie } from "./utils";
 
 const BASE_URL = "https://norma.nomoreparties.space";
 
-const checkResponse = (res: Response): Promise<any> => {
+const checkResponse = async (res: Response): Promise<any> => {
+  let json = await res.json();
+
   if (res.ok) {
-    return res.json();
+    return json;
   }
-  return Promise.reject(`Ошибка ${res.status}`);
+  return json
+    ? Promise.reject({ ...json, status: res.status })
+    : Promise.reject({ status: res.status });
 };
 
 export { BASE_URL, checkResponse };
@@ -82,7 +91,50 @@ export const refreshTokenRequest = (token: {
     method: "post",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
-      token,
+      ...token,
     }),
   }).then(checkResponse);
+};
+
+export const loginRequest = (data: {
+  email: string;
+  password: string;
+}): Promise<TLoginResponseBody> => {
+  return fetch(`${BASE_URL}/api/auth/login`, {
+    method: "post",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      ...data,
+    }),
+  }).then(checkResponse);
+};
+
+export const getProfileRequest = (): Promise<TGetProfileResponseBody> => {
+  return fetch(`${BASE_URL}/api/auth/user`, {
+    method: "get",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + getCookie(ACCESS_TOKEN),
+    },
+  }).then(checkResponse);
+};
+
+export const refreshTokenAndFetchRetry = async (callback: any ) => {
+  let token = getCookie(REFRESH_TOKEN);
+  let responseJsonCallBack = null;
+  if (token) {
+    try {
+      const tokenJson = await refreshTokenRequest({ token });
+      if (tokenJson.accessToken) {
+        setCookie(ACCESS_TOKEN, tokenJson.accessToken.split("Bearer ")[1]);
+      }
+      if (tokenJson.refreshToken) {
+        setCookie(REFRESH_TOKEN, tokenJson.refreshToken);
+      }
+      responseJsonCallBack = await callback();
+    } catch (err) {
+      console.log(err);
+    }
+  }
+  return responseJsonCallBack;
 };

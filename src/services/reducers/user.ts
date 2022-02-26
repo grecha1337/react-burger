@@ -9,6 +9,12 @@ import {
   REGISTER_REQUEST,
   REGISTER_REQUEST_SUCCESS,
   TUserActions,
+  LOGIN_REQUEST,
+  LOGIN_REQUEST_SUCCESS,
+  LOGIN_REQUEST_FAILED,
+  GET_PROFILE_REQUEST,
+  GET_PROFILE_REQUEST_SUCCESS,
+  GET_PROFILE_REQUEST_FAILED,
 } from "../action/user";
 import { TUser } from "../types/data";
 
@@ -31,9 +37,22 @@ const userState: TUser = {
     message: "",
     success: false,
   },
+  loginInfo: {
+    request: false,
+    failedRequest: false,
+    success: false,
+  },
+  getProfileInfo: {
+    request: false,
+    failedRequest: false,
+    success: false,
+  },
 };
 
-export const userStateReducer = (state = userState, action: TUserActions) :TUser => {
+export const userStateReducer = (
+  state = userState,
+  action: TUserActions
+): TUser => {
   switch (action.type) {
     case REGISTER_REQUEST: {
       return {
@@ -114,6 +133,70 @@ export const userStateReducer = (state = userState, action: TUserActions) :TUser
         ...state,
         confirmResetPass: {
           ...state.confirmResetPass,
+          request: false,
+          failedRequest: true,
+        },
+      };
+    }
+    case LOGIN_REQUEST: {
+      return {
+        ...state,
+        loginInfo: {
+          ...state.loginInfo,
+          request: true,
+          failedRequest: false,
+        },
+      };
+    }
+    case LOGIN_REQUEST_SUCCESS: {
+      return {
+        ...state,
+        loginInfo: {
+          ...state.loginInfo,
+          ...action.payload,
+          request: false,
+          failedRequest: false,
+        },
+      };
+    }
+    case LOGIN_REQUEST_FAILED: {
+      return {
+        ...state,
+        loginInfo: {
+          ...state.loginInfo,
+          request: false,
+          failedRequest: true,
+        },
+      };
+    }
+
+    case GET_PROFILE_REQUEST: {
+      return {
+        ...state,
+        getProfileInfo: {
+          ...state.getProfileInfo,
+          request: true,
+          failedRequest: false,
+        },
+      };
+    }
+    case GET_PROFILE_REQUEST_SUCCESS: {
+      return {
+        ...state,
+        user: action.payload.user,
+        getProfileInfo: {
+          ...state.getProfileInfo,
+          success : action.payload.success,
+          request: false,
+          failedRequest: false,
+        },
+      };
+    }
+    case GET_PROFILE_REQUEST_FAILED: {
+      return {
+        ...state,
+        getProfileInfo: {
+          ...state.getProfileInfo,
           request: false,
           failedRequest: true,
         },

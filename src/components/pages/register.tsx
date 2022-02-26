@@ -8,14 +8,11 @@ import {
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from "../../services/hooks";
-import { register } from "../../services/action/user";
-import { setCookie } from "../../services/utils";
+import { registerThunk } from "../../services/action/user";
 
 const RegisterPage: FC = () => {
   const dispatch = useDispatch();
   const { sendRequest } = useSelector((state) => state.userInfo);
-  const { accessToken } = useSelector((state) => state.userInfo);
-  const { success } = useSelector((state) => state.userInfo);
   const user = useSelector((state) => state.userInfo.user);
 
   const [state, setState] = useState({ email: "", name: "", password: "" });
@@ -60,13 +57,13 @@ const RegisterPage: FC = () => {
             value={state.password}
             name={"password"}
           />
-          <div className={`${styles.button} "pb-20"`}>
+          <div className={`${styles.button} pb-20`}>
             <Button
               type="primary"
               size="medium"
               onClick={(e) => {
                 e.preventDefault();
-                dispatch(register(state));
+                dispatch(registerThunk(state));
                 setState({ email: "", name: "", password: "" });
               }}
             >

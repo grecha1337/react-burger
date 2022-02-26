@@ -1,21 +1,26 @@
 import {
   confirmResetPassRequest,
+  getProfileRequest,
+  loginRequest,
+  refreshTokenAndFetchRetry,
   refreshTokenRequest,
   registerRequest,
   resetPasswordRequest,
 } from "../api";
-import { ACCESS_TOKEN, REFRESH_TOKEN } from "../constant";
+import { ACCESS_TOKEN, JWT_EXPIRED, REFRESH_TOKEN } from "../constant";
 import { AppDispatch, AppThunk } from "../types";
 import {
   TConfirmResetPassRQ,
   TConfirmResetPassSuccess,
   TGetCodeForResetPassRQ,
   TGetCodeForResetPassSuccess,
+  TGetProfileResponseBody,
+  TLoginResponseBody,
   TRefreshTokenBodyResponse,
   TRegisterRequest,
   TRegisterSuccess,
 } from "../types/data";
-import { setCookie } from "../utils";
+import { getCookie, setCookie } from "../utils";
 
 export const REGISTER_REQUEST: "REGISTER_REQUEST" = "REGISTER_REQUEST";
 export const REGISTER_REQUEST_SUCCESS: "REGISTER_REQUEST_SUCCESS" =
@@ -41,6 +46,18 @@ export const REFRESH_TOKEN_REQUEST_FAILED: "REFRESH_TOKEN_REQUEST_FAILED" =
   "REFRESH_TOKEN_REQUEST_FAILED";
 export const REFRESH_TOKEN_REQUEST_SUCCESS: "REFRESH_TOKEN_REQUEST_SUCCESS" =
   "REFRESH_TOKEN_REQUEST_SUCCESS";
+
+export const LOGIN_REQUEST: "LOGIN_REQUEST" = "LOGIN_REQUEST";
+export const LOGIN_REQUEST_FAILED: "LOGIN_REQUEST_FAILED" =
+  "LOGIN_REQUEST_FAILED";
+export const LOGIN_REQUEST_SUCCESS: "LOGIN_REQUEST_SUCCESS" =
+  "LOGIN_REQUEST_SUCCESS";
+
+export const GET_PROFILE_REQUEST: "GET_PROFILE_REQUEST" = "GET_PROFILE_REQUEST";
+export const GET_PROFILE_REQUEST_FAILED: "GET_PROFILE_REQUEST_FAILED" =
+  "GET_PROFILE_REQUEST_FAILED";
+export const GET_PROFILE_REQUEST_SUCCESS: "GET_PROFILE_REQUEST_SUCCESS" =
+  "GET_PROFILE_REQUEST_SUCCESS";
 
 /*
   Register 
@@ -136,7 +153,7 @@ export const setResConfirmResetPass = (
 });
 
 /*
-  refresgToken
+  refreshToken
 */
 export interface IRefreshAction {
   readonly type: typeof REFRESH_TOKEN_REQUEST;
@@ -166,7 +183,69 @@ export const refreshTokenSuccessAction = (
   payload,
 });
 
-export const register: AppThunk = (data: TRegisterRequest) => {
+/*
+  Login
+*/
+export interface ILoginAction {
+  readonly type: typeof LOGIN_REQUEST;
+}
+
+export interface ILoginFailedAction {
+  readonly type: typeof LOGIN_REQUEST_FAILED;
+}
+
+export interface ILoginSuccessAction {
+  readonly type: typeof LOGIN_REQUEST_SUCCESS;
+  readonly payload: TLoginResponseBody;
+}
+
+export const loginAction = (): ILoginAction => ({
+  type: LOGIN_REQUEST,
+});
+
+export const loginFailedAction = (): ILoginFailedAction => ({
+  type: LOGIN_REQUEST_FAILED,
+});
+
+export const loginSuccessAction = (
+  payload: TLoginResponseBody
+): ILoginSuccessAction => ({
+  type: LOGIN_REQUEST_SUCCESS,
+  payload,
+});
+
+/*
+  Profile
+*/
+export interface IGetProfileAction {
+  readonly type: typeof GET_PROFILE_REQUEST;
+}
+
+export interface IGetProfileFailedAction {
+  readonly type: typeof GET_PROFILE_REQUEST_FAILED;
+}
+
+export interface IGetProfileSuccessAction {
+  readonly type: typeof GET_PROFILE_REQUEST_SUCCESS;
+  readonly payload: TGetProfileResponseBody;
+}
+
+export const getProfileAction = (): IGetProfileAction => ({
+  type: GET_PROFILE_REQUEST,
+});
+
+export const getProfileFailedAction = (): IGetProfileFailedAction => ({
+  type: GET_PROFILE_REQUEST_FAILED,
+});
+
+export const getProfileSuccessAction = (
+  payload: TGetProfileResponseBody
+): IGetProfileSuccessAction => ({
+  type: GET_PROFILE_REQUEST_SUCCESS,
+  payload,
+});
+
+export const registerThunk: AppThunk = (data: TRegisterRequest) => {
   return function (dispatch: AppDispatch) {
     dispatch(sendRqRegister());
     registerRequest(data)
@@ -186,7 +265,27 @@ export const register: AppThunk = (data: TRegisterRequest) => {
   };
 };
 
-export const resetPassword: AppThunk = (data: TGetCodeForResetPassRQ) => {
+export const loginThunk: AppThunk = (data: { email: string; password: string }) => {
+  return function (dispatch: AppDispatch) {
+    dispatch(loginAction());
+    loginRequest(data)
+      .then((res) => {
+        dispatch(loginSuccessAction(res));
+        if (res.accessToken) {
+          setCookie(ACCESS_TOKEN, res.accessToken.split("Bearer ")[1]);
+        }
+        if (res.refreshToken) {
+          setCookie(REFRESH_TOKEN, res.refreshToken);
+        }
+      })
+      .catch((e) => {
+        console.log(e);
+        dispatch(loginFailedAction());
+      });
+  };
+};
+
+export const resetPasswordThunk: AppThunk = (data: TGetCodeForResetPassRQ) => {
   return function (dispatch: AppDispatch) {
     dispatch(sendRqGetCodeForResetPass());
     resetPasswordRequest(data)
@@ -200,7 +299,7 @@ export const resetPassword: AppThunk = (data: TGetCodeForResetPassRQ) => {
   };
 };
 
-export const refreshToken: AppThunk = (data: { token: string }) => {
+export const refreshTokenThunk: AppThunk = (data: { token: string }) => {
   return function (dispatch: AppDispatch) {
     dispatch(refreshTokenAction());
     refreshTokenRequest(data)
@@ -220,7 +319,7 @@ export const refreshToken: AppThunk = (data: { token: string }) => {
   };
 };
 
-export const confirmResetPass: AppThunk = (data: TConfirmResetPassRQ) => {
+export const confirmResetPassThunk: AppThunk = (data: TConfirmResetPassRQ) => {
   return function (dispatch: AppDispatch) {
     dispatch(confirmResetPassRq());
     confirmResetPassRequest(data)
@@ -232,6 +331,25 @@ export const confirmResetPass: AppThunk = (data: TConfirmResetPassRQ) => {
         dispatch(confirmResetPassFailed());
       });
   };
+};
+
+export const getProfileThunk: AppThunk = () => async (dispatch: AppDispatch) => {
+  dispatch(getProfileAction());
+  try {
+    const json = await getProfileRequest();
+    dispatch(getProfileSuccessAction(json));
+  } catch (err: any) {
+    if (err.status === 403 && err.message === JWT_EXPIRED) {
+      try {
+        const json = await refreshTokenAndFetchRetry(getProfileRequest);
+        dispatch(getProfileSuccessAction(json));
+      } catch (err: any) {
+        dispatch(getProfileFailedAction());
+      }
+    } else {
+      dispatch(getProfileFailedAction());
+    }
+  }
 };
 
 export type TUserActions =
@@ -246,4 +364,10 @@ export type TUserActions =
   | IConfirmResetPassActionSuccess
   | IRefreshAction
   | IRefreshFailedAction
-  | IRefreshSuccessAction;
+  | IRefreshSuccessAction
+  | ILoginAction
+  | ILoginFailedAction
+  | ILoginSuccessAction
+  | IGetProfileAction
+  | IGetProfileFailedAction
+  | IGetProfileSuccessAction;

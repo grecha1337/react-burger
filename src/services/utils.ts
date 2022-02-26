@@ -1,10 +1,11 @@
+import { AppThunk } from "./types";
 
 export function setCookie(
   name: string,
   value: string,
   props: { [key: string]: any } & { expires?: number | Date | string } = {}
 ) {
-  console.log(value)
+  console.log(value);
   props = props || {};
   let exp = props.expires;
   if (typeof exp == "number" && exp) {

@@ -9,11 +9,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      {/* <Router>
-        <Switch> */}
-          <App />
-        {/* </Switch>
-      </Router> */}
+      <App />
     </Provider>
   </React.StrictMode>,
   document.getElementById("root")

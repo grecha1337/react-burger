@@ -1,16 +1,17 @@
 import { FC, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
 import styles from "./home.module.css";
 import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch } from "react-redux";
-import { confirmResetPass } from "../../services/action/user";
+import { confirmResetPassThunk } from "../../services/action/user";
+import { useSelector } from "../../services/hooks";
 
 const ResetPasswordPage: FC = () => {
-
-  const dispatch = useDispatch()
+  const dispatch = useDispatch();
+  const { success } = useSelector((store) => store.userInfo.confirmResetPass);
 
   const [showPassword, setShowPassword] = useState(false);
 
@@ -26,6 +27,16 @@ const ResetPasswordPage: FC = () => {
       [name]: value,
     }));
   };
+
+  if (success) {
+    return (
+      <Redirect
+        to={{
+          pathname: "/login",
+        }}
+      />
+    );
+  }
 
   return (
     <main className={styles.mainColumn}>
@@ -50,13 +61,13 @@ const ResetPasswordPage: FC = () => {
             onChange={handleChange}
             placeholder={"Введите код из письма"}
           />
-          <div className={`${styles.button} "pb-20"`}>
+          <div className={`${styles.button} pb-20`}>
             <Button
               type="primary"
               size="medium"
               onClick={(e) => {
                 e.preventDefault();
-                dispatch(confirmResetPass(state))
+                dispatch(confirmResetPassThunk(state));
               }}
             >
               Сохранить

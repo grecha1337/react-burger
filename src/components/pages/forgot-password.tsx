@@ -6,7 +6,7 @@ import {
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch, useSelector } from "../../services/hooks";
-import { resetPassword } from "../../services/action/user";
+import { resetPasswordThunk } from "../../services/action/user";
 
 const ForgotPasswordPage: FC = () => {
   const dispatch = useDispatch();
@@ -44,13 +44,13 @@ const ForgotPasswordPage: FC = () => {
             onChange={handleChange}
             placeholder={"Укажите e-mail"}
           />
-          <div className={`${styles.button} "pb-20"`}>
+          <div className={`${styles.button} pb-20`}>
             <Button
               type="primary"
               size="medium"
               onClick={(e) => {
                 e.preventDefault();
-                dispatch(resetPassword(state));
+                dispatch(resetPasswordThunk(state));
               }}
             >
               Восстановить

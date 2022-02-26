@@ -8,17 +8,16 @@ import ForgotPasswordPage from "../pages/forgot-password";
 import ResetPasswordPage from "../pages/reset-password";
 import { getCookie } from "../../services/utils";
 import { useDispatch } from "../../services/hooks";
-import { refreshToken } from "../../services/action/user";
+import { getProfileThunk, refreshTokenThunk } from "../../services/action/user";
 import { REFRESH_TOKEN } from "../../services/constant";
+import ProfilePage from "../pages/profile";
 
 const App: FC = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    const token = getCookie(REFRESH_TOKEN);
-    if (token) {
-      dispatch(refreshToken(token));
-    }
+    dispatch(getProfileThunk());
   }, []);
+
   return (
     <Router>
       <>
@@ -29,6 +28,7 @@ const App: FC = () => {
           <Route path="/register" component={RegisterPage}></Route>
           <Route path="/forgot-password" component={ForgotPasswordPage}></Route>
           <Route path="/reset-password" component={ResetPasswordPage}></Route>
+          <Route path="/profile" component={ProfilePage}></Route>
         </Switch>
       </>
     </Router>

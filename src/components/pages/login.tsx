@@ -4,36 +4,59 @@ import {
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { FC, useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, Redirect } from "react-router-dom";
+import { loginThunk } from "../../services/action/user";
+import { useDispatch, useSelector } from "../../services/hooks";
 import styles from "./home.module.css";
 
 const LoginPage: FC = () => {
-  const [emailValue, setEmailValue] = useState("");
-  const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setEmailValue(e.target.value);
+  const dispatch = useDispatch();
+  const { success } = useSelector((store) => store.userInfo.loginInfo);
+
+  const [state, setState] = useState({ email: "", password: "" });
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value } = e.target;
+    setState((prevState) => ({
+      ...prevState,
+      [name]: value,
+    }));
   };
 
-  const [passwordValue, setPassword] = useState("");
-  const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setPassword(e.target.value);
-  };
+  if (success) {
+    return (
+      <Redirect
+        to={{
+          pathname: "/",
+        }}
+      />
+    );
+  }
+
   return (
     <main className={styles.mainColumn}>
       <h2 className="text text_type_main-medium pb-6">Вход</h2>
       <form className={styles.form}>
         <fieldset className={styles.fieldset}>
           <EmailInput
-            onChange={onChangeEmail}
-            value={emailValue}
+            onChange={handleChange}
+            value={state.email}
             name={"email"}
           />
           <PasswordInput
-            onChange={onChangePassword}
-            value={passwordValue}
+            onChange={handleChange}
+            value={state.password}
             name={"password"}
           />
-          <div className={`${styles.button} "pb-20"`}>
-            <Button type="primary" size="medium">
+          <div className={`${styles.button} pb-20`}>
+            <Button
+              type="primary"
+              size="medium"
+              onClick={(e) => {
+                e.preventDefault();
+                dispatch(loginThunk(state));
+                setState({ email: "", password: "" });
+              }}
+            >
               Войти
             </Button>
           </div>
