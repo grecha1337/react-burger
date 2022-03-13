@@ -48,7 +48,17 @@ const ResetPasswordPage: FC = () => {
   return (
     <main className={styles.mainColumn}>
       <h2 className="text text_type_main-medium pb-6">Восстановление пароля</h2>
-      <form className={styles.form}>
+      <form
+        className={styles.form}
+        onSubmit={(e) => {
+          e.preventDefault();
+          dispatch(
+            confirmResetPassThunk(state, () => {
+              history.replace({ pathname: "/login" });
+            })
+          );
+        }}
+      >
         <fieldset className={styles.fieldset}>
           <Input
             type={showPassword ? "text" : "password"}
@@ -69,18 +79,7 @@ const ResetPasswordPage: FC = () => {
             placeholder={"Введите код из письма"}
           />
           <div className={`${styles.button} pb-20`}>
-            <Button
-              type="primary"
-              size="medium"
-              onClick={(e) => {
-                e.preventDefault();
-                dispatch(
-                  confirmResetPassThunk(state, () => {
-                    history.replace({ pathname: "/login" });
-                  })
-                );
-              }}
-            >
+            <Button type="primary" size="medium" htmlType="submit">
               Сохранить
             </Button>
           </div>

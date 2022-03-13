@@ -18,7 +18,6 @@ const RegisterPage: FC = () => {
   const [state, setState] = useState({ email: "", name: "", password: "" });
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
-    console.log(e.target);
     const { name, value } = e.target;
     setState((prevState) => ({
       ...prevState,
@@ -39,7 +38,14 @@ const RegisterPage: FC = () => {
   return (
     <main className={styles.mainColumn}>
       <h2 className="text text_type_main-medium pb-6">Регистрация</h2>
-      <form className={styles.form}>
+      <form
+        className={styles.form}
+        onSubmit={(e) => {
+          e.preventDefault();
+          dispatch(registerThunk(state));
+          setState({ email: "", name: "", password: "" });
+        }}
+      >
         <fieldset className={styles.fieldset}>
           <Input
             type={"text"}
@@ -59,15 +65,7 @@ const RegisterPage: FC = () => {
             name={"password"}
           />
           <div className={`${styles.button} pb-20`}>
-            <Button
-              type="primary"
-              size="medium"
-              onClick={(e) => {
-                e.preventDefault();
-                dispatch(registerThunk(state));
-                setState({ email: "", name: "", password: "" });
-              }}
-            >
+            <Button type="primary" size="medium">
               {!request ? "Зарегистрироваться" : "Регистрация..."}
             </Button>
           </div>

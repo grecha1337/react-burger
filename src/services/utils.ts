@@ -3,7 +3,6 @@ export function setCookie(
   value: string,
   props: { [key: string]: any } & { expires?: number | Date | string } = {}
 ) {
-  console.log(value);
   props = props || {};
   let exp = props.expires;
   if (typeof exp == "number" && exp) {

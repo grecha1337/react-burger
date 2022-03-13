@@ -5,7 +5,6 @@ import style from "./burger-ingredients.module.css";
 import { useDispatch, useSelector } from "../../services/hooks";
 import { TIngredientType } from "../../services/types/data";
 import { RefObject } from "react-dom/node_modules/@types/react";
-import { useLocation } from "react-router-dom";
 
 const BurgerIngredients: FC = () => {
   const [current, setCurrent] = useState<TIngredientType>("bun");

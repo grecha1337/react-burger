@@ -70,7 +70,6 @@ const ProfilePage: FC = () => {
   }, []);
 
   const handleIconClick = useCallback((nameInput: keyof typeof state) => {
-    console.log(nameInput);
     setState((prevState) => ({
       ...prevState,
       [nameInput]: {
@@ -81,7 +80,6 @@ const ProfilePage: FC = () => {
   }, []);
 
   const onBlur = useCallback((nameInput: keyof typeof state) => {
-    console.log(nameInput);
     setState((prevState) => ({
       ...prevState,
       [nameInput]: {
@@ -157,7 +155,7 @@ const ProfilePage: FC = () => {
             </p>
           </div>
 
-          <form className={styles.form}>
+          <form className={styles.form} onSubmit={handleUpdateProfile}>
             <fieldset className={styles.fieldset}>
               <Input
                 type="text"
@@ -211,15 +209,12 @@ const ProfilePage: FC = () => {
                 <Button
                   type="primary"
                   size="medium"
+                  htmlType="reset"
                   onClick={handleCancelChange}
                 >
                   Отменить
                 </Button>
-                <Button
-                  type="primary"
-                  size="medium"
-                  onClick={handleUpdateProfile}
-                >
+                <Button type="primary" size="medium" htmlType="submit">
                   Сохранить
                 </Button>
               </div>

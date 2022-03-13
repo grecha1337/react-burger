@@ -11,7 +11,6 @@ const IngredientDetails: FC = () => {
     });
   });
 
-  console.log(ingredientInfo)
   return (
     <div className={style.ingredientDetails}>
       <img

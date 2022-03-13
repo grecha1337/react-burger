@@ -3,7 +3,7 @@ import {
   EmailInput,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { FC, useCallback, useEffect, useState } from "react";
+import { FC, useCallback, useState } from "react";
 import { Link, Redirect, useLocation } from "react-router-dom";
 import { loginThunk } from "../services/action/user";
 import { useDispatch, useSelector } from "../services/hooks";
@@ -31,7 +31,13 @@ const LoginPage: FC = () => {
   return (
     <main className={styles.mainColumn}>
       <h2 className="text text_type_main-medium pb-6">Вход</h2>
-      <form className={styles.form}>
+      <form
+        className={styles.form}
+        onSubmit={(e) => {
+          e.preventDefault();
+          dispatch(loginThunk(state));
+        }}
+      >
         <fieldset className={styles.fieldset}>
           <EmailInput
             onChange={handleChange}
@@ -44,14 +50,7 @@ const LoginPage: FC = () => {
             name={"password"}
           />
           <div className={`${styles.button} pb-20`}>
-            <Button
-              type="primary"
-              size="medium"
-              onClick={(e) => {
-                e.preventDefault();
-                dispatch(loginThunk(state));
-              }}
-            >
+            <Button type="primary" size="medium" htmlType="submit">
               Войти
             </Button>
           </div>
