@@ -7,6 +7,7 @@ import {
   refreshTokenRequest,
   registerRequest,
   resetPasswordRequest,
+  updateProfileRequest,
 } from "../api";
 import { ACCESS_TOKEN, JWT_EXPIRED, REFRESH_TOKEN } from "../constant";
 import { AppDispatch, AppThunk } from "../types";
@@ -15,12 +16,13 @@ import {
   TConfirmResetPassResponse,
   TGetCodeForResetPassRQ,
   TGetCodeForResetPassResponse,
-  TGetProfileResponse,
+  TProfileResponse,
   TLoginResponse,
   TLogoutResponse,
   TRefreshTokenResponse,
   TRegisterRequest,
   TRegisterResponse,
+  TUpdateProfileRq,
 } from "../types/data";
 import { deleteCookie, setCookie } from "../utils";
 
@@ -66,6 +68,13 @@ export const GET_PROFILE_REQUEST_FAILED: "GET_PROFILE_REQUEST_FAILED" =
   "GET_PROFILE_REQUEST_FAILED";
 export const GET_PROFILE_REQUEST_SUCCESS: "GET_PROFILE_REQUEST_SUCCESS" =
   "GET_PROFILE_REQUEST_SUCCESS";
+
+export const UPDATE_PROFILE_REQUEST: "UPDATE_PROFILE_REQUEST" =
+  "UPDATE_PROFILE_REQUEST";
+export const UPDATE_PROFILE_REQUEST_FAILED: "UPDATE_PROFILE_REQUEST_FAILED" =
+  "UPDATE_PROFILE_REQUEST_FAILED";
+export const UPDATE_PROFILE_REQUEST_SUCCESS: "UPDATE_PROFILE_REQUEST_SUCCESS" =
+  "UPDATE_PROFILE_REQUEST_SUCCESS";
 
 /*
   Register 
@@ -266,7 +275,7 @@ export interface IGetProfileFailedAction {
 
 export interface IGetProfileSuccessAction {
   readonly type: typeof GET_PROFILE_REQUEST_SUCCESS;
-  readonly payload: TGetProfileResponse;
+  readonly payload: TProfileResponse;
 }
 
 export const getProfileAction = (): IGetProfileAction => ({
@@ -278,9 +287,40 @@ export const getProfileFailedAction = (): IGetProfileFailedAction => ({
 });
 
 export const getProfileSuccessAction = (
-  payload: TGetProfileResponse
+  payload: TProfileResponse
 ): IGetProfileSuccessAction => ({
   type: GET_PROFILE_REQUEST_SUCCESS,
+  payload,
+});
+
+/*
+  Update Profile
+*/
+export interface IUpdateProfileAction {
+  readonly type: typeof UPDATE_PROFILE_REQUEST;
+}
+
+export interface IUpdateProfileFailedAction {
+  readonly type: typeof UPDATE_PROFILE_REQUEST_FAILED;
+}
+
+export interface IUpdateProfileSuccessAction {
+  readonly type: typeof UPDATE_PROFILE_REQUEST_SUCCESS;
+  readonly payload: TProfileResponse;
+}
+
+export const updateProfileAction = (): IUpdateProfileAction => ({
+  type: UPDATE_PROFILE_REQUEST,
+});
+
+export const updateProfileFailedAction = (): IUpdateProfileFailedAction => ({
+  type: UPDATE_PROFILE_REQUEST_FAILED,
+});
+
+export const updateProfileSuccessAction = (
+  payload: TProfileResponse
+): IUpdateProfileSuccessAction => ({
+  type: UPDATE_PROFILE_REQUEST_SUCCESS,
   payload,
 });
 
@@ -308,9 +348,9 @@ export const loginThunk: AppThunk = (data: {
   email: string;
   password: string;
 }) => {
-  return function (dispatch: AppDispatch) {
+  return async function (dispatch: AppDispatch) {
     dispatch(loginAction());
-    loginRequest(data)
+    await loginRequest(data)
       .then((res) => {
         dispatch(loginSuccessAction(res));
         if (res.accessToken) {
@@ -380,7 +420,8 @@ export const getProfileThunk: AppThunk =
     dispatch(getProfileAction());
     try {
       const json = await getProfileRequest();
-      dispatch(getProfileSuccessAction(json));
+      await dispatch(getProfileSuccessAction(json));
+      return json;
     } catch (err: any) {
       if (err.status === 403 && err.message === JWT_EXPIRED) {
         try {
@@ -395,7 +436,24 @@ export const getProfileThunk: AppThunk =
     }
   };
 
-export const logoutThunk: AppThunk = (data: { token: string }) => {
+export const updateProfileThunk: AppThunk = (data: TUpdateProfileRq) => {
+  return function (dispatch: AppDispatch) {
+    dispatch(updateProfileAction());
+    updateProfileRequest(data)
+      .then((res) => {
+        dispatch(updateProfileSuccessAction(res));
+      })
+      .catch((e) => {
+        console.log(e);
+        dispatch(updateProfileFailedAction());
+      });
+  };
+};
+
+export const logoutThunk: AppThunk = (data: {
+  token: string;
+  afterLogout: Function;
+}) => {
   return function (dispatch: AppDispatch) {
     dispatch(logoutAction());
     logoutRequest(data)
@@ -403,6 +461,7 @@ export const logoutThunk: AppThunk = (data: { token: string }) => {
         dispatch(logoutSuccessAction(res));
         deleteCookie(ACCESS_TOKEN);
         deleteCookie(REFRESH_TOKEN);
+        data?.afterLogout();
       })
       .catch((e) => {
         console.log(e);
@@ -432,4 +491,7 @@ export type TUserActions =
   | IGetProfileSuccessAction
   | ILogoutAction
   | ILogoutFailedAction
-  | ILogoutSuccessAction;
+  | ILogoutSuccessAction
+  | IUpdateProfileAction
+  | IUpdateProfileFailedAction
+  | IUpdateProfileSuccessAction;

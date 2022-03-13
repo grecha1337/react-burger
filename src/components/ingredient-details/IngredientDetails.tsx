@@ -1,19 +1,25 @@
 import style from "./ingredientDetails.module.css";
 import { FC } from "react";
-import { TIngredient } from "../../services/types/data";
+import { useParams } from "react-router-dom";
+import { useSelector } from "../../services/hooks";
 
-const IngredientDetails: FC<{ ingredientInfo: TIngredient }> = ({
-  ingredientInfo,
-}) => {
-  console.log(ingredientInfo);
+const IngredientDetails: FC = () => {
+  const {id} = useParams<{id :string}>();
+  const ingredientInfo = useSelector((state) => {
+    return state.burgerIngredients.burgerIngredients.find((element) => {
+      return element._id === id;
+    });
+  });
+
+  console.log(ingredientInfo)
   return (
     <div className={style.ingredientDetails}>
       <img
         className="pb-6"
-        src={ingredientInfo.image_large}
-        alt={ingredientInfo.name}
+        src={ingredientInfo?.image_large}
+        alt={ingredientInfo?.name}
       />
-      <p className="text text_type_main-medium pb-8">{ingredientInfo.name}</p>
+      <p className="text text_type_main-medium pb-8">{ingredientInfo?.name}</p>
       <ul className={style.ingredientDetails__nutritionalValue}>
         <li className={style.ingredientDetails__nutritionaValueItem}>
           <p
@@ -24,7 +30,7 @@ const IngredientDetails: FC<{ ingredientInfo: TIngredient }> = ({
           <p
             className={`${style.ingredientDetails__nutritionaCount} text text_type_digits-default `}
           >
-            {ingredientInfo.calories}
+            {ingredientInfo?.calories}
           </p>
         </li>
         <li className={style.ingredientDetails__nutritionaValueItem}>
@@ -36,7 +42,7 @@ const IngredientDetails: FC<{ ingredientInfo: TIngredient }> = ({
           <p
             className={`${style.ingredientDetails__nutritionaCount} text text_type_digits-default `}
           >
-            {ingredientInfo.proteins}
+            {ingredientInfo?.proteins}
           </p>
         </li>
         <li className={style.ingredientDetails__nutritionaValueItem}>
@@ -48,7 +54,7 @@ const IngredientDetails: FC<{ ingredientInfo: TIngredient }> = ({
           <p
             className={`${style.ingredientDetails__nutritionaCount} text text_type_digits-default `}
           >
-            {ingredientInfo.fat}
+            {ingredientInfo?.fat}
           </p>
         </li>
         <li className={style.ingredientDetails__nutritionaValueItem}>
@@ -60,7 +66,7 @@ const IngredientDetails: FC<{ ingredientInfo: TIngredient }> = ({
           <p
             className={`${style.ingredientDetails__nutritionaCount} text text_type_digits-default `}
           >
-            {ingredientInfo.carbohydrates}
+            {ingredientInfo?.carbohydrates}
           </p>
         </li>
       </ul>

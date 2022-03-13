@@ -4,10 +4,10 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDrag } from "react-dnd";
 import styles from "./ingredient.module.css";
-import { FC } from "react";
+import { FC, memo } from "react";
 import { TIngredient } from "../../services/types/data";
 
-const Ingredient: FC<{ data: TIngredient }> = ({ data }) => {
+const Ingredient: FC<{ data: TIngredient }> = memo(({ data }) => {
   const { image, name, price, qty } = data;
 
   const [, dragRef] = useDrag({
@@ -25,6 +25,6 @@ const Ingredient: FC<{ data: TIngredient }> = ({ data }) => {
       <p className="pt-2 text text_type_main-default">{name}</p>
     </div>
   );
-};
+});
 
 export default Ingredient;

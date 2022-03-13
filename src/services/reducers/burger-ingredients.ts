@@ -11,7 +11,7 @@ import {
 import { TIngredient } from "../types/data";
 
 type TIngredientsState = {
-  burgerIngredients: Array<TIngredient>;
+  burgerIngredients: ReadonlyArray<TIngredient>;
   burgerIngredientsRequest: boolean;
   burgerIngredientsFailed: boolean;
 };

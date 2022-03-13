@@ -1,6 +1,6 @@
 import { useDrop } from "react-dnd";
 import { v4 as uuidv4 } from "uuid";
-import { FC, useCallback } from "react";
+import { FC, useCallback, useMemo } from "react";
 import style from "./constructor-list.module.css";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import ConstructorItem from "../constructor-item/constructor-item";
@@ -25,13 +25,15 @@ const POSTIX_NAME_BUN_BUTTOM = "(низ)";
 const ConstructorList: FC<{
   ingredientList: Array<TIngredientWithUniqKey>;
 }> = ({ ingredientList }) => {
-  const itemsWithoutBun = ingredientList.filter((item) => {
-    return item.type !== "bun";
-  });
+  const itemsWithoutBun = useMemo(
+    () => ingredientList.filter((item) => item.type !== "bun"),
+    [ingredientList]
+  );
 
-  const [itemBun] = ingredientList.filter((item) => {
-    return item.type === "bun";
-  });
+  const [itemBun] = useMemo(
+    () => ingredientList.filter((item) => item.type === "bun"),
+    [ingredientList]
+  );
 
   const dispatch = useDispatch();
   const [, dropRef] = useDrop({
@@ -47,10 +49,10 @@ const ConstructorList: FC<{
     },
   });
 
-  const removeItem = (item: TIngredientWithUniqKey) => {
+  const removeItem = useCallback((item: TIngredientWithUniqKey) => {
     dispatch(deleteItemById(item.uuid));
     dispatch(decrementQtyIngredients(item));
-  };
+  }, []);
 
   const moveItem = useCallback(
     (dragIndex, hoverIndex) => {

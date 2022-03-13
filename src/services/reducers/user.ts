@@ -160,6 +160,7 @@ export const userStateReducer = (
     case LOGIN_REQUEST_SUCCESS: {
       return {
         ...state,
+        user: action.payload.user,
         loginInfo: {
           ...state.loginInfo,
           ...action.payload,

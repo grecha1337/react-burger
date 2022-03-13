@@ -10,8 +10,9 @@ import {
   TConfirmResetPassResponse,
   TRefreshTokenResponse,
   TLoginResponse,
-  TGetProfileResponse,
+  TProfileResponse,
   TLogoutResponse,
+  TUpdateProfileRq,
 } from "./types/data";
 import { getCookie, setCookie } from "./utils";
 
@@ -40,7 +41,7 @@ export const sendOrderRequest = (
   idList: ReadonlyArray<string>
 ): Promise<TOrderSuccess> => {
   return fetch(`${BASE_URL}/api/orders`, {
-    method: "post",
+    method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       ingredients: idList,
@@ -52,7 +53,7 @@ export const registerRequest = (
   data: Readonly<TRegisterRequest>
 ): Promise<TRegisterResponse> => {
   return fetch(`${BASE_URL}/api/auth/register`, {
-    method: "post",
+    method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       ...data,
@@ -64,7 +65,7 @@ export const resetPasswordRequest = (
   data: Readonly<TGetCodeForResetPassRQ>
 ): Promise<TGetCodeForResetPassResponse> => {
   return fetch(`${BASE_URL}/api/password-reset`, {
-    method: "post",
+    method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       ...data,
@@ -76,7 +77,7 @@ export const confirmResetPassRequest = (
   data: Readonly<TConfirmResetPassRQ>
 ): Promise<TConfirmResetPassResponse> => {
   return fetch(`${BASE_URL}/api/password-reset/reset`, {
-    method: "post",
+    method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       ...data,
@@ -88,7 +89,7 @@ export const refreshTokenRequest = (token: {
   token: string;
 }): Promise<TRefreshTokenResponse> => {
   return fetch(`${BASE_URL}/api/auth/token`, {
-    method: "post",
+    method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       token,
@@ -101,7 +102,7 @@ export const loginRequest = (data: {
   password: string;
 }): Promise<TLoginResponse> => {
   return fetch(`${BASE_URL}/api/auth/login`, {
-    method: "post",
+    method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       ...data,
@@ -109,9 +110,9 @@ export const loginRequest = (data: {
   }).then(checkResponse);
 };
 
-export const getProfileRequest = (): Promise<TGetProfileResponse> => {
+export const getProfileRequest = (): Promise<TProfileResponse> => {
   return fetch(`${BASE_URL}/api/auth/user`, {
-    method: "get",
+    method: "GET",
     headers: {
       "Content-Type": "application/json",
       Authorization: "Bearer " + getCookie(ACCESS_TOKEN),
@@ -119,11 +120,31 @@ export const getProfileRequest = (): Promise<TGetProfileResponse> => {
   }).then(checkResponse);
 };
 
+export const updateProfileRequest = ({
+  email,
+  password,
+  name,
+}: TUpdateProfileRq): Promise<TProfileResponse> => {
+  return fetch(`${BASE_URL}/api/auth/user`, {
+    method: "PATCH",
+    mode: 'cors',
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + getCookie(ACCESS_TOKEN),
+    },
+    body: JSON.stringify({
+      email,
+      password,
+      name,
+    }),
+  }).then(checkResponse);
+};
+
 export const logoutRequest = (token: {
   token: string;
 }): Promise<TLogoutResponse> => {
   return fetch(`${BASE_URL}/api/auth/logout`, {
-    method: "post",
+    method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({
       token,

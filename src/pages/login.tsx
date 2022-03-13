@@ -3,33 +3,29 @@ import {
   EmailInput,
   PasswordInput,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { FC, useState } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { FC, useCallback, useEffect, useState } from "react";
+import { Link, Redirect, useLocation } from "react-router-dom";
 import { loginThunk } from "../services/action/user";
 import { useDispatch, useSelector } from "../services/hooks";
 import styles from "./home.module.css";
 
 const LoginPage: FC = () => {
   const dispatch = useDispatch();
-  const { success } = useSelector((store) => store.userInfo.loginInfo);
+  const user = useSelector((store) => store.userInfo.user);
+  const location = useLocation<Location & { from: Location }>();
 
   const [state, setState] = useState({ email: "", password: "" });
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setState((prevState) => ({
       ...prevState,
       [name]: value,
     }));
-  };
+  }, []);
 
-  if (success) {
-    return (
-      <Redirect
-        to={{
-          pathname: "/",
-        }}
-      />
-    );
+  if (user) {
+    return <Redirect to={location.state?.from || "/"} />;
   }
 
   return (
@@ -51,10 +47,9 @@ const LoginPage: FC = () => {
             <Button
               type="primary"
               size="medium"
-              onClick={(e) => {
+              onClick={async (e) => {
                 e.preventDefault();
                 dispatch(loginThunk(state));
-                setState({ email: "", password: "" });
               }}
             >
               Войти

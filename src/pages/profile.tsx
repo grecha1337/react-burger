@@ -7,7 +7,7 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import SidebarMenu from "../components/sidebar-menu/sidebar-menu";
 import { useDispatch, useSelector } from "../services/hooks";
-import { logoutThunk } from "../services/action/user";
+import { logoutThunk, updateProfileThunk } from "../services/action/user";
 import { getCookie } from "../services/utils";
 import { REFRESH_TOKEN } from "../services/constant";
 import { useHistory } from "react-router-dom";
@@ -54,8 +54,7 @@ const ProfilePage: FC = () => {
     });
   }, [emailValue, nameValue]);
 
-  console.log(state);
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
     const name = e.target.name as keyof typeof state;
     setState((prevState) => ({
@@ -65,9 +64,9 @@ const ProfilePage: FC = () => {
         value,
       },
     }));
-  };
+  }, []);
 
-  const handleIconClick = (nameInput: keyof typeof state) => {
+  const handleIconClick = useCallback((nameInput: keyof typeof state) => {
     console.log(nameInput);
     setState((prevState) => ({
       ...prevState,
@@ -76,9 +75,9 @@ const ProfilePage: FC = () => {
         disabled: !prevState[nameInput].disabled,
       },
     }));
-  };
+  }, []);
 
-  const onBlur = (nameInput: keyof typeof state) => {
+  const onBlur = useCallback((nameInput: keyof typeof state) => {
     console.log(nameInput);
     setState((prevState) => ({
       ...prevState,
@@ -87,7 +86,7 @@ const ProfilePage: FC = () => {
         disabled: true,
       },
     }));
-  };
+  }, []);
 
   useEffect(() => {
     if (!state.name.disabled) inputNameRef.current?.focus();
@@ -95,10 +94,48 @@ const ProfilePage: FC = () => {
     if (!state.password.disabled) inputPassRef.current?.focus();
   }, [state]);
 
-  const onClickLogoutLink = useCallback((e) => {
+  const onClickLogoutLink = useCallback(
+    async (e) => {
+      e.preventDefault();
+      dispatch(
+        logoutThunk(getCookie(REFRESH_TOKEN), () => {
+          history.replace({ pathname: "/login" });
+        })
+      );
+    },
+    [dispatch]
+  );
+
+  const handleUpdateProfile = useCallback(
+    (e) => {
+      e.preventDefault();
+      dispatch(
+        updateProfileThunk({
+          email: state.email.value,
+          password: state.password.value,
+          name: state.name.value,
+        })
+      );
+    },
+    [dispatch]
+  );
+
+  const handleCancelChange = useCallback((e) => {
     e.preventDefault();
-    dispatch(logoutThunk(getCookie(REFRESH_TOKEN)));
-    history.replace({ pathname: "/login" });
+    setState({
+      email: {
+        value: emailValue,
+        disabled: true,
+      },
+      name: {
+        value: nameValue,
+        disabled: true,
+      },
+      password: {
+        value: "",
+        disabled: true,
+      },
+    });
   }, []);
 
   return (
@@ -174,33 +211,14 @@ const ProfilePage: FC = () => {
                 <Button
                   type="primary"
                   size="medium"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    setState({
-                      email: {
-                        value: emailValue,
-                        disabled: true,
-                      },
-                      name: {
-                        value: nameValue,
-                        disabled: true,
-                      },
-                      password: {
-                        value: "",
-                        disabled: true,
-                      },
-                    });
-                  }}
+                  onClick={handleCancelChange}
                 >
                   Отменить
                 </Button>
                 <Button
                   type="primary"
                   size="medium"
-                  onClick={(e) => {
-                    e.preventDefault();
-                    console.log("save click");
-                  }}
+                  onClick={handleUpdateProfile}
                 >
                   Сохранить
                 </Button>

@@ -1,5 +1,5 @@
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import React, { useState, useRef, FC } from "react";
+import React, { useState, useRef, FC, useCallback } from "react";
 import IngredientList from "../ingredient-list/IngredientList";
 import style from "./burger-ingredients.module.css";
 import Modal from "../modal/modal";
@@ -11,10 +11,10 @@ import {
 } from "../../services/action/ingredient-details";
 import { TIngredient, TIngredientType } from "../../services/types/data";
 import { RefObject } from "react-dom/node_modules/@types/react";
+import { useLocation } from "react-router-dom";
 
 const BurgerIngredients: FC = () => {
   const [current, setCurrent] = useState<TIngredientType>("bun");
-  const [show, setShow] = useState(false);
   const refBunDiv = useRef<HTMLDivElement>(null);
   const refSauceDiv = useRef<HTMLDivElement>(null);
   const refMainDiv = useRef<HTMLDivElement>(null);
@@ -25,52 +25,33 @@ const BurgerIngredients: FC = () => {
 
   const { burgerIngredients } = useSelector((state) => state.burgerIngredients);
 
-  const handleTab = (
-    value: TIngredientType,
-    element: RefObject<HTMLElement>
-  ) => {
-    setCurrent(value);
-    element?.current?.scrollIntoView({ behavior: "smooth" });
-  };
-
-  const dispatch = useDispatch();
-  const ingredientDataModal = useSelector(
-    (state) => state.ingredientDetails as TIngredient
+  const handleTab = useCallback(
+    (value: TIngredientType, element: RefObject<HTMLElement>) => {
+      setCurrent(value);
+      element?.current?.scrollIntoView({ behavior: "smooth" });
+    },
+    []
   );
 
-  const openModal = (data: TIngredient) => {
-    dispatch(setDetailInfoIngredient(data));
-    setShow(true);
-  };
+  const dispatch = useDispatch();
 
-  const handlerScroll: React.EventHandler<React.UIEvent<HTMLDivElement>> = (
-    e: React.UIEvent<HTMLElement>
-  ) => {
-    if (refBunDiv.current === null || refSauceDiv.current === null) return;
-    const scrollTop = (e.target as HTMLElement).scrollTop;
-    const posOfSectionBun = refBunDiv.current.offsetTop;
-    const posOfSauceBun = refSauceDiv.current.offsetTop;
-    if (scrollTop + 40 <= posOfSectionBun) {
-      setCurrent(BUN);
-    } else if (scrollTop - 170 <= posOfSauceBun) {
-      setCurrent(SAUCE);
-    } else {
-      setCurrent(MAIN);
-    }
-  };
+  const handlerScroll: React.EventHandler<React.UIEvent<HTMLDivElement>> =
+    useCallback((e: React.UIEvent<HTMLElement>) => {
+      if (refBunDiv.current === null || refSauceDiv.current === null) return;
+      const scrollTop = (e.target as HTMLElement).scrollTop;
+      const posOfSectionBun = refBunDiv.current.offsetTop;
+      const posOfSauceBun = refSauceDiv.current.offsetTop;
+      if (scrollTop + 40 <= posOfSectionBun) {
+        setCurrent(BUN);
+      } else if (scrollTop - 170 <= posOfSauceBun) {
+        setCurrent(SAUCE);
+      } else {
+        setCurrent(MAIN);
+      }
+    }, []);
+
   return (
     <section>
-      {show && (
-        <Modal
-          onClose={() => {
-            setShow(false);
-            dispatch(setDefaultValuesIngredientDetail());
-          }}
-          title="Детали ингредиента"
-        >
-          <IngredientDetails ingredientInfo={ingredientDataModal} />
-        </Modal>
-      )}
       <h1 className="text text_type_main-large pt-10 pb-5">Соберите бургер</h1>
       <div style={{ display: "flex" }}>
         <Tab
@@ -110,21 +91,18 @@ const BurgerIngredients: FC = () => {
           typeCard="bun"
           title="Булки"
           ref={refBunDiv}
-          handleModal={openModal}
         />
         <IngredientList
           list={burgerIngredients}
           typeCard="sauce"
           title="Соусы"
           ref={refSauceDiv}
-          handleModal={openModal}
         />
         <IngredientList
           list={burgerIngredients}
           typeCard="main"
           title="Начинки"
           ref={refMainDiv}
-          handleModal={openModal}
         />
       </div>
     </section>

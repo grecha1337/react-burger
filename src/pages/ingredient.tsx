@@ -1,7 +1,13 @@
 import { FC } from "react";
+import styles from "./home.module.css";
+import IngredientDetails from "../components/ingredient-details/IngredientDetails";
 
 const IngredientPage: FC = () => {
-  return <h1>IngredientPage</h1>;
+  return (
+    <main className={styles.mainColumn}>
+      <IngredientDetails />
+    </main>
+  );
 };
 
 export default IngredientPage;

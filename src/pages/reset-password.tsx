@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useCallback, useState } from "react";
 import { Link, Redirect, useLocation } from "react-router-dom";
 import styles from "./home.module.css";
 import {
@@ -7,8 +7,10 @@ import {
 } from "@ya.praktikum/react-developer-burger-ui-components";
 import { useDispatch } from "react-redux";
 import { confirmResetPassThunk } from "../services/action/user";
+import { useSelector } from "../services/hooks";
 
 const ResetPasswordPage: FC = () => {
+  const user = useSelector((store) => store.userInfo.user);
   const dispatch = useDispatch();
   const location = useLocation<{
     from: Location;
@@ -21,16 +23,26 @@ const ResetPasswordPage: FC = () => {
     token: "",
   });
 
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setState((prevState) => ({
       ...prevState,
       [name]: value,
     }));
-  };
+  }, []);
 
-  if (!location?.state?.from) {
+  if (!location.state?.from) {
     return <Redirect to="/forgot-password" />;
+  }
+
+  if (user) {
+    return (
+      <Redirect
+        to={{
+          pathname: "/",
+        }}
+      />
+    );
   }
 
   return (

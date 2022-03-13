@@ -42,7 +42,6 @@ export type TIngredientList = {
   readonly list: ReadonlyArray<TIngredient>;
   readonly typeCard: TIngredientType;
   readonly title: string;
-  readonly handleModal: (param: TIngredient) => void;
 };
 
 export type TOrderSuccess = {
@@ -77,12 +76,18 @@ export type TRegisterResponse = {
 
 export type TLoginResponse = TRegisterResponse;
 
-export type TGetProfileResponse = {
+export type TProfileResponse = {
   success: boolean;
   user: {
     email: string;
     name: string;
   };
+};
+
+export type TUpdateProfileRq = {
+  email: string;
+  password: string;
+  name: string;
 };
 
 export type TGetCodeForResetPassRQ = {

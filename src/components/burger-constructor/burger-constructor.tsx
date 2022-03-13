@@ -5,16 +5,19 @@ import {
 import style from "./burger-constructor.module.css";
 import OrderDetails from "../order-details/order-details";
 import Modal from "../modal/modal";
-import { useState, useMemo, useRef, useEffect, FC } from "react";
+import { useState, useMemo, useRef, useEffect, FC, useCallback } from "react";
 import ConstructorList from "../constructor-list/constructor-list";
 import { useDispatch, useSelector } from "../../services/hooks";
 import { sendOrder } from "../../services/action/order-details";
 import { setDefaultValueIngredients } from "../../services/action/burger-constructor";
 import { resetQtyIngredients } from "../../services/action/burger-ingredients";
 import ErrorText from "../error-text/error-text";
+import { useHistory } from "react-router-dom";
 
 const BurgerConstructor: FC = () => {
   const { ingredients } = useSelector((state) => state.burgerConstructor);
+  const { user } = useSelector((state) => state.userInfo);
+  const history = useHistory();
 
   const [show, setShow] = useState(false);
   const total = useMemo(() => {
@@ -45,6 +48,16 @@ const BurgerConstructor: FC = () => {
     prevOrderNumber.current = orderNumber;
   });
 
+  const handlerOrder = useCallback(() => {
+    if (!user) {
+      history.push({
+        pathname: "/login",
+      });
+    }
+    setShow(true);
+    dispatch(sendOrder(idIngredientList));
+  }, [dispatch]);
+
   return (
     <section className={`${style.burgerConstructor} pl-4 pr-4`}>
       <ConstructorList ingredientList={ingredients} />
@@ -53,15 +66,7 @@ const BurgerConstructor: FC = () => {
         <p className="text text_type_digits-medium pr-2">{total}</p>
         <CurrencyIcon type="primary" />
         <div className="pl-10">
-          <Button
-            disabled={!total}
-            onClick={() => {
-              setShow(true);
-              dispatch(sendOrder(idIngredientList));
-            }}
-            type="primary"
-            size="large"
-          >
+          <Button disabled={!total} onClick={handlerOrder} type="primary" size="large">
             Оформить заказ
           </Button>
         </div>

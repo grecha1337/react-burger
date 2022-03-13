@@ -1,4 +1,4 @@
-import { FC, useState } from "react";
+import { FC, useCallback, useState } from "react";
 import { Link, Redirect } from "react-router-dom";
 import styles from "./home.module.css";
 import {
@@ -16,14 +16,15 @@ const RegisterPage: FC = () => {
   const user = useSelector((state) => state.userInfo.user);
 
   const [state, setState] = useState({ email: "", name: "", password: "" });
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(e.target);
     const { name, value } = e.target;
     setState((prevState) => ({
       ...prevState,
       [name]: value,
     }));
-  };
+  }, []);
 
   if (user) {
     return (

@@ -1,27 +1,38 @@
-import { FC, useState } from "react";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { FC, useCallback, useState } from "react";
+import { Link, Redirect, useHistory, useLocation } from "react-router-dom";
 import styles from "./home.module.css";
 import {
   Button,
   Input,
 } from "@ya.praktikum/react-developer-burger-ui-components";
-import { useDispatch } from "../services/hooks";
+import { useDispatch, useSelector } from "../services/hooks";
 import { resetPasswordThunk } from "../services/action/user";
 
 const ForgotPasswordPage: FC = () => {
+  const user = useSelector((store) => store.userInfo.user);
   const dispatch = useDispatch();
   const location = useLocation();
   const history = useHistory();
   const [state, setState] = useState({
     email: "",
   });
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+  const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value } = e.target;
     setState((prevState) => ({
       ...prevState,
       [name]: value,
     }));
-  };
+  }, []);
+
+  if (user) {
+    return (
+      <Redirect
+        to={{
+          pathname: "/",
+        }}
+      />
+    );
+  }
 
   return (
     <main className={styles.mainColumn}>

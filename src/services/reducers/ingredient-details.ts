@@ -5,7 +5,6 @@ import {
 } from "../action/ingredient-details";
 import { TIngredient } from "../types/data";
 
-//Не знаю на сколько это правильное решение?вы
 type TIngredientWithNull<T> = { [k in keyof T]: T[k] | null };
 
 const ingredientDetailState: TIngredientWithNull<TIngredient> = {
