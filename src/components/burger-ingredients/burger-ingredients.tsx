@@ -2,14 +2,8 @@ import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import React, { useState, useRef, FC, useCallback } from "react";
 import IngredientList from "../ingredient-list/IngredientList";
 import style from "./burger-ingredients.module.css";
-import Modal from "../modal/modal";
-import IngredientDetails from "../ingredient-details/IngredientDetails";
 import { useDispatch, useSelector } from "../../services/hooks";
-import {
-  setDefaultValuesIngredientDetail,
-  setDetailInfoIngredient,
-} from "../../services/action/ingredient-details";
-import { TIngredient, TIngredientType } from "../../services/types/data";
+import { TIngredientType } from "../../services/types/data";
 import { RefObject } from "react-dom/node_modules/@types/react";
 import { useLocation } from "react-router-dom";
 

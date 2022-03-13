@@ -12,11 +12,11 @@ import { registerThunk } from "../services/action/user";
 
 const RegisterPage: FC = () => {
   const dispatch = useDispatch();
-  const { sendRequest } = useSelector((state) => state.userInfo);
+  const { request } = useSelector((state) => state.userInfo.registerInfo);
   const user = useSelector((state) => state.userInfo.user);
 
   const [state, setState] = useState({ email: "", name: "", password: "" });
-  
+
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(e.target);
     const { name, value } = e.target;
@@ -68,7 +68,7 @@ const RegisterPage: FC = () => {
                 setState({ email: "", name: "", password: "" });
               }}
             >
-              {!sendRequest ? "Зарегистрироваться" : "Регистрация..."}
+              {!request ? "Зарегистрироваться" : "Регистрация..."}
             </Button>
           </div>
         </fieldset>

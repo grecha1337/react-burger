@@ -121,8 +121,11 @@ export type TLogoutResponse = {
 };
 
 export type TUser = TRegisterResponse & {
-  sendRequest: boolean;
-  sendRequestFailed: boolean;
+  registerInfo: {
+    request: boolean;
+    failedRequest: boolean;
+    success: boolean;
+  };
   codePasswordInfo: TGetCodeForResetPassResponse & {
     request: boolean;
     failedRequest: boolean;

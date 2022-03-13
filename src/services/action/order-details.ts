@@ -32,7 +32,7 @@ export const setReqOrderFailed = (): ISetReqOrderFailed => ({
   type: ORDER_FAILED,
 });
 
-export const sendOrder: AppThunk = (idList: ReadonlyArray<string>) => {
+export const sendOrderThunk: AppThunk = (idList: ReadonlyArray<string>) => {
   return function (dispatch: AppDispatch) {
     dispatch(reqOrder());
     sendOrderRequest(idList)

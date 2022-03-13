@@ -16,3 +16,7 @@
   height: 33px;
   width: 33px;
 }
+
+.buttonOrder > button{
+  min-width: 214px;
+}

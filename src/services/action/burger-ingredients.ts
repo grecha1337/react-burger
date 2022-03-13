@@ -86,7 +86,7 @@ export const resetQtyIngredients = (): IResetQtyIngredients => ({
   type: RESET_QTY_INGREDIENTS,
 });
 
-export const getIngredientItems: AppThunk = () => {
+export const getIngredientItemsThunk: AppThunk = () => {
   return function (dispatch: AppDispatch) {
     dispatch(reqIngredient());
     getIngredientItemsRequest()

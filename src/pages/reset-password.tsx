@@ -1,5 +1,5 @@
 import { FC, useCallback, useState } from "react";
-import { Link, Redirect, useLocation } from "react-router-dom";
+import { Link, Redirect, useHistory, useLocation } from "react-router-dom";
 import styles from "./home.module.css";
 import {
   Button,
@@ -15,7 +15,7 @@ const ResetPasswordPage: FC = () => {
   const location = useLocation<{
     from: Location;
   }>();
-
+  const history = useHistory();
   const [showPassword, setShowPassword] = useState(false);
 
   const [state, setState] = useState({
@@ -74,7 +74,11 @@ const ResetPasswordPage: FC = () => {
               size="medium"
               onClick={(e) => {
                 e.preventDefault();
-                dispatch(confirmResetPassThunk(state));
+                dispatch(
+                  confirmResetPassThunk(state, () => {
+                    history.replace({ pathname: "/login" });
+                  })
+                );
               }}
             >
               Сохранить

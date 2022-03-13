@@ -401,12 +401,18 @@ export const refreshTokenThunk: AppThunk = (data: { token: string }) => {
   };
 };
 
-export const confirmResetPassThunk: AppThunk = (data: TConfirmResetPassRQ) => {
+export const confirmResetPassThunk: AppThunk = (
+  data: TConfirmResetPassRQ,
+  afterLogout?: Function
+) => {
   return function (dispatch: AppDispatch) {
     dispatch(confirmResetPassRq());
     confirmResetPassRequest(data)
       .then((res) => {
         dispatch(setResConfirmResetPass(res));
+        if (afterLogout) {
+          afterLogout();
+        }
       })
       .catch((e) => {
         console.log(e);
@@ -452,7 +458,7 @@ export const updateProfileThunk: AppThunk = (data: TUpdateProfileRq) => {
 
 export const logoutThunk: AppThunk = (data: {
   token: string;
-  afterLogout: Function;
+  afterLogout?: Function;
 }) => {
   return function (dispatch: AppDispatch) {
     dispatch(logoutAction());
@@ -461,7 +467,9 @@ export const logoutThunk: AppThunk = (data: {
         dispatch(logoutSuccessAction(res));
         deleteCookie(ACCESS_TOKEN);
         deleteCookie(REFRESH_TOKEN);
-        data?.afterLogout();
+        if (data.afterLogout) {
+          data.afterLogout();
+        }
       })
       .catch((e) => {
         console.log(e);

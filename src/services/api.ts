@@ -42,7 +42,10 @@ export const sendOrderRequest = (
 ): Promise<TOrderSuccess> => {
   return fetch(`${BASE_URL}/api/orders`, {
     method: "POST",
-    headers: { "Content-Type": "application/json" },
+    headers: {
+      "Content-Type": "application/json",
+      Authorization: "Bearer " + getCookie(ACCESS_TOKEN),
+    },
     body: JSON.stringify({
       ingredients: idList,
     }),
@@ -127,7 +130,7 @@ export const updateProfileRequest = ({
 }: TUpdateProfileRq): Promise<TProfileResponse> => {
   return fetch(`${BASE_URL}/api/auth/user`, {
     method: "PATCH",
-    mode: 'cors',
+    mode: "cors",
     headers: {
       "Content-Type": "application/json",
       Authorization: "Bearer " + getCookie(ACCESS_TOKEN),

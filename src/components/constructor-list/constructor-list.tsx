@@ -1,6 +1,6 @@
 import { useDrop } from "react-dnd";
 import { v4 as uuidv4 } from "uuid";
-import { FC, useCallback, useMemo } from "react";
+import { FC, useCallback, useMemo, memo } from "react";
 import style from "./constructor-list.module.css";
 import { ConstructorElement } from "@ya.praktikum/react-developer-burger-ui-components";
 import ConstructorItem from "../constructor-item/constructor-item";
@@ -24,7 +24,7 @@ const POSTIX_NAME_BUN_BUTTOM = "(низ)";
 
 const ConstructorList: FC<{
   ingredientList: Array<TIngredientWithUniqKey>;
-}> = ({ ingredientList }) => {
+}> = memo(({ ingredientList }) => {
   const itemsWithoutBun = useMemo(
     () => ingredientList.filter((item) => item.type !== "bun"),
     [ingredientList]
@@ -127,6 +127,6 @@ const ConstructorList: FC<{
       )}
     </ul>
   );
-};
+});
 
 export default ConstructorList;

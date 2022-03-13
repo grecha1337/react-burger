@@ -37,6 +37,9 @@ const ProfilePage: FC = () => {
     },
   });
 
+  const stateRef = useRef(state);
+  stateRef.current = state;
+
   useEffect(() => {
     setState({
       email: {
@@ -106,19 +109,16 @@ const ProfilePage: FC = () => {
     [dispatch]
   );
 
-  const handleUpdateProfile = useCallback(
-    (e) => {
-      e.preventDefault();
-      dispatch(
-        updateProfileThunk({
-          email: state.email.value,
-          password: state.password.value,
-          name: state.name.value,
-        })
-      );
-    },
-    [dispatch]
-  );
+  const handleUpdateProfile = useCallback((e) => {
+    e.preventDefault();
+    dispatch(
+      updateProfileThunk({
+        email: stateRef.current.email.value,
+        password: stateRef.current.password.value,
+        name: stateRef.current.name.value,
+      })
+    );
+  }, []);
 
   const handleCancelChange = useCallback((e) => {
     e.preventDefault();

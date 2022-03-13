@@ -25,6 +25,7 @@ export const orderStateReducer = (
       return {
         ...state,
         orderRequest: true,
+        success: false,
       };
     }
     case ORDER_SUCCESS: {
@@ -40,6 +41,7 @@ export const orderStateReducer = (
         ...state,
         orderRequest: false,
         orderFailed: true,
+        success: false,
       };
     }
     default: {

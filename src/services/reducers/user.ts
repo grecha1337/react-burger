@@ -26,8 +26,11 @@ const userState: TUser = {
   user: null,
   accessToken: "",
   refreshToken: "",
-  sendRequest: false,
-  sendRequestFailed: false,
+  registerInfo: {
+    request: false,
+    failedRequest: false,
+    success: false,
+  },
   codePasswordInfo: {
     request: false,
     failedRequest: false,
@@ -66,23 +69,35 @@ export const userStateReducer = (
     case REGISTER_REQUEST: {
       return {
         ...state,
-        sendRequest: true,
-        sendRequestFailed: false,
+        registerInfo: {
+          ...state.registerInfo,
+          request: true,
+          success: false,
+          failedRequest: false,
+        },
       };
     }
     case REGISTER_REQUEST_SUCCESS: {
       return {
         ...state,
-        ...action.payload,
-        sendRequest: false,
-        sendRequestFailed: false,
+        user: action.payload.user,
+        registerInfo: {
+          ...state.registerInfo,
+          request: false,
+          success: true,
+          failedRequest: false,
+        },
       };
     }
     case REGISTER_REQUEST_FAILED: {
       return {
         ...state,
-        sendRequest: false,
-        sendRequestFailed: true,
+        registerInfo: {
+          ...state.registerInfo,
+          request: false,
+          success: false,
+          failedRequest: true,
+        },
       };
     }
     case GET_CODE_RESET_PASSWORD_REQUEST: {

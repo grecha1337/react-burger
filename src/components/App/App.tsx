@@ -10,7 +10,7 @@ import ResetPasswordPage from "../../pages/reset-password";
 import { useDispatch, useSelector } from "../../services/hooks";
 import { getProfileThunk, refreshTokenThunk } from "../../services/action/user";
 import ProfilePage from "../../pages/profile";
-import { getIngredientItems } from "../../services/action/burger-ingredients";
+import { getIngredientItemsThunk } from "../../services/action/burger-ingredients";
 import { setInterval } from "timers";
 import { getCookie } from "../../services/utils";
 import { REFRESH_TOKEN } from "../../services/constant";
@@ -30,7 +30,7 @@ const App: FC = () => {
   const history = useHistory();
 
   const init = async () => {
-    await dispatch(getIngredientItems());
+    await dispatch(getIngredientItemsThunk());
     await dispatch(getProfileThunk());
     setUserLoaded(true);
   };
@@ -48,7 +48,6 @@ const App: FC = () => {
 
   const background =
     history.action === "PUSH" && location.state && location.state.background;
-
   return (
     <>
       <AppHeader />
@@ -66,7 +65,7 @@ const App: FC = () => {
         >
           <ProfilePage />
         </ProtectedRoute>
-        <Route path="/ingredients/:id" component={IngredientPage}></Route>\{" "}
+        <Route path="/ingredients/:id" component={IngredientPage}></Route>
         <Route>
           <NotFoundPage />
         </Route>
