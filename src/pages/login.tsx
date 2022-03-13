@@ -13,6 +13,7 @@ const LoginPage: FC = () => {
   const dispatch = useDispatch();
   const user = useSelector((store) => store.userInfo.user);
   const location = useLocation<Location & { from: Location }>();
+
   const [state, setState] = useState({ email: "", password: "" });
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
