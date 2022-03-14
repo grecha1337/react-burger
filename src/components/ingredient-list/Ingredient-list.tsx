@@ -1,4 +1,4 @@
-import cardStyle from "./ingredientList.module.css";
+import cardStyle from "./ingredient-list.module.css";
 import { forwardRef, useMemo, memo } from "react";
 import Ingredient from "../ingredient/ingredient";
 import { TIngredientList } from "../../services/types/data";

@@ -1,4 +1,4 @@
-import style from "./ingredientDetails.module.css";
+import style from "./ingredient-details.module.css";
 import { FC } from "react";
 import { useParams } from "react-router-dom";
 import { useSelector } from "../../services/hooks";

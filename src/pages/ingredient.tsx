@@ -1,6 +1,6 @@
 import { FC } from "react";
 import styles from "./home.module.css";
-import IngredientDetails from "../components/ingredient-details/IngredientDetails";
+import IngredientDetails from "../components/ingredient-details/ingredient-details.tsx";
 
 const IngredientPage: FC = () => {
   return (
