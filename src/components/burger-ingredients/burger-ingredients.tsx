@@ -1,6 +1,6 @@
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
 import React, { useState, useRef, FC, useCallback } from "react";
-import IngredientList from "../ingredient-list/1";
+import IngredientList from "../ingredient-list/ingredient-list";
 import style from "./burger-ingredients.module.css";
 import { useDispatch, useSelector } from "../../services/hooks";
 import { TIngredientType } from "../../services/types/data";
