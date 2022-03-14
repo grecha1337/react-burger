@@ -1,6 +1,6 @@
 import cardStyle from "./ingredient-list.module.css";
 import { forwardRef, useMemo, memo } from "react";
-import Ingredient from "../ingredient/ingredient";
+import Ingredient from "../3/ingredient";
 import { TIngredientList } from "../../services/types/data";
 import { Link, useLocation } from "react-router-dom";
 
