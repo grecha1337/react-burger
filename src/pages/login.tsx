@@ -8,6 +8,7 @@ import { Link, Redirect, useLocation } from "react-router-dom";
 import { loginThunk } from "../services/action/user";
 import { useDispatch, useSelector } from "../services/hooks";
 import styles from "./home.module.css";
+import { Location } from "history";
 
 const LoginPage: FC = () => {
   const dispatch = useDispatch();

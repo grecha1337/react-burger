@@ -8,6 +8,7 @@ import {
 import { useDispatch } from "react-redux";
 import { confirmResetPassThunk } from "../services/action/user";
 import { useSelector } from "../services/hooks";
+import { Location } from "history";
 
 const ResetPasswordPage: FC = () => {
   const user = useSelector((store) => store.userInfo.user);

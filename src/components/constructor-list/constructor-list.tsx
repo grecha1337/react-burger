@@ -49,10 +49,13 @@ const ConstructorList: FC<{
     },
   });
 
-  const removeItem = useCallback((item: TIngredientWithUniqKey) => {
-    dispatch(deleteItemById(item.uuid));
-    dispatch(decrementQtyIngredients(item));
-  }, []);
+  const removeItem = useCallback(
+    (item: TIngredientWithUniqKey) => {
+      dispatch(deleteItemById(item.uuid));
+      dispatch(decrementQtyIngredients(item));
+    },
+    [dispatch]
+  );
 
   const moveItem = useCallback(
     (dragIndex, hoverIndex) => {
@@ -72,7 +75,7 @@ const ConstructorList: FC<{
       elements.splice(hoverIndex, 0, dragElement);
       dispatch(reorderIngredients(elements));
     },
-    [ingredientList]
+    [ingredientList, dispatch]
   );
   return (
     <ul className={`pt-25 ${style.burgerconstructorList}`} ref={dropRef}>

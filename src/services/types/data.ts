@@ -1,4 +1,4 @@
-import { ReactNode } from "react-dom/node_modules/@types/react";
+import { ReactNode } from "react";
 
 export type TErrorText = {
   readonly text: string;

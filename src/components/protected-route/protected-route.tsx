@@ -1,5 +1,5 @@
 import { Redirect, Route } from "react-router-dom";
-import { FC, useEffect, useState } from "react";
+import { FC } from "react";
 import { RouteProps } from "react-router";
 
 export const ProtectedRoute: FC<

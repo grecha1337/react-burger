@@ -1,10 +1,9 @@
 import { Tab } from "@ya.praktikum/react-developer-burger-ui-components";
-import React, { useState, useRef, FC, useCallback } from "react";
+import { useState, useRef, FC, useCallback, RefObject } from "react";
 import IngredientList from "../ingredient-list/ingredient-list";
 import style from "./burger-ingredients.module.css";
-import { useDispatch, useSelector } from "../../services/hooks";
+import { useSelector } from "../../services/hooks";
 import { TIngredientType } from "../../services/types/data";
-import { RefObject } from "react-dom/node_modules/@types/react";
 
 const BurgerIngredients: FC = () => {
   const [current, setCurrent] = useState<TIngredientType>("bun");
@@ -25,8 +24,6 @@ const BurgerIngredients: FC = () => {
     },
     []
   );
-
-  const dispatch = useDispatch();
 
   const handlerScroll: React.EventHandler<React.UIEvent<HTMLDivElement>> =
     useCallback((e: React.UIEvent<HTMLElement>) => {
