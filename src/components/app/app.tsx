@@ -1,6 +1,5 @@
 import AppHeader from "../app-header/app-header";
-import { Switch, Route, useHistory } from "react-router-dom";
-import { useLocation } from "react-router-dom";
+import { Switch, Route, useHistory, useLocation } from "react-router-dom";
 import { FC, useCallback, useEffect, useState } from "react";
 import HomePage from "../../pages/home";
 import LoginPage from "../../pages/login";
@@ -19,13 +18,14 @@ import Modal from "../modal/modal";
 import IngredientPage from "../../pages/ingredient";
 import NotFoundPage from "../../pages/not-found";
 import IngredientDetails from "../ingredient-details/ingredient-details";
+import { Location } from "history";
 
 const App: FC = () => {
   const dispatch = useDispatch();
   const user = useSelector((store) => store.userInfo.user);
   const [isUserLoaded, setUserLoaded] = useState(false);
   const location = useLocation<{
-    background?: any;
+    background?: Location;
   }>();
   const history = useHistory();
 
@@ -39,12 +39,12 @@ const App: FC = () => {
     init();
     setInterval(() => {
       dispatch(refreshTokenThunk(getCookie(REFRESH_TOKEN)));
-    }, 1000 * 60 * 19);
+    }, 1000 * 60 * 20);
   }, []);
 
   const handelCloseModal = useCallback(() => {
     history.goBack();
-  }, []);
+  }, [history]);
 
   const background =
     history.action === "PUSH" && location.state && location.state.background;

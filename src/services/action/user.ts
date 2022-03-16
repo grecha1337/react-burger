@@ -426,7 +426,7 @@ export const getProfileThunk: AppThunk =
     dispatch(getProfileAction());
     try {
       const json = await getProfileRequest();
-      await dispatch(getProfileSuccessAction(json));
+      dispatch(getProfileSuccessAction(json));
       return json;
     } catch (err: any) {
       if (err.status === 403 && err.message === JWT_EXPIRED) {

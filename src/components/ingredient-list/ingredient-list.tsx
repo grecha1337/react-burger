@@ -11,7 +11,7 @@ const IngredientList = memo(
 
       const filteredItems = useMemo(
         () => list.filter((element) => element.type === typeCard),
-        [list]
+        [list, typeCard]
       );
 
       return (

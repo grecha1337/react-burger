@@ -59,10 +59,10 @@ const BurgerConstructor: FC = () => {
     }
     setShow(true);
     dispatch(sendOrderThunk(idIngredientList));
-  }, [dispatch, ingredients]);
+  }, [dispatch, history, idIngredientList, user]);
 
   useEffect(() => {
-    let interval: any = null;
+    let interval: ReturnType<typeof setInterval>;
     if (orderRequest) {
       seTextButton({
         text: "Ждите",

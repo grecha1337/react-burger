@@ -104,37 +104,43 @@ const ProfilePage: FC = () => {
         })
       );
     },
+    [dispatch, history]
+  );
+
+  const handleUpdateProfile = useCallback(
+    (e) => {
+      e.preventDefault();
+      dispatch(
+        updateProfileThunk({
+          email: stateRef.current.email.value,
+          password: stateRef.current.password.value,
+          name: stateRef.current.name.value,
+        })
+      );
+    },
     [dispatch]
   );
 
-  const handleUpdateProfile = useCallback((e) => {
-    e.preventDefault();
-    dispatch(
-      updateProfileThunk({
-        email: stateRef.current.email.value,
-        password: stateRef.current.password.value,
-        name: stateRef.current.name.value,
-      })
-    );
-  }, []);
-
-  const handleCancelChange = useCallback((e) => {
-    e.preventDefault();
-    setState({
-      email: {
-        value: emailValue,
-        disabled: true,
-      },
-      name: {
-        value: nameValue,
-        disabled: true,
-      },
-      password: {
-        value: "",
-        disabled: true,
-      },
-    });
-  }, []);
+  const handleCancelChange = useCallback(
+    (e) => {
+      e.preventDefault();
+      setState({
+        email: {
+          value: emailValue,
+          disabled: true,
+        },
+        name: {
+          value: nameValue,
+          disabled: true,
+        },
+        password: {
+          value: "",
+          disabled: true,
+        },
+      });
+    },
+    [emailValue, nameValue]
+  );
 
   return (
     <main className={profileStyles.main}>
