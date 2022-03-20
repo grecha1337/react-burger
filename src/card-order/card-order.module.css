@@ -1,0 +1,80 @@
+.cardOrder {
+  width: 584px;
+  background: #1c1c21;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.04), 0px 0px 2px rgba(0, 0, 0, 0.06),
+    0px 0px 1px rgba(0, 0, 0, 0.04);
+  border-radius: 40px;
+}
+
+.cardOrder_wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 24px 0px;
+  padding: 24px;
+}
+
+.cardOrder__info {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.cardOrder__orderNumber {
+  margin: 0;
+  padding: 0;
+}
+
+.cardOrder__dateNumber {
+  margin: 0;
+  padding: 0;
+}
+
+.cardOrder__name {
+  margin: 0;
+  padding: 0;
+}
+
+.cardOrder__total {
+  display: flex;
+}
+
+.cardOrder__orderDetails {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.cardOrder__listIngredients {
+  display: flex;
+  flex-direction: row-reverse;
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.cardOrder__listIngredientItem {
+  display: flex;
+  justify-content: center;
+  overflow: hidden;
+  width: 64px;
+  height: 64px;
+}
+
+.cardOrder__listIngredientItemImg {
+  width: 60px;
+  height: 60px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 100px;
+  border: solid 2px transparent;
+  border-radius: 100px;
+  background-image: linear-gradient(#131316, #131316),
+    linear-gradient(to right, #801ab2, #4c4cff);
+  background-origin: border-box;
+  background-clip: content-box, border-box;
+}
+
+.cardOrder__listIngredientItem:not(:last-child) {
+  margin-left: -16px;
+}

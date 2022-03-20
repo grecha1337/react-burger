@@ -22,8 +22,8 @@ const AppHeader: FC = () => {
       case "/":
         setActiveIcon("home");
         break;
-      case "/login":
-        setActiveIcon("login");
+      case "/feed":
+        setActiveIcon("feed");
         break;
       case "/profile":
         setActiveIcon("profile");
@@ -53,12 +53,12 @@ const AppHeader: FC = () => {
             </li>
             <li className={`pl-5 pr-5 ${styles.menu__item}`}>
               <NavLink
-                to="/login"
+                to="/feed"
                 className={setActive}
-                onClick={() => setActiveIcon("login")}
+                onClick={() => setActiveIcon("feed")}
               >
                 <ListIcon
-                  type={activeIcon === "login" ? "primary" : "secondary"}
+                  type={activeIcon === "feed" ? "primary" : "secondary"}
                 />
                 <p className="pl-2 text text_type_main-default">
                   Лента заказов
