@@ -20,6 +20,7 @@ import NotFoundPage from "../../pages/not-found";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import { Location } from "history";
 import FeedPage from "../../pages/feed";
+import OrderPage from "../../pages/order-info";
 
 const App: FC = () => {
   const dispatch = useDispatch();
@@ -67,6 +68,7 @@ const App: FC = () => {
           <ProfilePage />
         </ProtectedRoute>
         <Route path="/ingredients/:id" component={IngredientPage}></Route>
+        <Route path="/feed/:id" component={OrderPage}></Route>
         <Route path="/feed" component={FeedPage}></Route>
         <Route>
           <NotFoundPage />

@@ -11,3 +11,8 @@
 .feedList__item:not(:last-child) {
   margin-bottom: 16px;
 }
+
+.feedStatusLists {
+  display: flex;
+  justify-content: space-between;
+}

@@ -61,20 +61,6 @@
   height: 64px;
 }
 
-.cardOrder__listIngredientItemImg {
-  width: 60px;
-  height: 60px;
-  object-fit: cover;
-  object-position: center;
-  border-radius: 100px;
-  border: solid 2px transparent;
-  border-radius: 100px;
-  background-image: linear-gradient(#131316, #131316),
-    linear-gradient(to right, #801ab2, #4c4cff);
-  background-origin: border-box;
-  background-clip: content-box, border-box;
-}
-
 .cardOrder__listIngredientItem:not(:last-child) {
   margin-left: -16px;
 }

@@ -1,8 +1,13 @@
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { FC } from "react";
+import IconIngredient from "../components/icon-ingredient/icon-ingredient";
 import style from "./card-order.module.css";
 
-const CardOrder: FC = () => {
+const CardOrder: FC<{ orderNameBurger?: string; orderDateTime?: Date, orderNumber? : string}> = ({
+  orderNameBurger,
+  orderDateTime,
+  orderNumber
+}) => {
   return (
     <div className={style.cardOrder}>
       <div className={style.cardOrder_wrapper}>
@@ -24,38 +29,48 @@ const CardOrder: FC = () => {
         <div className={style.cardOrder__orderDetails}>
           <ul className={style.cardOrder__listIngredients}>
             <li className={style.cardOrder__listIngredientItem}>
-              <img
-                className={style.cardOrder__listIngredientItemImg}
-                src="https://code.s3.yandex.net/react/code/core-mobile.png"
-                alt="Кристаллы марсианских альфа-сахаридов"
-              />
-            </li>
-            <li className={style.cardOrder__listIngredientItem}>
-              <img
-                className={style.cardOrder__listIngredientItemImg}
+              <IconIngredient
                 src="https://code.s3.yandex.net/react/code/cheese-mobile.png"
                 alt="Сыр с астероидной плесенью"
               />
             </li>
             <li className={style.cardOrder__listIngredientItem}>
-              <img
-                className={style.cardOrder__listIngredientItemImg}
+              <IconIngredient
                 src="https://code.s3.yandex.net/react/code/core-mobile.png"
                 alt="Кристаллы марсианских альфа-сахаридов"
               />
+              <img className={style.cardOrder__listIngredientItemImg} />
             </li>
             <li className={style.cardOrder__listIngredientItem}>
-              <img
-                className={style.cardOrder__listIngredientItemImg}
-                src="https://code.s3.yandex.net/react/code/core-mobile.png"
-                alt="Кристаллы марсианских альфа-сахаридов"
+              <IconIngredient
+                src="https://code.s3.yandex.net/react/code/cheese-mobile.png"
+                alt="Сыр с астероидной плесенью"
               />
             </li>
             <li className={style.cardOrder__listIngredientItem}>
-              <img
-                className={style.cardOrder__listIngredientItemImg}
+              <IconIngredient
                 src="https://code.s3.yandex.net/react/code/core-mobile.png"
                 alt="Кристаллы марсианских альфа-сахаридов"
+              />
+              <img className={style.cardOrder__listIngredientItemImg} />
+            </li>
+            <li className={style.cardOrder__listIngredientItem}>
+              <IconIngredient
+                src="https://code.s3.yandex.net/react/code/cheese-mobile.png"
+                alt="Сыр с астероидной плесенью"
+              />
+            </li>
+            <li className={style.cardOrder__listIngredientItem}>
+              <IconIngredient
+                src="https://code.s3.yandex.net/react/code/core-mobile.png"
+                alt="Кристаллы марсианских альфа-сахаридов"
+              />
+              <img className={style.cardOrder__listIngredientItemImg} />
+            </li>
+            <li className={style.cardOrder__listIngredientItem}>
+              <IconIngredient
+                src="https://code.s3.yandex.net/react/code/cheese-mobile.png"
+                alt="Сыр с астероидной плесенью"
               />
             </li>
           </ul>
