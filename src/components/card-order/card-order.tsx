@@ -1,6 +1,6 @@
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { FC } from "react";
-import IconIngredient from "../components/icon-ingredient/icon-ingredient";
+import IconIngredient from "../icon-ingredient/icon-ingredient";
 import style from "./card-order.module.css";
 
 const CardOrder: FC<{ orderNameBurger?: string; orderDateTime?: Date, orderNumber? : string}> = ({

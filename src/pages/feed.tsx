@@ -1,5 +1,5 @@
 import { FC } from "react";
-import CardOrder from "../card-order/card-order";
+import CardOrder from "../components/card-order/card-order";
 import styles from "./home.module.css";
 import s from "./feed.module.css";
 import StatusList from "../components/status-list/status-list";
