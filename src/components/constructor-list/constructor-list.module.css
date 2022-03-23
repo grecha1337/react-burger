@@ -29,6 +29,7 @@
   padding-left: 0;
   display: flex;
   flex-direction: column;
+  margin: 0;
 }
 
 .burgerconstructorList__item {

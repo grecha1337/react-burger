@@ -115,7 +115,11 @@ const ConstructorList: FC<{
             />
           </ConstructorItem>
         ))}
-        {ingredientList.length === 0 ? <TemplateConstructorElement /> : null}
+        {ingredientList.length === 0 ? (
+          <li className={style.burgerconstructorList__item}>
+            <TemplateConstructorElement />
+          </li>
+        ) : null}
       </ul>
       {itemBun && (
         <li className={style.burgerconstructorList__item}>
