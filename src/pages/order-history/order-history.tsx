@@ -13,7 +13,7 @@ const OrderHistoryPage: FC = () => {
       <div className={styles.orderHistory__container}>
         <div className={styles.orderHistory__wrapper}>
           <div className="sidebarLeft">
-            <div className="pb-20">
+            <div className="sidebarLeft__wrapper pb-20">
               <SidebarMenu />
             </div>
             <p className="text text_type_main-default text_color_inactive aboutPage">

@@ -52,12 +52,10 @@ const ProfilePage: FC = () => {
     });
   }, [emailValue, nameValue]);
 
-  const ifWasChange =
+  const isFormChanged =
     emailValue !== state.email.value ||
     nameValue !== state.name.value ||
     !!state.password.value;
-
-  console.log(ifWasChange);
 
   const handleChange = useCallback((e: React.ChangeEvent<HTMLInputElement>) => {
     const value = e.target.value;
@@ -137,7 +135,7 @@ const ProfilePage: FC = () => {
       <div className={styles.profile__container}>
         <div className={styles.profile__wrapper}>
           <div className="sidebarLeft">
-            <div className="pb-20">
+            <div className="sidebarLeft__wrapper pb-20">
               <SidebarMenu />
             </div>
             <p className="text text_type_main-default text_color_inactive aboutPage">
@@ -145,7 +143,7 @@ const ProfilePage: FC = () => {
             </p>
           </div>
 
-          <form className={styles.form} onSubmit={handleUpdateProfile}>
+          <form className={`${styles.form} ${styles.profileForm}`} onSubmit={handleUpdateProfile}>
             <fieldset className="fieldset">
               <Input
                 type="text"
@@ -195,7 +193,7 @@ const ProfilePage: FC = () => {
                   onBlur("password");
                 }}
               />
-              {ifWasChange && (
+              {isFormChanged && (
                 <div className="button button__group">
                   <Button
                     type="primary"

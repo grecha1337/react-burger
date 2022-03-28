@@ -6,7 +6,6 @@
 }
 
 .orderHistory__container {
-  margin-top: 120px;
 }
 
 .orderHistory__wrapper {
@@ -20,11 +19,11 @@
 }
 
 .orderHistoryList {
-  height: calc(100vh - 208px);
+  height: calc(100vh - 128px);
   overflow-y: scroll;
   overflow-x: hidden;
   padding: 0 8px 0 0;
-  margin: 0;
+  margin: 40px 0 0 0;
 }
 
 .orderHistoryList__item:not(:last-child) {

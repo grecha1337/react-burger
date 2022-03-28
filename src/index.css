@@ -77,6 +77,10 @@ fieldset > div > div {
   flex-direction: column;
 }
 
+.sidebarLeft__wrapper {
+  margin-top: 120px;
+}
+
 .aboutPage {
   max-width: 320px;
   opacity: 0.4;
