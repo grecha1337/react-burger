@@ -1,7 +1,7 @@
 import { FC } from "react";
 import style from "./feed.module.css";
-import StatusList from "../components/status-list/status-list";
-import CardOrder from "../components/card-order/card-order";
+import StatusList from "../../components/status-list/status-list";
+import CardOrder from "../../components/card-order/card-order";
 
 const FeedPage: FC = () => {
   return (

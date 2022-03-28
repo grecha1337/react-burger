@@ -1,26 +1,27 @@
 import AppHeader from "../app-header/app-header";
 import { Switch, Route, useHistory, useLocation } from "react-router-dom";
 import { FC, useCallback, useEffect, useState } from "react";
-import HomePage from "../../pages/home";
-import LoginPage from "../../pages/login";
-import RegisterPage from "../../pages/register";
-import ForgotPasswordPage from "../../pages/forgot-password";
-import ResetPasswordPage from "../../pages/reset-password";
+import HomePage from "../../pages/home/home";
+import LoginPage from "../../pages/login/login";
+import RegisterPage from "../../pages/register/register";
+import ForgotPasswordPage from "../../pages/forgot-password/forgot-password";
+import ResetPasswordPage from "../../pages/reset-password/reset-password";
 import { useDispatch, useSelector } from "../../services/hooks";
 import { getProfileThunk, refreshTokenThunk } from "../../services/action/user";
-import ProfilePage from "../../pages/profile";
+import ProfilePage from "../../pages/profile/profile";
 import { getIngredientItemsThunk } from "../../services/action/burger-ingredients";
 import { setInterval } from "timers";
 import { getCookie } from "../../services/utils";
 import { REFRESH_TOKEN } from "../../services/constant";
 import { ProtectedRoute } from "../protected-route/protected-route";
 import Modal from "../modal/modal";
-import IngredientPage from "../../pages/ingredient";
-import NotFoundPage from "../../pages/not-found";
+import IngredientPage from "../../pages/ingredient/ingredient";
+import NotFoundPage from "../../pages/not-found/not-found";
 import IngredientDetails from "../ingredient-details/ingredient-details";
 import { Location } from "history";
-import FeedPage from "../../pages/feed";
-import OrderPage from "../../pages/order-info";
+import FeedPage from "../../pages/feed/feed";
+import OrderPage from "../../pages/order-info/order-info";
+import OrderHistoryPage from "../../pages/order-history/order-history";
 
 const App: FC = () => {
   const dispatch = useDispatch();
@@ -70,6 +71,7 @@ const App: FC = () => {
         <Route path="/ingredients/:id" component={IngredientPage}></Route>
         <Route path="/feed/:id" component={OrderPage}></Route>
         <Route path="/feed" component={FeedPage}></Route>
+        <Route path="/profile/orders" component={OrderHistoryPage}></Route>
         <Route>
           <NotFoundPage />
         </Route>

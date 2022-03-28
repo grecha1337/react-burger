@@ -14,6 +14,8 @@ const setActive = (isActive: boolean) => {
     : styles.linkHeader__active + " " + styles.linkHeader;
 };
 
+
+
 const AppHeader: FC = () => {
   const { pathname } = useLocation();
   const [activeIcon, setActiveIcon] = useState("");
