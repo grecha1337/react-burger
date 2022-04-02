@@ -17,6 +17,7 @@ import {
 import { getCookie, setCookie } from "./utils";
 
 const BASE_URL = "https://norma.nomoreparties.space";
+const WS_BASE_URL = "wss://norma.nomoreparties.space";
 
 const checkResponse = async (res: Response): Promise<any> => {
   let json = await res.json();
@@ -28,8 +29,6 @@ const checkResponse = async (res: Response): Promise<any> => {
     ? Promise.reject({ ...json, status: res.status })
     : Promise.reject({ status: res.status });
 };
-
-export { BASE_URL, checkResponse };
 
 export const getIngredientItemsRequest = (): Promise<{
   data: ReadonlyArray<TIngredient>;
@@ -174,3 +173,5 @@ export const refreshTokenAndFetchRetry = async (callback: any) => {
   }
   return responseJsonCallBack;
 };
+
+export { BASE_URL, WS_BASE_URL, checkResponse };

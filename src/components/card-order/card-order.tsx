@@ -1,13 +1,15 @@
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
-import { FC } from "react";
+import { FC, memo } from "react";
+import { timeSince } from "../../services/utils";
 import IconIngredient from "../icon-ingredient/icon-ingredient";
 import style from "./card-order.module.css";
 
-const CardOrder: FC<{ orderNameBurger?: string; orderDateTime?: Date, orderNumber? : string}> = ({
-  orderNameBurger,
-  orderDateTime,
-  orderNumber
-}) => {
+const CardOrder: FC<{
+  orderNameBurger: string;
+  orderDateTime: string;
+  orderNumber: number;
+}> = memo(({ orderNameBurger, orderDateTime, orderNumber }) => {
+  const dateTime = new Date(orderDateTime);
   return (
     <div className={style.cardOrder}>
       <div className={style.cardOrder_wrapper}>
@@ -15,16 +17,16 @@ const CardOrder: FC<{ orderNameBurger?: string; orderDateTime?: Date, orderNumbe
           <p
             className={`text text_type_digits-default ${style.cardOrder__orderNumber}`}
           >
-            #034535
+            #{orderNumber}
           </p>
           <p
             className={`text text_type_main-default text_color_inactive ${style.cardOrder__dateNumber}`}
           >
-            Сегодня, 16:20 i-GMT+3
+            {timeSince(dateTime)}
           </p>
         </div>
         <p className={`text text_type_main-medium ${style.cardOrder__name}`}>
-          Death Star Starship Main бургер
+          {orderNameBurger}
         </p>
         <div className={style.cardOrder__orderDetails}>
           <ul className={style.cardOrder__listIngredients}>
@@ -82,6 +84,6 @@ const CardOrder: FC<{ orderNameBurger?: string; orderDateTime?: Date, orderNumbe
       </div>
     </div>
   );
-};
+});
 
 export default CardOrder;

@@ -22,7 +22,7 @@ const OrderHistoryPage: FC = () => {
           </div>
           <section>
             <ul className={styles.orderHistoryList}>
-              <li className={styles.orderHistoryList__item}>
+              {/* <li className={styles.orderHistoryList__item}>
                 <CardOrder />
               </li>
               <li className={styles.orderHistoryList__item}>
@@ -39,7 +39,7 @@ const OrderHistoryPage: FC = () => {
               </li>
               <li className={styles.orderHistoryList__item}>
                 <CardOrder />
-              </li>
+              </li> */}
             </ul>
           </section>
         </div>
