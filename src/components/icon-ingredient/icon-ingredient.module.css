@@ -1,4 +1,4 @@
-.IconIngredient {
+.IconIngredient__img {
   width: 60px;
   height: 60px;
   object-fit: cover;
@@ -10,4 +10,11 @@
     linear-gradient(to right, #801ab2, #4c4cff);
   background-origin: border-box;
   background-clip: content-box, border-box;
+}
+
+.IconIngredient__text {
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  position: absolute;
 }

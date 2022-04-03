@@ -1,10 +1,11 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useMemo } from "react";
 import style from "./feed.module.css";
 import StatusList from "../../components/status-list/status-list";
 import CardOrder from "../../components/card-order/card-order";
 import { useDispatch, useSelector } from "../../services/hooks";
 import { FeedWsClose, FeedWsInit } from "../../services/action/ws-feed";
 import { WS_BASE_URL } from "../../services/api";
+import { orderStatus } from "../../services/constant";
 
 const FeedPage: FC = () => {
   const dispatch = useDispatch();
@@ -20,7 +21,20 @@ const FeedPage: FC = () => {
   const totalToday = useSelector((state) => state.feed.totalToday);
   const orders = useSelector((state) => state.feed.orders);
 
-  console.log(orders)
+  const listByDoneOrders = useMemo(() => {
+    return orders
+      .filter((item) => item.status === orderStatus.done)
+      .slice(0, 10)
+      .map((item) => item.number.toString());
+  }, [orders]);
+
+  const listByPendingOrders = useMemo(() => {
+    return orders
+      .filter((item) => item.status === orderStatus.pending)
+      .slice(0, 10)
+      .map((item) => item.number.toString());
+  }, [orders]);
+
 
   return (
     <main className={style.feedPage}>
@@ -35,6 +49,9 @@ const FeedPage: FC = () => {
                     orderNameBurger={item.name}
                     orderNumber={item.number}
                     orderDateTime={item.createdAt}
+                    idListIngredient={item.ingredients}
+                    onlyUniqueIcon={true}
+                    maxQuantityIcon={5}
                   />
                 </li>
               ))}
@@ -44,21 +61,11 @@ const FeedPage: FC = () => {
             <div className={style.feedStatusLists}>
               <StatusList
                 title="Готовы:"
-                list={[
-                  "034533",
-                  "034534",
-                  "034533",
-                  "034534",
-                  "034533",
-                  "034534",
-                ]}
+                list={listByDoneOrders}
                 colorTextList="#00CCCC"
               />
 
-              <StatusList
-                title="В работе:"
-                list={["034533", "034534", "034533", "034534"]}
-              />
+              <StatusList title="В работе:" list={listByPendingOrders} />
             </div>
             <div className={style.orderAllTime}>
               <p className="text text_type_main-medium">

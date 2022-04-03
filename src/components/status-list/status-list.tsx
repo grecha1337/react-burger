@@ -11,8 +11,7 @@ const StatusList: FC<{
         color: colorTextList,
       }
     : {};
-
-  console.log(colorListStyle);
+    
   return (
     <div>
       <p className="text text_type_main-medium mb-6">{title}</p>

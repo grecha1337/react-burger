@@ -39,66 +39,45 @@ export function getCookie(name: string): string | undefined {
 }
 
 export function timeSince(date: Date): string {
-  const currentDat = new Date();
+  const currentDate = new Date();
   const bufferDate = new Date(date.getTime());
-  currentDat.setHours(0);
-  currentDat.setMinutes(0);
-  currentDat.setSeconds(0);
-  currentDat.setMilliseconds(0);
+  currentDate.setHours(0);
+  currentDate.setMinutes(0);
+  currentDate.setSeconds(0);
+  currentDate.setMilliseconds(0);
 
   date.setHours(0);
   date.setMinutes(0);
   date.setSeconds(0);
   date.setMilliseconds(0);
 
-  let seconds = Math.floor((currentDat.getTime() - date.getTime()) / 1000);
-  console.log(new Date().toUTCString());
+  const formatter = new Intl.RelativeTimeFormat("ru", { numeric: "auto" });
 
-  let intervalYear = seconds / 31536000;
-  let intervalMonth = seconds / 2592000;
+  let seconds = Math.floor((currentDate.getTime() - date.getTime()) / 1000);
   let intervalDay = seconds / 86400;
 
-  let timAgo = "Сегодня";
-  if (intervalDay === 1) {
-    timAgo = "Вчера";
+  let timeAgo = null;
+
+  const yyyy = bufferDate.getFullYear();
+  const mm = ("0" + (bufferDate.getMonth() + 1)).slice(-2);
+  const dd = ("0" + bufferDate.getDate()).slice(-2);
+  const today = dd + "." + mm + "." + yyyy;
+
+  console.log(today);
+
+  if (intervalDay < 7) {
+    timeAgo = formatter.format(-1 * Math.floor(intervalDay), "days");
   }
 
-  if (intervalDay > 1) {
-    timAgo = `${Math.floor(intervalDay)} ${declOfNum(Math.floor(intervalDay), [
-      "день",
-      "дня",
-      "дней",
-    ])} назад`;
-  }
-
-  if (intervalMonth > 1) {
-    timAgo = `${Math.floor(intervalMonth)}  ${declOfNum(
-      Math.floor(intervalMonth),
-      ["месяц", "месяца", "месяцев"]
-    )} назад`;
-  }
-
-  if (intervalYear > 1) {
-    timAgo = `${Math.floor(intervalMonth)} год`;
-  }
-
-  return `${timAgo}, ${getHoursAndMins(bufferDate)} i-GMT${getTimeZone()}`;
+  return `${timeAgo || today}, ${getHoursAndMins(
+    bufferDate
+  )} i-GMT${getTimeZone()}`;
 }
 
 export function getHoursAndMins(date: Date) {
   const mins = ("0" + date.getMinutes()).slice(-2);
   const hours = ("0" + date.getHours()).slice(-2);
   return hours + ":" + mins;
-}
-
-function declOfNum(n: number, words: ReadonlyArray<string>) {
-  return words[
-    n % 10 === 1 && n % 100 !== 11
-      ? 0
-      : n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 10 || n % 100 >= 20)
-      ? 1
-      : 2
-  ];
 }
 
 function getTimeZone(): string {

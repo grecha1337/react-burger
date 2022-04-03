@@ -47,7 +47,6 @@
 
 .cardOrder__listIngredients {
   display: flex;
-  flex-direction: row-reverse;
   list-style: none;
   padding: 0;
   margin: 0;
@@ -56,11 +55,6 @@
 .cardOrder__listIngredientItem {
   display: flex;
   justify-content: center;
-  overflow: hidden;
   width: 64px;
   height: 64px;
-}
-
-.cardOrder__listIngredientItem:not(:last-child) {
-  margin-left: -16px;
 }
