@@ -3,17 +3,21 @@ import style from "./feed.module.css";
 import StatusList from "../../components/status-list/status-list";
 import CardOrder from "../../components/card-order/card-order";
 import { useDispatch, useSelector } from "../../services/hooks";
-import { FeedWsClose, FeedWsInit } from "../../services/action/ws-feed";
+import { feedWsClose, feedWsInit } from "../../services/action/ws-feed";
 import { WS_BASE_URL } from "../../services/api";
 import { orderStatus } from "../../services/constant";
+import { Link, useLocation } from "react-router-dom";
+import { v4 } from "uuid";
 
 const FeedPage: FC = () => {
+  const location = useLocation();
+
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(FeedWsInit(`${WS_BASE_URL}/orders/all`));
+    dispatch(feedWsInit(`${WS_BASE_URL}/orders/all`));
     return () => {
-      dispatch(FeedWsClose());
+      dispatch(feedWsClose());
     };
   }, [dispatch]);
 
@@ -35,7 +39,6 @@ const FeedPage: FC = () => {
       .map((item) => item.number.toString());
   }, [orders]);
 
-
   return (
     <main className={style.feedPage}>
       <div className={style.feedPage__wrapper}>
@@ -44,15 +47,24 @@ const FeedPage: FC = () => {
           <section>
             <ul className={style.feedList}>
               {orders.map((item) => (
-                <li className={style.feedList__item}>
-                  <CardOrder
-                    orderNameBurger={item.name}
-                    orderNumber={item.number}
-                    orderDateTime={item.createdAt}
-                    idListIngredient={item.ingredients}
-                    onlyUniqueIcon={true}
-                    maxQuantityIcon={5}
-                  />
+                <li className={style.feedList__item} key={v4()}>
+                  <Link
+                    key={item.number}
+                    to={{
+                      pathname: `/feed/${item.number}`,
+                      state: { background: location },
+                    }}
+                    style={{ textDecoration: "none", color: "#fff" }}
+                  >
+                    <CardOrder
+                      orderNameBurger={item.name}
+                      orderNumber={item.number}
+                      orderDateTime={item.createdAt}
+                      idListIngredient={item.ingredients}
+                      onlyUniqueIcon={true}
+                      maxQuantityIcon={5}
+                    />
+                  </Link>
                 </li>
               ))}
             </ul>

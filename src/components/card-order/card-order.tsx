@@ -1,15 +1,17 @@
 import { CurrencyIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { FC, memo, useMemo } from "react";
-import { v4 as uuidv4 } from "uuid";
+import { orderStatus } from "../../services/constant";
 import { useSelector } from "../../services/hooks";
 import { timeSince } from "../../services/utils";
 import IconIngredient from "../icon-ingredient/icon-ingredient";
+import OrderStatus from "../order-status/order-status";
 import style from "./card-order.module.css";
 
 const CardOrder: FC<{
   orderNameBurger: string;
   orderDateTime: string;
   orderNumber: number;
+  orderStatus?: orderStatus;
   idListIngredient: ReadonlyArray<string>;
   maxQuantityIcon: number;
   onlyUniqueIcon: boolean;
@@ -21,6 +23,7 @@ const CardOrder: FC<{
     idListIngredient,
     onlyUniqueIcon,
     maxQuantityIcon,
+    orderStatus,
   }) => {
     const dateTime = new Date(orderDateTime);
 
@@ -51,7 +54,7 @@ const CardOrder: FC<{
           return (
             <li
               className={style.cardOrder__listIngredientItem}
-              key={uuidv4()}
+              key={index}
               style={{
                 zIndex: maxQuantityIcon - index,
                 right: index * 16,
@@ -91,6 +94,7 @@ const CardOrder: FC<{
           <p className={`text text_type_main-medium ${style.cardOrder__name}`}>
             {orderNameBurger}
           </p>
+          {orderStatus && <OrderStatus status={orderStatus} />}
           <div className={style.cardOrder__orderDetails}>
             {listIcon}
             <div className={style.cardOrder__total}>

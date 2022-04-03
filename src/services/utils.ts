@@ -63,8 +63,6 @@ export function timeSince(date: Date): string {
   const dd = ("0" + bufferDate.getDate()).slice(-2);
   const today = dd + "." + mm + "." + yyyy;
 
-  console.log(today);
-
   if (intervalDay < 7) {
     timeAgo = formatter.format(-1 * Math.floor(intervalDay), "days");
   }

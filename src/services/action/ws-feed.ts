@@ -36,45 +36,45 @@ export interface IFeedWsGetMessage {
   readonly payload: Event;
 }
 
-export const FeedWsInit = (payload: string): IFeedWsInit => {
+export const feedWsInit = (payload: string): IFeedWsInit => {
   return {
     type: FEED_CONNECTION_INIT,
     payload,
   };
 };
 
-export const FeedWsClose = (): IFeedWsClose => {
+export const feedWsClose = (): IFeedWsClose => {
   return {
     type: FEED_CONNECTION_CLOSE,
   };
 };
 
-export const FeedConnectionSuccess = (): IFeedWsConnectionSuccess => {
+export const feedConnectionSuccess = (): IFeedWsConnectionSuccess => {
   return {
     type: FEED_CONNECTION_SUCCESS,
   };
 };
 
-export const FeedConnectionError = (): IFeedWsConnectionError => {
+export const feedConnectionError = (): IFeedWsConnectionError => {
   return {
     type: FEED_CONNECTION_ERROR,
   };
 };
 
-export const FeedConnectionClosed = (): IFeedWsConnectionClosed => {
+export const feedConnectionClosed = (): IFeedWsConnectionClosed => {
   return {
     type: FEED_CONNECTION_CLOSED,
   };
 };
 
-export const FeedGetMessage = (message: Event): IFeedWsGetMessage => {
+export const feedGetMessage = (message: Event): IFeedWsGetMessage => {
   return {
     type: FEED_GET_MESSAGE,
     payload: message,
   };
 };
 
-export type TWsActions =
+export type TFeedWsActions =
   | IFeedWsInit
   | IFeedWsConnectionSuccess
   | IFeedWsConnectionError

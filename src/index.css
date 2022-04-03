@@ -85,3 +85,8 @@ fieldset > div > div {
   max-width: 320px;
   opacity: 0.4;
 }
+
+#modal {
+  position: relative;
+  z-index: 99;
+}

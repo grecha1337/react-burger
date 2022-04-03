@@ -1,5 +1,11 @@
 import AppHeader from "../app-header/app-header";
-import { Switch, Route, useHistory, useLocation } from "react-router-dom";
+import {
+  Switch,
+  Route,
+  useHistory,
+  useLocation,
+  useRouteMatch,
+} from "react-router-dom";
 import { FC, useCallback, useEffect, useState } from "react";
 import HomePage from "../../pages/home/home";
 import LoginPage from "../../pages/login/login";
@@ -22,6 +28,7 @@ import { Location } from "history";
 import FeedPage from "../../pages/feed/feed";
 import OrderPage from "../../pages/order-info/order-info";
 import OrderHistoryPage from "../../pages/order-history/order-history";
+import OrderInfo from "../order-info/order-info";
 
 const App: FC = () => {
   const dispatch = useDispatch();
@@ -51,6 +58,11 @@ const App: FC = () => {
 
   const background =
     history.action === "PUSH" && location.state && location.state.background;
+
+  const orderNumber = useRouteMatch<{ number?: string | undefined }>([
+    "/feed/:number",
+  ])?.params?.number;
+
   return (
     <>
       <AppHeader />
@@ -69,20 +81,54 @@ const App: FC = () => {
           <ProfilePage />
         </ProtectedRoute>
         <Route path="/ingredients/:id" component={IngredientPage}></Route>
-        <Route path="/feed/:id" component={OrderPage}></Route>
+        <Route path="/feed/:number" component={OrderPage}></Route>
         <Route path="/feed" component={FeedPage}></Route>
-        <Route path="/profile/orders" component={OrderHistoryPage}></Route>
+        <ProtectedRoute
+          path={`/profile/orders`}
+          exact={true}
+          user={user}
+          isUserLoaded={isUserLoaded}
+        >
+          <OrderHistoryPage />
+        </ProtectedRoute>
+        <ProtectedRoute
+          path={`/profile/orders/:number`}
+          exact={true}
+          user={user}
+          isUserLoaded={isUserLoaded}
+        >
+          <OrderPage />
+        </ProtectedRoute>
         <Route>
           <NotFoundPage />
         </Route>
       </Switch>
 
       {background && (
-        <Route path="/ingredients/:id">
-          <Modal onClose={handelCloseModal} title="Детали ингредиента">
-            <IngredientDetails />
-          </Modal>
-        </Route>
+        <>
+          <Route path="/feed/:number">
+            <Modal onClose={handelCloseModal} title={`#${orderNumber}`}>
+              <OrderInfo />
+            </Modal>
+          </Route>
+
+          <ProtectedRoute
+            path={`/profile/orders/:number`}
+            exact={true}
+            user={user}
+            isUserLoaded={isUserLoaded}
+          >
+            <Modal onClose={handelCloseModal} title={`#${orderNumber}`}>
+              <OrderInfo />
+            </Modal>
+          </ProtectedRoute>
+
+          <Route path="/ingredients/:id">
+            <Modal onClose={handelCloseModal} title="Детали ингредиента">
+              <IngredientDetails />
+            </Modal>
+          </Route>
+        </>
       )}
     </>
   );

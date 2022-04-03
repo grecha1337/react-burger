@@ -1,6 +1,6 @@
 .orderList {
   list-style: none;
-  max-width: 640px;
+  width: 640px;
   height: 312px;
   overflow-x: hidden;
   overflow-y: scroll;
@@ -14,7 +14,7 @@
 }
 
 .orderList__item:not(:last-child) {
-  margin-bottom: 16px;
+  margin-bottom: 12px;
 }
 
 .orderList__total {

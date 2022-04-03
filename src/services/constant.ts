@@ -7,4 +7,5 @@ export const JWT_EXPIRED: "jwt expired" = "jwt expired";
 export enum orderStatus {
   done = "done",
   pending = "pending",
+  created = "created",
 }

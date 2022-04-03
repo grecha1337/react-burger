@@ -1,13 +1,30 @@
-import { FC, useCallback, useEffect, useRef, useState } from "react";
-import {
-  Button,
-  Input,
-} from "@ya.praktikum/react-developer-burger-ui-components";
+import { FC, useEffect } from "react";
 import SidebarMenu from "../../components/sidebar-menu/sidebar-menu";
 import CardOrder from "../../components/card-order/card-order";
 import styles from "./order-history.module.css";
+import { WS_BASE_URL } from "../../services/api";
+import { useDispatch, useSelector } from "../../services/hooks";
+import {
+  myOrdersWsClose,
+  myOrdersWsInit,
+} from "../../services/action/ws-my-orders";
+import { ACCESS_TOKEN } from "../../services/constant";
+import { getCookie } from "../../services/utils";
 
 const OrderHistoryPage: FC = () => {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(
+      myOrdersWsInit(`${WS_BASE_URL}/orders?token=${getCookie(ACCESS_TOKEN)}`)
+    );
+    return () => {
+      dispatch(myOrdersWsClose());
+    };
+  }, [dispatch]);
+
+  const orders = useSelector((state) => state.myOrders.orders);
+
   return (
     <main className={styles.orderHistory}>
       <div className={styles.orderHistory__container}>
@@ -22,24 +39,22 @@ const OrderHistoryPage: FC = () => {
           </div>
           <section>
             <ul className={styles.orderHistoryList}>
-              {/* <li className={styles.orderHistoryList__item}>
-                <CardOrder />
-              </li>
-              <li className={styles.orderHistoryList__item}>
-                <CardOrder />
-              </li>
-              <li className={styles.orderHistoryList__item}>
-                <CardOrder />
-              </li>
-              <li className={styles.orderHistoryList__item}>
-                <CardOrder />
-              </li>
-              <li className={styles.orderHistoryList__item}>
-                <CardOrder />
-              </li>
-              <li className={styles.orderHistoryList__item}>
-                <CardOrder />
-              </li> */}
+              {orders
+                .slice()
+                .reverse()
+                .map((item) => (
+                  <li className={styles.orderHistoryList__item}>
+                    <CardOrder
+                      orderNameBurger={item.name}
+                      orderNumber={item.number}
+                      orderDateTime={item.createdAt}
+                      orderStatus={item.status}
+                      idListIngredient={item.ingredients}
+                      onlyUniqueIcon={true}
+                      maxQuantityIcon={5}
+                    />
+                  </li>
+                ))}
             </ul>
           </section>
         </div>
