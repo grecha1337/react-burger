@@ -18,11 +18,9 @@ export const socketMiddleware = (wsActions: TWsActions) => {
       } = wsActions;
       if (type === wsInit) {
         socket = new WebSocket(payload);
-        console.log("connected");
       }
       if (socket && type === wsClose) {
         socket.close();
-        console.log("closed");
       }
 
       if (socket) {

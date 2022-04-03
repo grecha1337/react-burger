@@ -10,8 +10,12 @@ import {
 } from "../../services/action/ws-my-orders";
 import { ACCESS_TOKEN } from "../../services/constant";
 import { getCookie } from "../../services/utils";
+import { Link, useLocation } from "react-router-dom";
+import { v4 } from "uuid";
 
 const OrderHistoryPage: FC = () => {
+  const location = useLocation();
+
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -43,16 +47,25 @@ const OrderHistoryPage: FC = () => {
                 .slice()
                 .reverse()
                 .map((item) => (
-                  <li className={styles.orderHistoryList__item}>
-                    <CardOrder
-                      orderNameBurger={item.name}
-                      orderNumber={item.number}
-                      orderDateTime={item.createdAt}
-                      orderStatus={item.status}
-                      idListIngredient={item.ingredients}
-                      onlyUniqueIcon={true}
-                      maxQuantityIcon={5}
-                    />
+                  <li className={styles.orderHistoryList__item} key={v4()}>
+                    <Link
+                      key={item.number}
+                      to={{
+                        pathname: `/profile/orders/${item.number}`,
+                        state: { background: location },
+                      }}
+                      style={{ textDecoration: "none", color: "#fff" }}
+                    >
+                      <CardOrder
+                        orderNameBurger={item.name}
+                        orderNumber={item.number}
+                        orderDateTime={item.createdAt}
+                        orderStatus={item.status}
+                        idListIngredient={item.ingredients}
+                        onlyUniqueIcon={true}
+                        maxQuantityIcon={5}
+                      />
+                    </Link>
                   </li>
                 ))}
             </ul>

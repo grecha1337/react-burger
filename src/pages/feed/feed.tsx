@@ -7,7 +7,6 @@ import { feedWsClose, feedWsInit } from "../../services/action/ws-feed";
 import { WS_BASE_URL } from "../../services/api";
 import { orderStatus } from "../../services/constant";
 import { Link, useLocation } from "react-router-dom";
-import { v4 } from "uuid";
 
 const FeedPage: FC = () => {
   const location = useLocation();
@@ -46,8 +45,8 @@ const FeedPage: FC = () => {
         <div className={style.feedPage__content}>
           <section>
             <ul className={style.feedList}>
-              {orders.map((item) => (
-                <li className={style.feedList__item} key={v4()}>
+              {orders.map((item, index) => (
+                <li className={style.feedList__item} key={index}>
                   <Link
                     key={item.number}
                     to={{

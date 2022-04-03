@@ -17,7 +17,9 @@ const OrderInfoPage: FC = () => {
   useEffect(() => {
     dispatch(feedWsInit(`${WS_BASE_URL}/orders/all`));
     if (user) {
-      myOrdersWsInit(`${WS_BASE_URL}/orders?token=${getCookie(ACCESS_TOKEN)}`);
+      dispatch(
+        myOrdersWsInit(`${WS_BASE_URL}/orders?token=${getCookie(ACCESS_TOKEN)}`)
+      );
     }
     return () => {
       dispatch(feedWsClose());

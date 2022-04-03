@@ -18,13 +18,13 @@ const OrderStatus: FC<{ status: orderStatus }> = ({ status }) => {
       styleText = { color: "#4C4CFF" };
       break;
     }
-    default : {
+    default: {
       styleText = { color: "#FFF" };
     }
   }
 
   return (
-    <p style={styleText} className="text text_type_main-medium">
+    <p style={styleText} className="mb-15 text text_type_main-default">
       {statusText[status]}
     </p>
   );

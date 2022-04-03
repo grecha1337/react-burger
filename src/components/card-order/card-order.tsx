@@ -38,7 +38,7 @@ const CardOrder: FC<{
       return listIngredients.map((id) =>
         ingredients.find((item) => id === item._id)
       );
-    }, [idListIngredient]);
+    }, [idListIngredient, onlyUniqueIcon, ingredients]);
 
     const totalSum = idListIngredient.reduce((accumulator, currentValue) => {
       let ingredient = ingredients.find((a) => a._id === currentValue);

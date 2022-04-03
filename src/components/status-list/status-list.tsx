@@ -16,8 +16,8 @@ const StatusList: FC<{
     <div>
       <p className="text text_type_main-medium mb-6">{title}</p>
       <ul className={`text text_type_digits-default ${style.statusList}`}>
-        {list.map((element) => (
-          <li style={colorListStyle} className={`${style.statusList__item}`}>
+        {list.map((element, index) => (
+          <li style={colorListStyle} className={`${style.statusList__item}`} key={index}>
             {element}
           </li>
         ))}

@@ -61,6 +61,7 @@ const App: FC = () => {
 
   const orderNumber = useRouteMatch<{ number?: string | undefined }>([
     "/feed/:number",
+    "profile/orders/:number"
   ])?.params?.number;
 
   return (
