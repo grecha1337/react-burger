@@ -75,7 +75,7 @@ const OrderInfo = () => {
 
   if (order) {
     return (
-      <div>
+      <div style={{ maxWidth: 640 }}>
         <div className={style.orderInfo__header}>
           {!location?.state?.background && (
             <p className="mb-10 text text_type_digits-default">
