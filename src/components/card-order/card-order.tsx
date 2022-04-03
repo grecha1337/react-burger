@@ -98,7 +98,7 @@ const CardOrder: FC<{
           <div className={style.cardOrder__orderDetails}>
             {listIcon}
             <div className={style.cardOrder__total}>
-              <p className="text text_type_digits-default pr-2">{totalSum}</p>
+              <p className="text text_type_digits-default pr-2">{totalSum.toString()}</p>
               <CurrencyIcon type="primary" />
             </div>
           </div>
