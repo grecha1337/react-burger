@@ -2,6 +2,9 @@
   list-style-type: none;
   padding: 0;
   margin: 0;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap;
 }
 
 .sidebarMenu__item {
@@ -22,5 +25,5 @@
 }
 
 .link__active {
-  color: #F2F2F3;
+  color: #f2f2f3;
 }

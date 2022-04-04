@@ -8,19 +8,18 @@
   position: relative;
   width: 100%;
   max-width: 720px;
+  align-items: center;
+  justify-content: center;
+  padding: 40px;
 }
 
 .popup__close {
   position: absolute;
-  top: 60px;
-  right: 38px;
+  top: 48px;
+  right: 40px;
   width: 24px;
   height: 24px;
   border: none;
   background-size: cover;
   box-sizing: border-box;
-}
-
-.popup__title {
-  padding-top: 50px;
 }

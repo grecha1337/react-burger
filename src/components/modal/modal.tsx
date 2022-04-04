@@ -5,7 +5,7 @@ import ReactDOM from "react-dom";
 import { CloseIcon } from "@ya.praktikum/react-developer-burger-ui-components";
 import { TModal } from "../../services/types/data";
 
-const modalRoot  = document.getElementById("modal") as HTMLDivElement;
+const modalRoot = document.getElementById("modal") as HTMLDivElement;
 
 const Modal: FC<TModal> = ({ title, onClose, children }) => {
   useEffect(() => {
@@ -25,7 +25,7 @@ const Modal: FC<TModal> = ({ title, onClose, children }) => {
       <div className={style.popup} onClick={(e) => e.stopPropagation()}>
         {title && (
           <h2
-            className={`${style.popup__title} text text_type_main-large pl-10 pr-10`}
+            className={`${style.popup__title} text text_type_main-large pr-10 mb-10`}
           >
             {title}
           </h2>

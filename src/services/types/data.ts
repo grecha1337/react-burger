@@ -149,3 +149,13 @@ export type TUser = TRegisterResponse & {
     failedRequest: boolean;
   };
 };
+
+export type TWsActions = {
+  wsInit: any;
+  wsClose: any;
+  onOpen: any;
+  onClose: any;
+  onError: any;
+  onMessage: any;
+  wsSendMessage?: any;
+};

@@ -79,6 +79,12 @@ const ConstructorList: FC<{
   );
   return (
     <ul className={`pt-25 ${style.burgerconstructorList}`} ref={dropRef}>
+      {ingredientList.length === 0 ? (
+        <li className={style.burgerconstructorList__item}>
+          <TemplateConstructorElement />
+        </li>
+      ) : null}
+
       {itemBun && (
         <li className={style.burgerconstructorList__item}>
           <ConstructorElement
@@ -115,7 +121,6 @@ const ConstructorList: FC<{
             />
           </ConstructorItem>
         ))}
-        {ingredientList.length === 0 ? <TemplateConstructorElement /> : null}
       </ul>
       {itemBun && (
         <li className={style.burgerconstructorList__item}>
